@@ -4,7 +4,7 @@
   "description": "Web for FPARMA",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,12 @@
   "bugs": {
     "url": "https://github.com/fparma/fparma-web/issues"
   },
-  "homepage": "https://github.com/fparma/fparma-web#readme"
+  "homepage": "https://github.com/fparma/fparma-web#readme",
+  "devDependencies": {
+    "tape": "^4.0.3"
+  },
+  "dependencies": {
+    "babel": "^5.8.21",
+    "express": "^4.13.3"
+  }
 }
