@@ -1,8 +1,8 @@
 {
   "_comment": "Rename this file to config.json and change the settings.",
-  "PORT": 8080,
+  "port": 8080,
   "session_secret": "keyboard cat",
   "steam" : {
-    "API_KEY": ""
+    "api_key": ""
   }
 }

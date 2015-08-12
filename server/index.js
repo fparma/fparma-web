@@ -62,4 +62,4 @@ app.use(function (err, req, res, next) {
   })
 })
 
-app.listen(config.PORT, () => console.log(`Server listening on ${config.PORT}`))
+app.listen(config.port, () => console.log(`Server listening on ${config.PORT}`))
