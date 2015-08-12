@@ -1,6 +1,7 @@
 #app specific
 config.js
-client/semantic/build
+client/semantic/dist
+public/semantic
 
 # Logs
 logs

@@ -1,5 +1,5 @@
 {
-  "base": "client\\semantic",
+  "base": "client/semantic",
   "paths": {
     "source": {
       "config": "src/theme.config",
@@ -8,15 +8,16 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../../public/vendor/semantic",
-      "uncompressed": "..\\..\\public\\vendor\\semantic\\components",
-      "compressed": "..\\..\\public\\vendor\\semantic\\components",
-      "themes": "..\\..\\public\\vendor\\semantic\\"
+      "packaged": "../../public/semantic",
+      "uncompressed": "dist/components/",
+      "compressed": "dist/components/",
+      "themes": "dist/themes/"
     },
-    "clean": "../../public/vendor/semantic"
+    "clean": "dist/"
   },
   "permission": false,
-  "rtl": "No",
+  "rtl": false,
+  "version": "2.0.8",
   "_backup": [
     "flag",
     "icon",
@@ -33,7 +34,6 @@
     "card",
     "comment",
     "feed",
-    "item",
     "statistic",
     "accordion",
     "dimmer",
@@ -47,7 +47,6 @@
     "search",
     "shape",
     "sidebar",
-    "tab",
     "transition",
     "api",
     "state",
@@ -59,6 +58,7 @@
     "menu",
     "grid",
     "button",
+    "item",
     "container",
     "divider",
     "image",
@@ -67,7 +67,7 @@
     "checkbox",
     "label",
     "sticky",
-    "form"
-  ],
-  "version": "2.0.8"
+    "form",
+    "tab"
+  ]
 }
