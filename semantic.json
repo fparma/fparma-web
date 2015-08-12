@@ -1,0 +1,73 @@
+{
+  "base": "client\\semantic",
+  "paths": {
+    "source": {
+      "config": "src/theme.config",
+      "definitions": "src/definitions/",
+      "site": "src/site/",
+      "themes": "src/themes/"
+    },
+    "output": {
+      "packaged": "../../public/vendor/semantic",
+      "uncompressed": "..\\..\\public\\vendor\\semantic\\components",
+      "compressed": "..\\..\\public\\vendor\\semantic\\components",
+      "themes": "..\\..\\public\\vendor\\semantic\\"
+    },
+    "clean": "../../public/vendor/semantic"
+  },
+  "permission": false,
+  "rtl": "No",
+  "_backup": [
+    "flag",
+    "icon",
+    "list",
+    "loader",
+    "rail",
+    "reveal",
+    "segment",
+    "step",
+    "breadcrumb",
+    "message",
+    "table",
+    "ad",
+    "card",
+    "comment",
+    "feed",
+    "item",
+    "statistic",
+    "accordion",
+    "dimmer",
+    "dropdown",
+    "embed",
+    "modal",
+    "nag",
+    "popup",
+    "progress",
+    "rating",
+    "search",
+    "shape",
+    "sidebar",
+    "tab",
+    "transition",
+    "api",
+    "state",
+    "visibility"
+  ],
+  "components": [
+    "reset",
+    "site",
+    "menu",
+    "grid",
+    "button",
+    "container",
+    "divider",
+    "image",
+    "header",
+    "input",
+    "checkbox",
+    "label",
+    "sticky",
+    "form"
+  ],
+  "version": "2.0.8"
+}

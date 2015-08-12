@@ -1,3 +1,7 @@
+#app specific
+config.js
+client/semantic/build
+
 # Logs
 logs
 *.log
