@@ -1,4 +1,5 @@
 import express from 'express'
+import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
@@ -26,13 +27,13 @@ const IS_DEV = app.locals.IS_DEV = (process.env.NODE_ENV || 'development') === '
 app.set('views', join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
-// Middlewares
+// Middlewares. ORDER MATTERS
 app.use(compression())
 app.use(favicon(join(__dirname, '../public/img/favicon.ico')))
 app.use(logger(IS_DEV ? 'dev' : 'combined'))
+app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
 app.use(session({
   secret: config.session_secret,
   resave: false,
@@ -40,16 +41,10 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-passport.serializeUser(function (user, done) {
-  done(null, user)
-})
-passport.deserializeUser(function (obj, done) {
-  done(null, obj)
-})
 
 // Router handling
-app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
 app.use(router(config))
+app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
 
 // router didn't handle - 404
 app.use((req, res, next) => {
@@ -66,8 +61,21 @@ app.use((err, req, res, next) => {
     title: err.status === 404 ? 'Not found' : 'Oops!',
     page: '404',
     message: err.message,
-    error: IS_DEV ? err : ''
+    error: IS_DEV === 'development' ? err : ''
   })
 })
 
-app.listen(config.port, () => console.log(`Server listening on ${config.port}`))
+// Connect to mongodb
+var connect = function () {
+  var options = { server: { socketOptions: { keepAlive: 1 } } }
+  mongoose.connect(config.db_url, options)
+}
+connect()
+
+mongoose.connection.on('error', console.log)
+mongoose.connection.on('disconnected', connect)
+
+mongoose.connection.once('connected', () => {
+  console.log(`Mongoose connected to ${config.db_url}`)
+  app.listen(config.port, () => console.log(`Server listening on ${config.port}`))
+})
