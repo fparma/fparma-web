@@ -58,7 +58,7 @@ app.use(function (err, req, res, next) {
   if (!err.status || err.status !== 404) console.error(err)
   res.render('error', {
     title: err.status === 404 ? 'Not found' : 'Oops!',
-    page: 'err',
+    page: '404',
     message: err.message,
     error: IS_DEV ? err : ''
   })
