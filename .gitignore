@@ -1,5 +1,5 @@
 #app specific
-config.js
+config.json
 client/semantic/dist
 public/semantic
 public/js

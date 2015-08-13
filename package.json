@@ -4,7 +4,8 @@
   "description": "FPARMA web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "gulp build-semantic & gulp build"
   },
   "author": "Cuel",
   "license": "MIT",
@@ -21,6 +22,7 @@
     "morgan": "^1.6.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "passport-steam": "^0.1.5",
     "require-dot-file": "^0.4.0",
     "serve-favicon": "^2.3.0"
   },

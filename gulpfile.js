@@ -10,10 +10,10 @@ var watchSemantic = require('./client/semantic/tasks/watch')
 var BROWSER_SYNC_RELOAD_DELAY = 500
 
 gulp.task('build', ['scripts', 'css'])
+gulp.task('build-semantic', buildSemantic)
 gulp.task('watch-semantic', watchSemantic)
 
 gulp.task('dev', ['build'], function () {
-  buildSemantic()
   gulp.watch(['client/js/**/*.js'], ['scripts'])
   gulp.watch(['client/css/**/*.css'], ['css'])
   gulp.watch(['public/js/**/*.js', 'server/views/**/*'], browserSync.reload)
@@ -25,8 +25,8 @@ gulp.task('scripts', function () {
   rem('public/js/**/*', function () {
     gulp.src(['client/js/**/*.js'])
       .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write())
+      .pipe(uglify({mangle: true}))
+      .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('public/js'))
   })
 })

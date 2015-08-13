@@ -40,20 +40,26 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
+passport.serializeUser(function (user, done) {
+  done(null, user)
+})
+passport.deserializeUser(function (obj, done) {
+  done(null, obj)
+})
 
 // Router handling
-app.use(router)
+app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
+app.use(router(config))
 
-// 404
-app.use(function (req, res, next) {
+// router didn't handle - 404
+app.use((req, res, next) => {
   var err = new Error('404 Not Found')
   err.status = 404
   next(err)
 })
 
 // Error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500)
   if (!err.status || err.status !== 404) console.error(err)
   res.render('error', {

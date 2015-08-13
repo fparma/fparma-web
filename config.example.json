@@ -3,6 +3,7 @@
   "port": 8080,
   "session_secret": "keyboard cat",
   "steam" : {
+    "realm": "http://localhost:8080",
     "api_key": ""
   }
 }
