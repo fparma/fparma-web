@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
   },
   created_at: {type: Date, default: Date.now},
   steam_id: {type: String, required: true, index: {unique: true}},
-  steam_info: {type: Object}
+  steam_info: {type: Object},
+  admin: {type: Boolean, default: false}
 })
 
 mongoose.model('User', UserSchema)
