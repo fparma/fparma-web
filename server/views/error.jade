@@ -2,7 +2,8 @@ extends layout
 
 block content
   .ui.grid.container.centered
-    h1 Oops!
-    h2=message
-    p= error
-    a.ui.primary.button(href='/') Home
+    h1=message
+    if error
+      h4 Details: 
+      p= error
+    a.ui.button(href='/') Home

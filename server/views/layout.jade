@@ -1,27 +1,28 @@
 doctype html
 html(lang='en')
-  // Set this to the main language of your site
   head
     meta(charset='utf-8')
-    title FPARMA
-    // Enter a brief description of your page
-    meta(name='description', content='FPARMA website')
-    // Define a viewport to mobile devices to use - telling the browser to assume that the page is as wide as the device (width=device-width) and setting the initial page zoom level to be 1 (initial-scale=1.0)
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    if IS_DEV
-      link(href='vendor/semantic/semantic.css', rel='stylesheet', media='all')
+    if title
+      title #{title} | FPARMA
     else
-      link(href='vendor/semantic/semantic.min.css', rel='stylesheet', media='all')
-    link(href='app.css', rel='stylesheet', media='all')
-    
-  body
-    include ./nav.jade
-    #wrapper
-      block content
+      title FPARMA
 
+    meta(name='description', content='FPARMA website')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+    if IS_DEV
+      link(href='/semantic/semantic.css', rel='stylesheet', media='all')
+    else
+      link(href='/semantic/semantic.min.css', rel='stylesheet', media='all')
+    link(href='/app.css', rel='stylesheet', media='all')    
+
+  body
+    include includes/nav.jade
+    .ui.segment.grid.container  
+      block content
   script(src='http://code.jquery.com/jquery.js')
   if IS_DEV
-    script(src='vendor/semantic/semantic.js' charset="utf8")
+    script(src='/semantic/semantic.js' charset="utf8")
   else
-    script(src='vendor/semantic/semantic.min.js' charset="utf8")
+    script(src='/semantic/semantic.min.js' charset="utf8")
   

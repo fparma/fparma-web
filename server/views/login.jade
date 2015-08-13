@@ -1,0 +1,9 @@
+extends layout
+
+block content
+		h1.pad Login
+		p This site uses Steam to authenticate you, click below to sign in.
+		p After you have logged in using steam, you may select a username which will be your displayname.
+		.ui.grid.centered
+			a.pad(href='/auth/steam')
+				img(src='/img/sign-in-steam.png')

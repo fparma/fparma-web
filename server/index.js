@@ -27,9 +27,9 @@ app.set('views', join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 // Middlewares
-app.use(logger(IS_DEV ? 'dev' : 'combined'))
 app.use(compression())
-app.use(favicon(join(__dirname, '../public/favicon.ico')))
+app.use(favicon(join(__dirname, '../public/img/favicon.ico')))
+app.use(logger(IS_DEV ? 'dev' : 'combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -45,7 +45,7 @@ app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
 // Router handling
 app.use(router)
 
-// catch 404 and forward to error handler
+// 404
 app.use(function (req, res, next) {
   var err = new Error('404 Not Found')
   err.status = 404
@@ -57,9 +57,11 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   if (!err.status || err.status !== 404) console.error(err)
   res.render('error', {
+    title: err.status === 404 ? 'Not found' : 'Oops!',
+    page: '404',
     message: err.message,
     error: IS_DEV ? err : ''
   })
 })
 
-app.listen(config.port, () => console.log(`Server listening on ${config.PORT}`))
+app.listen(config.port, () => console.log(`Server listening on ${config.port}`))

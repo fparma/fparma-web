@@ -11,7 +11,7 @@
       "packaged": "../../public/semantic",
       "uncompressed": "dist/components/",
       "compressed": "dist/components/",
-      "themes": "dist/themes/"
+      "themes": "../../public/semantic/themes"
     },
     "clean": "dist/"
   },
@@ -20,12 +20,10 @@
   "version": "2.0.8",
   "_backup": [
     "flag",
-    "icon",
     "list",
     "loader",
     "rail",
     "reveal",
-    "segment",
     "step",
     "breadcrumb",
     "message",
@@ -37,7 +35,6 @@
     "statistic",
     "accordion",
     "dimmer",
-    "dropdown",
     "embed",
     "modal",
     "nag",
@@ -57,6 +54,9 @@
     "site",
     "menu",
     "grid",
+    "dropdown",
+    "icon",
+    "segment",
     "button",
     "item",
     "container",

@@ -1,7 +1,13 @@
-#wrapper {
-  padding-top: 30px;
+
+a.header p.title {
+  padding-left: 6px
 }
 
-div.ui.menu.inverted {
-  border-radius: 0px;
+div.menu.borderless {
+  border-radius: 0
+}
+
+.pad {
+  padding-top: 1em;
+  padding-bottom:1em;
 }
