@@ -1,0 +1,22 @@
+a.header p.title {
+  padding-left: 6px;
+}
+
+#nav {
+  margin: 0;
+  border-radius: 0;
+}
+
+#steam-img {
+  padding-top: 2rem;
+}
+
+#nav p.title {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.pad {
+  padding-top: 1em;
+  padding-bottom:1em;
+}

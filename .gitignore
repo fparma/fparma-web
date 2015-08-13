@@ -2,6 +2,8 @@
 config.js
 client/semantic/dist
 public/semantic
+public/js
+public/css
 
 # Logs
 logs

@@ -1,10 +1,10 @@
-mixin mklink(name, url, right)
+mixin mklink(name, url, rightAlign)
   a.item(href=url,
-    class=right ? 'ui right floated' : '',
+    class=rightAlign ? 'ui right floated' : '',
     class=(page && page == url.substr(1) ? 'active': ''))
     | #{name}
 
-.ui.inverted.borderless.main.menu
+#nav.ui.inverted.borderless.main.menu
   .ui.text.container
     a.header.item(href='/', class=(page == 'home' ? 'active' : ''))
       img.logo(src='/img/fparma.png')
