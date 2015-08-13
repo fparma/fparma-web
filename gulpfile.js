@@ -13,12 +13,13 @@ gulp.task('build', ['scripts', 'css'])
 gulp.task('build-semantic', buildSemantic)
 gulp.task('watch-semantic', watchSemantic)
 
-gulp.task('dev', ['build'], function () {
+gulp.task('dev', ['build'], function (cb) {
   gulp.watch(['client/js/**/*.js'], ['scripts'])
   gulp.watch(['client/css/**/*.css'], ['css'])
   gulp.watch(['public/js/**/*.js', 'server/views/**/*'], browserSync.reload)
   gulp.start('watch-semantic')
   gulp.start('browsersync')
+  cb()
 })
 
 gulp.task('scripts', function () {
@@ -50,16 +51,16 @@ gulp.task('browsersync', ['nodemon'], function () {
 
 // nodemon - watches server files and restart server on change
 gulp.task('nodemon', function (cb) {
-  var called = false
   return nodemon({
     script: 'index.js',
     ignore: ['server/views/**/*'],
     // watch core server file(s) that require server restart on change
     watch: ['index.js', 'config.example.json', 'config.json', 'server/**/*']
   })
-  .on('start', function onStart () {
-    if (!called) { cb() }
-    called = true
+  .once('start', function onStart () {
+    setTimeout(function () {
+      cb()
+    }, 1500)
   })
   .on('restart', function onRestart () {
     setTimeout(function reload () {
