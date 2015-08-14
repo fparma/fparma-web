@@ -34,13 +34,13 @@ router.get('/auth/steam',
 
 router.get(RETURN_URL,
   passport.authenticate('steam', { failureRedirect: '/login' }),
-  function (req, res) {
-    if (req.user && !req.user.name) return res.redirect('/profile')
+  (req, res) => {
+    if (req.isAuthenticated() && !req.user.name) return res.redirect('/profile')
     res.redirect('/')
   }
 )
 
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
 })
