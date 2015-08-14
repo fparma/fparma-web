@@ -3,12 +3,13 @@ import mongoose from 'mongoose'
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
+    default: '',
     match: [/^[A-Z][A-Z0-9 _-]{2,24}$/i,
       'Username must be between 3-24 characters, start with a letter and can only contain (A-Z, a-z, 0-9, -_ and space)'],
     trim: true
   },
   created_at: {type: Date, default: Date.now},
-  steam_id: {type: String, required: true, index: {unique: true}},
+  steam_id: {type: String, required: true, trim: true, index: {unique: true}},
   steam_info: {type: Object},
   admin: {type: Boolean, default: false}
 })

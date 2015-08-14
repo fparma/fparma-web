@@ -39,12 +39,12 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
 app.use(passport.initialize())
 app.use(passport.session())
 
 // Router handling
 app.use(router(config))
-app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
 
 // router didn't handle - 404
 app.use((req, res, next) => {

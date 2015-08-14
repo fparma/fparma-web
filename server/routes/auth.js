@@ -35,6 +35,7 @@ router.get('/auth/steam',
 router.get(RETURN_URL,
   passport.authenticate('steam', { failureRedirect: '/login' }),
   function (req, res) {
+    if (req.user && !req.user.name) return res.redirect('/profile')
     res.redirect('/')
   }
 )

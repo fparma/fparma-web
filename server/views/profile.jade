@@ -1,0 +1,16 @@
+extend layout
+
+block content
+  if (!user.name)
+    form#form.ui.form.pad(method='POST')
+      h1 Welcome, #{user.steam_info.personaname}
+      h3 Select your username
+      .field
+        input(type='text', name="username", placeholder="Username")
+      p Consider using your ingame name for easier identification. 
+        | This name will be shown in e.g events, comments etc.
+      p Your steam profile is not revealed
+      button.ui.button.primary(type="submit") Submit
+  else
+    h1.pad Profile
+    p.pad User: #{user.name}
