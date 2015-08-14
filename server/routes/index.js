@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import auth from './auth'
+import {USR_REGEXP, USR_ERROR} from '../models/user'
 
 const router = Router()
 export default function setup (config) {
@@ -17,6 +18,10 @@ function ensureAuthenticated (req, res, next) {
 router.all('*', function (req, res, next) {
   res.locals.user = req.user
   if (req.isAuthenticated() && !req.user.name && req.url !== '/profile') {
+    if (req.url === '/logout') {
+      req.logout()
+      req.redirect('/')
+    }
     return res.redirect('/profile')
   }
   next()
@@ -31,7 +36,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
-  res.render('profile.jade', {title: 'Profile', page: 'profile'})
+  res.render('profile.jade', {title: 'Profile', page: 'profile', validation: {REG: USR_REGEXP, MSG: USR_ERROR}})
 })
 
 router.post('/profile', ensureAuthenticated, (req, res) => {

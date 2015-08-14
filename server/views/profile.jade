@@ -11,6 +11,23 @@ block content
         | This name will be shown in e.g events, comments etc.
       p Your steam profile is not revealed
       button.ui.button.primary(type="submit") Submit
+      script.
+        $(function () {
+          $('#form')
+            .form({
+              fields: {
+                name: {
+                  identifier  : 'name',
+                  rules: [
+                    {
+                      type   : !{locals.validation.REG},
+                      prompt : "!{locals.validation.MSG}"
+                    }
+                  ]
+                },
+              }
+            })
+        })
   else
     h1.pad Profile
     p.pad User: #{user.name}
