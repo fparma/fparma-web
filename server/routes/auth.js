@@ -2,8 +2,9 @@ import {Router} from 'express'
 import passport from 'passport'
 import {Strategy as SteamStrategy} from 'passport-steam'
 import User from '../controllers/user'
-const RETURN_URL = '/auth/steam/return'
+
 export const router = Router()
+const RETURN_URL = '/auth/steam/return'
 
 export default function setup (config) {
   passport.use(new SteamStrategy({

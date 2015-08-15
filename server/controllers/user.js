@@ -13,8 +13,7 @@ exports.findOrCreate = (profile, cb) => {
     if (err.message === 'No such user') {
       new User({steam_id: id, steam_info: info})
       .save((err, user) => {
-        if (err) return cb(err)
-        return cb(null, user)
+        return cb(err, user)
       })
     }else {
       cb(err)

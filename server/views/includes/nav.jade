@@ -1,5 +1,6 @@
 mixin mklink(name, url, rightAlign)
   a.item(href=url,
+    class=(attributes.class || '')
     class=rightAlign ? 'ui right floated' : '',
     class=(page && page == url.substr(1) ? 'active': ''))
     | #{name}
@@ -10,5 +11,8 @@ mixin mklink(name, url, rightAlign)
       img.logo(src='/img/fparma.png')
       p.title FPARMA
     +mklink('Events', '/events')
-    +mklink('Join', '/join')
-    +mklink('Login / Register', '/login', true)
+    +mklink('Join', '/join')(class='disabled')
+    if locals.user
+      
+    else
+      +mklink('Login / Register', '/login', true)

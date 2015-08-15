@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import auth from './auth'
 import {USR_REGEXP, USR_ERROR} from '../models/user'
+import {saveUserName} from '../controllers/user'
 
 const router = Router()
 export default function setup (config) {
@@ -9,20 +10,32 @@ export default function setup (config) {
 }
 
 function ensureAuthenticated (req, res, next) {
-  if (!req.isAuthenticated()) return res.redirect('/login')
+  if (!req.isAuthenticated()) {
+    let err = new Error('You do not have permission to view this page')
+    err.status = 401
+    return next(err)
+  }
   next()
 }
 
 // make user available to all templates and
 // redirect if logged in and not selected username
 router.all('*', function (req, res, next) {
+  if (!req.isAuthenticated()) return next()
+
   res.locals.user = req.user
-  if (req.isAuthenticated() && !req.user.name && req.url !== '/profile') {
+  if (!req.user.name && req.url !== '/profile') {
     if (req.url === '/logout') {
       req.logout()
-      req.redirect('/')
+      return req.redirect('/')
     }
     return res.redirect('/profile')
+  }
+
+  if (req.method === 'POST' && req.url === '/profile') {
+    saveUserName(req.user.steam_id, req.body.username, (err, user) => {
+      next(err)
+    })
   }
   next()
 })
@@ -32,6 +45,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
+  if (req.isAuthenticated()) return res.redirect('/profile')
   res.render('login.jade', {title: 'Login', page: 'login'})
 })
 
