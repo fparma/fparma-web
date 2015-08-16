@@ -1,17 +1,12 @@
-a.header p.title {
-  padding-left: 6px;
+#wrapper {
+  margin-top: 5em
 }
-
-#nav {
-  margin: 0;
-  border-radius: 0;
-}
-
 #steam-img {
   padding-top: 2rem;
 }
 
-#nav p.title {
+#nav span.title {
+  padding-left: 0.4em;
   font-size: 100%;
   font-weight: bold;
 }
@@ -19,4 +14,24 @@ a.header p.title {
 .pad {
   padding-top: 1em;
   padding-bottom:1em;
+}
+
+@media only screen and (max-width: 767px) {
+  .desktop-only {
+      display: none !important;
+  }
+  .mobile-only {
+    display: block !important;
+  }
+}
+
+
+@media only screen and (min-width : 768px) {
+  .mobile-only {
+      display: none !important;
+  }
+
+  .desktop-only {
+      display: block !important;
+  }
 }
