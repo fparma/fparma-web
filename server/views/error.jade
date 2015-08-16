@@ -2,9 +2,10 @@ extends layout
 
 block content
   .ui.grid.container.centered
-    h1 Oops!
+    h1 Oops an error occured!
     h4.pad= message
-    if error
-      h4 Details: 
-      p= error
-    a.ui.button(href='/') Home
+  if IS_DEV
+    h4 Details: 
+    pre.ui.fluid
+      code.text=error.stack
+  a.ui.button(href='/') Home

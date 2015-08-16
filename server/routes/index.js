@@ -27,20 +27,21 @@ router.all('*', function (req, res, next) {
   if (!req.user.name && req.url !== '/profile') {
     if (req.url === '/logout') {
       req.logout()
-      return req.redirect('/')
+      return res.redirect('/')
     }
     return res.redirect('/profile')
   }
 
   if (req.method === 'POST' && req.url === '/profile') {
     saveUserName(req.user.steam_id, req.body.username, (err, user) => {
-      next(err)
+      if (err) return next(err)
+      return res.redirect('/')
     })
   }
   next()
 })
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   res.render('index.jade', {page: 'home'})
 })
 
