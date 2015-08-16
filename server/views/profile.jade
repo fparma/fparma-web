@@ -1,8 +1,8 @@
 extend layout
 
 block content
-  if (!user.name)
-    form#form.ui.form.pad(method='POST')
+  if !user.name
+    form#form.ui.form(method='POST')
       h1 Welcome, #{user.steam_info.personaname}
       .field
         label Select a username
@@ -13,8 +13,10 @@ block content
           span #{locals.validation.MSG}
       p Consider using your ingame name for easier identification. 
         | This name will be shown in events, comments etc.
-      p Your steam profile is not revealed
-      button.ui.button.primary(type="submit") Submit
+      p Your steam profile is not shown
+      .pad
+        button.ui.button.primary(type="submit") Submit
+        a.ui.button(href='/logout') Logout
       script.
         $(function () {
           $('#form').form({
@@ -32,6 +34,6 @@ block content
           })
         })
   else
-    h1.pad Profile
-    p.pad User: #{user.name}
+    h1 Profile
+    h4 #{user.name}
   script(src='/js/profile.js' charset="utf8")

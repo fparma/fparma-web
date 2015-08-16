@@ -2,17 +2,38 @@ mixin mklink(name, url, rightAlign)
   a.item(href=url,
     class=(attributes.class || '')
     class=rightAlign ? 'ui right floated' : '',
+    // TODO: substr should only check until second slash
     class=(page && page == url.substr(1) ? 'active': ''))
-    | #{name}
+    span=name
 
-#nav.ui.inverted.borderless.main.menu
-  .ui.text.container
-    a.header.item(href='/', class=(page == 'home' ? 'active' : ''))
-      img.logo(src='/img/fparma.png')
-      p.title FPARMA
-    +mklink('Events', '/events')
-    +mklink('Join', '/join')(class='disabled')
-    if locals.user
-      
-    else
-      +mklink('Login / Register', '/login', true)
+mixin usermenu(isDesktop)
+  if locals.user
+    .ui.item.simple.dropdown(class= isDesktop ? 'right desktop-only': '')
+      i.icon.user.green
+      span=user.name
+      .menu
+        +mklink('Profile', '/profile')
+        +mklink('Logout', '/logout')
+  else
+    +mklink('Login / Register', '/login', true)(class= isDesktop ? 'desktop-only': '')
+
+
+nav.ui.top.menu.inverted.fixed
+  .ui.container
+    // DESKTOP
+    a.header.item.desktop-only(href='/', class=(page == 'home' ? 'active' : ''))
+      span FPARMA
+    +mklink('Events', '/events')(class='desktop-only')
+    +mklink('About', '/about')(class='disabled desktop-only')
+    +usermenu(true)
+    
+    // MOBILE
+    .ui.item.simple.dropdown.mobile-only
+      i.icon.content
+      span Menu
+      .menu
+        +mklink('Events', '/events')
+        +mklink('About', '/about')(class='disabled')
+        +usermenu(false)
+    a.header.item.right.mobile-only(href='/', class=(page == 'home' ? 'active' : ''))
+      span FPARMA

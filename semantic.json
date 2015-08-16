@@ -42,7 +42,6 @@
     "search",
     "shape",
     "sidebar",
-    "transition",
     "api",
     "state",
     "visibility"
@@ -55,6 +54,7 @@
     "dropdown",
     "icon",
     "list",
+    "transition",
     "message",
     "segment",
     "button",

@@ -18,11 +18,13 @@ html(lang='en')
 
   body
     include includes/nav.jade
-    .ui.segment.grid.container  
+    #wrapper.ui.segment.grid.container
       block content
   if IS_DEV
     script(src='/semantic/semantic.js' charset="utf8")
   else
     script(src='/semantic/semantic.min.js' charset="utf8")
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js')
   script(src='/js/app.js')
+
   
