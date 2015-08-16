@@ -45,7 +45,8 @@ gulp.task('browsersync', ['nodemon'], function () {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
     proxy: 'http://localhost:8080',
-    port: 3000
+    port: 3000,
+    notify: false
   })
 })
 
