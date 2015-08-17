@@ -1,14 +1,10 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
-import session from 'express-session'
-import passport from 'passport'
-import logger from 'morgan'
-import favicon from 'serve-favicon'
-import compression from 'compression'
-import {join} from 'path'
-import router from './routes'
+
+
+import {init as expressConfig} from './config/express'
+import {init as passportConfig} from './config/passport'
+import {router} from './routes'
 
 let config
 try {
@@ -17,34 +13,22 @@ try {
   config = require('../config.example.json')
 }
 
+const IS_DEV = (process.env.NODE_ENV || 'development') === 'development'
 const app = express()
 export default app
 
-app.set('x-powered-by', false)
-const IS_DEV = app.locals.IS_DEV = (process.env.NODE_ENV || 'development') === 'development'
+expressConfig(app, config, __dirname, IS_DEV)
+passportConfig(config)
 
-// View engine
-app.set('views', join(__dirname, 'views'))
-app.set('view engine', 'jade')
+// Make user available to Jade templates
+app.use((req, res, next) => {
+  res.locals.IS_DEV = IS_DEV
+  res.locals.user = req.isAuthenticated() ? req.user : null
+  next()
+})
 
-// Middlewares. ORDER MATTERS
-app.use(compression())
-app.use(favicon(join(__dirname, '../public/img/favicon.ico')))
-app.use(logger(IS_DEV ? 'dev' : 'combined'))
-app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(session({
-  secret: config.session_secret,
-  resave: false,
-  saveUninitialized: false
-}))
-app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
-app.use(passport.initialize())
-app.use(passport.session())
-
-// Router handling
-app.use(router(config))
+// Handle routes
+app.use(router)
 
 // router didn't handle - 404
 app.use((req, res, next) => {
@@ -60,10 +44,10 @@ app.use((err, req, res, next) => {
   // TODO: handle this better. if user has been dropped from DB.
   if (err.message === 'No such user') req.logout()
   res.render('error', {
-    title: err.status === 404 ? 'Not found' : 'Oops!',
+    title: err.status === 404 ? '404 Not found' : 'Oops!',
     page: '404',
     message: err.message,
-    error: IS_DEV ? err : ''
+    error: IS_DEV ? err : null
   })
 })
 
@@ -79,5 +63,5 @@ mongoose.connection.on('disconnected', connect)
 
 mongoose.connection.once('connected', () => {
   console.log(`Mongoose connected to ${config.db_url}`)
-  app.listen(config.port, () => console.log(`Server listening on ${config.port}`))
+  app.listen(config.port, () => console.log(`Server listening on ${config.port} (dev: ${IS_DEV})`))
 })
