@@ -1,0 +1,23 @@
+extends ../layout
+
+mixin mkevent(evt)
+  .item
+    .content
+      a.header(href='/event/' + evt.permalink) (#{evt.type}) #{evt.name}
+      p by #{evt.author}
+      .description= moment(evt.date).utc().calendar() + ' (UTC)'
+
+block content
+  if events.upcoming.length
+    h1.pad Upcoming events
+    each event in events.upcoming
+      .ui.relaxed.divided.list.segment.small
+        +mkevent(event)
+  else
+    h1.pad No upcoming events
+  
+  if events.completed.length
+    h1.pad Previous events
+    each event in events.completed
+      .ui.relaxed.divided.list.segment.small
+        +mkevent(event)
