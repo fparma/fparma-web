@@ -15,16 +15,17 @@ html(lang='en')
       link(href='/semantic/semantic.min.css', rel='stylesheet', media='all')
     link(href='/css/app.css', rel='stylesheet', media='all')    
     script(src='http://code.jquery.com/jquery.min.js')
-
+    block head
   body
     include includes/nav.jade
-    #wrapper.ui.segment.grid.container
+    #wrapper.ui.container
       block content
   if IS_DEV
     script(src='/semantic/semantic.js' charset="utf8")
   else
     script(src='/semantic/semantic.min.js' charset="utf8")
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js')
-  script(src='/js/app.js')
-
+block tail
+script(src='https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js')
+script(src='/js/app.js')
+  
   

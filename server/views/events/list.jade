@@ -8,6 +8,8 @@ mixin mkevent(evt)
       .description= moment(evt.date).utc().calendar() + ' (UTC)'
 
 block content
+  button.ui.button
+    a(href='/events/create') Create
   if events.upcoming.length
     h1.pad Upcoming events
     each event in events.upcoming

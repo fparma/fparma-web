@@ -1,0 +1,54 @@
+extends ../layout
+
+block head
+	link(href='/vendor/picker.min.css', rel='stylesheet', media='all')    
+
+block content
+	h1 Create new event
+	form#create.ui.form
+		.ui.two.column.stackable.grid.segment
+			.two.column.row
+				.field.column
+					label Event name
+					input(type='text', name='name')
+					.inline.fields
+						.field
+							.ui.radio.checkbox.time-local
+								input(type='radio', name='mission-type', value='CO')
+								label CO
+						.field
+							.ui.radio.checkbox.time-utc
+								input(type='radio', name='mission-type', value='TVT')
+								label TvT
+			.two.column.row
+				.field.column
+					label Author(s)
+					input(type='text', name='author')
+			.four.column.row
+				.field.column
+					label Date
+					input#create-date(type='text')
+				.field.column
+					label Time
+					input#create-time(type='text')
+					.inline.fields
+						.field
+							.ui.radio.checkbox
+								input(type='radio', name='user-time', value='local')
+								label Local
+						.field
+							.ui.radio.checkbox
+								input(type='radio', name='user-time', value='utc')
+								label UTC
+	h1 Slots
+		.ui.two.column.stackable.grid.segment
+			.two.column.row
+				.field.column
+					#sqm.ui.icon.primary.button
+						i.cloud.icon
+						span Upload SQM
+					input#upload(type='file', style="display:none", accept='.sqm')
+	
+block tail
+	script(src='/vendor/moment.min.js')
+	script(src='/vendor/picker.min.js')

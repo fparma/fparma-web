@@ -1,19 +1,25 @@
+nav span.title {
+  font-size: 100%;
+  font-weight: bold;
+}
+
 #wrapper {
   margin-top: 5em
 }
+
 #steam-img {
   padding-top: 2rem;
-}
-
-#nav span.title {
-  padding-left: 0.4em;
-  font-size: 100%;
-  font-weight: bold;
 }
 
 .pad {
   padding-top: 1em;
   padding-bottom:1em;
+}
+
+form#create .inline.fields {
+  padding-left: 0.1em;
+  padding-top: 0.4em;
+  margin-bottom: 0;
 }
 
 @media only screen and (max-width: 767px) {

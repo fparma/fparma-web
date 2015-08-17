@@ -11,3 +11,7 @@ router.get('/events', (req, res) => {
 router.get('/event/:permalink', (req, res) => {
   res.redirect('/events')
 })
+
+router.get('/events/create', (req, res) => {
+  res.render('events/create.jade')
+})

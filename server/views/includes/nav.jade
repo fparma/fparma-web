@@ -21,7 +21,7 @@ nav.ui.top.menu.inverted.fixed
   .ui.container
     // DESKTOP
     a.header.item.desktop-only(href='/', class=(page == 'home' ? 'active' : ''))
-      span FPARMA
+      span.title FPARMA
     +mklink('Events', '/events')(class='desktop-only')
     +mklink('About', '/about')(class='disabled desktop-only')
     +usermenu(true)
@@ -35,4 +35,4 @@ nav.ui.top.menu.inverted.fixed
         +mklink('About', '/about')(class='disabled')
         +usermenu(false)
     a.header.item.right.mobile-only(href='/', class=(page == 'home' ? 'active' : ''))
-      span FPARMA
+      span.title FPARMA
