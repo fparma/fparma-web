@@ -17,6 +17,11 @@
 }
 
 @media only screen and (max-width: 767px) {
+  #wrapper.container {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
   .desktop-only {
       display: none !important;
   }
@@ -24,7 +29,6 @@
     display: block !important;
   }
 }
-
 
 @media only screen and (min-width : 768px) {
   .mobile-only {
