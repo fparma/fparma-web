@@ -11,7 +11,11 @@ passport.deserializeUser(function (id, done) {
   User.findBySteamId(id, (err, user) => done(err, user))
 })
 
-export function init (config) {
+export function init (app, config) {
+
+  app.use(passport.initialize())
+  app.use(passport.session())
+
   passport.use(new SteamStrategy({
     returnURL: config.steam.realm + STEAM_RETURN_URL,
     realm: config.steam.realm,

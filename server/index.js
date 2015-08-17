@@ -18,7 +18,7 @@ const app = express()
 export default app
 
 expressConfig(app, config, __dirname, IS_DEV)
-passportConfig(config)
+passportConfig(app, config)
 
 // Make user available to Jade templates
 app.use((req, res, next) => {

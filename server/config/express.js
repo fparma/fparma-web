@@ -5,7 +5,6 @@ import session from 'express-session'
 import logger from 'morgan'
 import favicon from 'serve-favicon'
 import compression from 'compression'
-import passport from 'passport'
 import {join} from 'path'
 
 export function init (app, config, root, IS_DEV) {
@@ -29,6 +28,4 @@ export function init (app, config, root, IS_DEV) {
     saveUninitialized: false
   }))
   app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
-  app.use(passport.initialize())
-  app.use(passport.session())
 }
