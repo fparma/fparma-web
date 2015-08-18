@@ -1,5 +1,4 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import logger from 'morgan'
@@ -20,8 +19,6 @@ export function init (app, config, root, IS_DEV) {
   app.use(favicon(join(root, '../public/img/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
   app.use(cookieParser())
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: false }))
   app.use(session({
     secret: config.session_secret,
     resave: false,

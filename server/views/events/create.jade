@@ -41,14 +41,26 @@ block content
 								input(type='radio', name='user-time', value='utc')
 								label UTC
 	h1 Slots
-		.ui.two.column.stackable.grid.segment
-			.two.column.row
-				.field.column
-					#sqm.ui.icon.primary.button
-						i.cloud.icon
-						span Upload SQM
-					input#upload(type='file', style="display:none", accept='.sqm')
+	div
+		button#js-slots-sqm.ui.icon.button
+			i.cloud.upload.icon
+			span Upload SQM
+		input#js-sqm-upload(name='file' type='file', style="display:none", accept='.sqm')
+		
+		button#js-slots-manual.ui.icon.button
+			i.write.icon
+			span Enter manually
+		button#js-slots-reset.ui.reset.icon.button
+			i.repeat.icon
+			span Reset slots
+	div
+		p#js-sqm-error.ui.compact.error.message.hidden
 	
+
+	.ui.two.column.stackable.grid.segment
+		.two.column.row
+			.field.column
+				h1 hi
 block tail
 	script(src='/vendor/moment.min.js')
 	script(src='/vendor/picker.min.js')

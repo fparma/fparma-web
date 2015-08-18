@@ -17,4 +17,4 @@ router.get('/', (req, res, next) => {
 })
 
 router.use(auth)
-router.use(events)
+router.use('/events', events)

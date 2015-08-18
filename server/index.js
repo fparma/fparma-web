@@ -1,7 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
 
-
 import {init as expressConfig} from './config/express'
 import {init as passportConfig} from './config/passport'
 import {router} from './routes'
@@ -40,6 +39,7 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
+  console.log(err.stack)
   if (!err.status || err.status !== 404) console.error(err)
   // TODO: handle this better. if user has been dropped from DB.
   if (err.message === 'No such user') req.logout()
