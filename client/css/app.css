@@ -1,8 +1,3 @@
-nav span.title {
-  font-size: 100%;
-  font-weight: bold;
-}
-
 #wrapper {
   margin-top: 5em
 }
@@ -11,19 +6,40 @@ nav span.title {
   padding-top: 2rem;
 }
 
-.pad {
-  padding-top: 1em;
-  padding-bottom:1em;
-}
-
 form#create .inline.fields {
   padding-left: 0.1em;
   padding-top: 0.4em;
   margin-bottom: 0;
 }
 
-@media only screen and (max-width: 767px) {
+form#slots button, .button {
+  margin-bottom: 0.2em !important;
+}
 
+nav span.title {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.message .close {
+  padding-left: 0.6em;
+}
+
+.message p.small {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.space {
+  padding-top: 1em;
+  padding-bottom:1em;
+}
+
+.top-space {
+  padding-top: 2em;
+}
+
+@media only screen and (max-width: 767px) {
   .desktop-only {
       display: none !important;
   }

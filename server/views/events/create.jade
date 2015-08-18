@@ -5,65 +5,49 @@ block head
 
 block content
 	form#js-form-upload-file(enctype='multipart/form-data'
-		| action='/events/create/upload-sqm' method='post')
+		| action='/events/create/upload-sqm' method='post', style='display:none')
 		input#js-input-file-sqm(name='file'
-			| type='file', style='display:none', accept='.sqm')
+			| type='file', accept='.sqm')
+	.ui.container
+		h1.ui.dividing.header Create new event
+		form#create.ui.form
+			.ui.two.column.stackable.grid
+				.two.column.row
+					.field.column
+						label Event name
+						input(type='text', name='name')
+						.inline.fields
+							.field
+								.ui.radio.checkbox.time-local
+									input(type='radio', name='mission-type', value='CO')
+									label CO
+							.field
+								.ui.radio.checkbox.time-utc
+									input(type='radio', name='mission-type', value='TVT')
+									label TvT
+				.two.column.row
+					.field.column
+						label Author(s)
+						input(type='text', name='author')
+				.four.column.row
+					.field.column
+						label Date
+						input#create-date(type='text')
+					.field.column
+						label Time (local)
+						input#create-time(type='text')
+						//
+							.inline.fields
+								.field
+									.ui.radio.checkbox
+										input(type='radio', name='user-time', value='local')
+										label Local
+								.field
+									.ui.radio.checkbox
+										input(type='radio', name='user-time', value='utc')
+										label UTC
+	include ./create-slots.jade
 
-	h1 Create new event
-	form#create.ui.form
-		.ui.two.column.stackable.grid.segment
-			.two.column.row
-				.field.column
-					label Event name
-					input(type='text', name='name')
-					.inline.fields
-						.field
-							.ui.radio.checkbox.time-local
-								input(type='radio', name='mission-type', value='CO')
-								label CO
-						.field
-							.ui.radio.checkbox.time-utc
-								input(type='radio', name='mission-type', value='TVT')
-								label TvT
-			.two.column.row
-				.field.column
-					label Author(s)
-					input(type='text', name='author')
-			.four.column.row
-				.field.column
-					label Date
-					input#create-date(type='text')
-				.field.column
-					label Time
-					input#create-time(type='text')
-					.inline.fields
-						.field
-							.ui.radio.checkbox
-								input(type='radio', name='user-time', value='local')
-								label Local
-						.field
-							.ui.radio.checkbox
-								input(type='radio', name='user-time', value='utc')
-								label UTC
-	h1 Slots
-	div
-		button#js-slots-btn-sqm.ui.icon.button
-			i.cloud.upload.icon
-			span Upload SQM
-		button#js-slots-btn-manual.ui.icon.button
-			i.write.icon
-			span Enter manually
-		button#js-slots-btn-reset.ui.reset.icon.button
-			i.repeat.icon
-			span Reset slots
-	div
-		p#js-sqm-error.ui.compact.error.message.hidden
-	
-
-	.ui.two.column.stackable.grid.segment
-		.two.column.row
-			.field.column
-				h1 hi
 block tail
 	script(src='/vendor/moment.min.js')
 	script(src='/vendor/picker.min.js')

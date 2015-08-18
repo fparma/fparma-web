@@ -1,0 +1,33 @@
+.ui.container.top-space
+	h2.ui.dividing.header Slots
+	p Select how you wish to input slots
+	button#js-slots-btn-sqm.ui.icon.blue.button(type="button")
+		i.cloud.upload.icon
+		span Upload SQM
+	button#js-slots-btn-manual.ui.icon.blue.button(type="button")
+		i.write.icon
+		span Manually
+	button#js-slots-btn-reset.ui.reset.icon.button.red(type="button")
+		i.repeat.icon
+		span Reset all slots
+	#js-sqm-error.ui.compact.error.message.hidden
+		i.close.icon
+		p.small
+
+form#slots.ui.container.form.top-space
+	-sideList = ['BLUFOR', 'OPFOR', 'GREENFOR', 'CIVILIAN']
+	h3.ui.header Sides
+	p Select all playable sides in the event
+	.js-sides
+		each val in sideList
+			.ui.small.button.js-btn-side(data-side=val.toLowerCase()) #{val}
+		each val in sideList
+			h3.ui.dividing.header #{val} slots
+			.js-side-slot(data-side=val.toLowerCase())
+				button.ui.tiny.labeled.icon.button
+					i.users.icon
+					span New group
+				.ui.raised.segment
+					input(type='text', placeholder='Group name')
+					
+					

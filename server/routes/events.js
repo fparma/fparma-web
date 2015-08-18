@@ -34,6 +34,7 @@ router.get('/create', (req, res) => {
   res.render('events/create.jade')
 })
 
+// TODO: handle deleted /tmp folder
 router.post('/create/upload-sqm', upload, (req, res) => {
   console.log('success')
   console.log(req.file)
