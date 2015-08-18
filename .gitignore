@@ -4,6 +4,7 @@ client/semantic/dist
 public/semantic
 public/js
 public/css
+tmp
 
 # Logs
 logs

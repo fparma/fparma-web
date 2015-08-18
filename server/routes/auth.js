@@ -1,12 +1,10 @@
 import {Router} from 'express'
 import passport from 'passport'
-import bodyParser from 'body-parser'
 
 import {STEAM_RETURN_URL} from '../config/passport'
 import User from '../controllers/user'
 import {USR_REGEXP, USR_ERROR} from '../models/user'
 
-const parseForm = bodyParser.urlencoded({extended: false})
 const router = Router()
 export default router
 
@@ -49,7 +47,7 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
   res.render('profile.jade', {title: 'Profile', page: 'profile', validation: {REG: USR_REGEXP, MSG: USR_ERROR}})
 })
 
-router.post('/profile', ensureAuthenticated, parseForm, (req, res, next) => {
+router.post('/profile', ensureAuthenticated, (req, res, next) => {
   User.saveUsername(req.user.steam_id, req.body.username, (err, user) => {
     if (err) return next(err)
     return res.redirect('/')

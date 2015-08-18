@@ -4,6 +4,11 @@ block head
 	link(href='/vendor/picker.min.css', rel='stylesheet', media='all')    
 
 block content
+	form#js-form-upload-file(enctype='multipart/form-data'
+		| action='/events/create/upload-sqm' method='post')
+		input#js-input-file-sqm(name='file'
+			| type='file', style='display:none', accept='.sqm')
+
 	h1 Create new event
 	form#create.ui.form
 		.ui.two.column.stackable.grid.segment
@@ -42,15 +47,13 @@ block content
 								label UTC
 	h1 Slots
 	div
-		button#js-slots-sqm.ui.icon.button
+		button#js-slots-btn-sqm.ui.icon.button
 			i.cloud.upload.icon
 			span Upload SQM
-		input#js-sqm-upload(name='file' type='file', style="display:none", accept='.sqm')
-		
-		button#js-slots-manual.ui.icon.button
+		button#js-slots-btn-manual.ui.icon.button
 			i.write.icon
 			span Enter manually
-		button#js-slots-reset.ui.reset.icon.button
+		button#js-slots-btn-reset.ui.reset.icon.button
 			i.repeat.icon
 			span Reset slots
 	div

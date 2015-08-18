@@ -4,6 +4,7 @@ import session from 'express-session'
 import logger from 'morgan'
 import favicon from 'serve-favicon'
 import compression from 'compression'
+import bodyParser from 'body-parser'
 import {join} from 'path'
 
 export function init (app, config, root, IS_DEV) {
@@ -18,6 +19,8 @@ export function init (app, config, root, IS_DEV) {
   app.use(compression())
   app.use(favicon(join(root, '../public/img/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json())
   app.use(cookieParser())
   app.use(session({
     secret: config.session_secret,
