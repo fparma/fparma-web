@@ -23,7 +23,7 @@ const router = Router()
 export default router
 
 router.get('/', (req, res) => {
-  res.render('events/list.jade', {events: {upcoming: [], completed: []}})
+  res.render('events/list.jade', {page: 'events', title: 'Events', events: {upcoming: [], completed: []}})
 })
 
 router.get('/id/:permalink', (req, res) => {
@@ -31,7 +31,7 @@ router.get('/id/:permalink', (req, res) => {
 })
 
 router.get('/create', (req, res) => {
-  res.render('events/create.jade')
+  res.render('events/create.jade', {title: 'Create event', page: 'events'})
 })
 
 // TODO: handle deleted /tmp folder
@@ -41,6 +41,6 @@ router.post('/create/upload-sqm', upload, (req, res) => {
   res.json({ok: true, data: null})
 }, (err, req, res, next) => {
   console.log('error')
-  console.log(err);
+  console.log(err)
   res.json({ok: false, error: err.message})
 })

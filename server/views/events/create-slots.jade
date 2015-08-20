@@ -38,11 +38,15 @@ script#js-grp-template(type='text/template')
 				| Remove group							
 			h4.ui.dividing.header Unit roles
 			.ui.two.tiny.buttons(style='padding-bottom: 4px')
-					.js-btn-addunit.ui.basic.green.icon.button
-						i.add.user.icon
+					.js-btn-addunit.ui.basic.green.animated.fade.icon.button
+						.hidden.content +1
+						.visible.content
+							i.add.user.icon
 					.or(data-text='()')
-					.js-btn-remunit.ui.basic.yellow.icon.button
-						i.remove.user.icon
+					.js-btn-rmunit.ui.basic.yellow.animated.fade.icon.button
+						.hidden.content -1
+						.visible.content
+							i.remove.user.icon
 
 script#js-unit-template(type='text/template')
 	input.js-unit(type='text', placeholder='SQL, Medic, Asst AR, etc')

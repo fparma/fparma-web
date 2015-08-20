@@ -12,6 +12,10 @@ form#create .inline.fields {
   margin-bottom: 0;
 }
 
+form#slots {
+  margin-bottom: 6em;
+}
+
 form#slots button, .button {
   margin-bottom: 0.2em !important;
 }

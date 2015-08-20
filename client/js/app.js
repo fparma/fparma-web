@@ -12,9 +12,13 @@ $(function () {
 
   if (!$('form#create').length) return
 
-  var SIDES = ['blufor', 'opfor', 'greenfor', 'civilian']
-  var GRP_TEMPLATE = $('#js-grp-template').html()
-  var UNIT_TEMPLATE = $('#js-unit-template').html()
+  var MAX_UNITS_IN_GRP = 20
+  var GRP_TEMPLATE = $($('#js-grp-template').html())
+  var UNIT_TEMPLATE = $($('#js-unit-template').html())
+
+  function capitalize (str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
 
   function getSideContainer (side) {
     return $('#js-side-container-' + side)
@@ -47,39 +51,83 @@ $(function () {
 
   // Creates a new group and appends to container
   function createNewGroup (side) {
-    var title = side.charAt(0).toUpperCase() + side.slice(1) + ' group'
-    var grp = $(GRP_TEMPLATE)
-    var unit = $(UNIT_TEMPLATE)
-    var unitRoot = grp.children('.segment')
+    var sideContainer = getSideContainer(side)
+    var grpContainer = GRP_TEMPLATE.clone()
+    var unitRoot = grpContainer.children('.segment')
     var i = 0
 
     for (; i < 8; i++) {
-      unitRoot.append(unit.clone())
+      unitRoot.append(UNIT_TEMPLATE.clone())
     }
 
+    var title = capitalize(side) + ' group '
     unitRoot.find('h4').first().html(title)
-    initGroupEvents(grp, side)
+    addGroupClickHandlers(grpContainer, side)
 
-    getSideContainer(side)
-    .find('.js-group-container')
-    .append(grp)
+    grpContainer
+    .appendTo(sideContainer.find('.js-group-container'))
+    .hide()
+    .transition('swing left')
   }
 
-  function initGroupEvents (group, side) {
-    group.find('.js-btn-rmgrp').click(function () {
-      group.closest('.js-grp-root').parent().remove()
-      checkRemainingGroups()
+  // Handlers for rem grp, add or remove unit
+  function addGroupClickHandlers (groupEl, side) {
+    var rmGroup = function () {
+      var rootEl = groupEl.closest('.js-grp-root')
+      rootEl.find('.button').addClass('disabled')
+      setTimeout(function () {
+        deleteGroup(rootEl, side)
+      }, 200)
+    }
+    groupEl.find('.js-btn-rmgrp').click(rmGroup)
+
+    groupEl.find('.js-btn-addunit').click(function () {
+      UNIT_TEMPLATE.clone()
+      .appendTo(groupEl.find('.js-unit').parent())
+      .hide()
+      .transition('fade down')
+
+      if (groupEl.find('.js-unit').length >= MAX_UNITS_IN_GRP) {
+        $(this).addClass('disabled')
+      }
+    })
+
+    groupEl.find('.js-btn-rmunit').click(function (e) {
+      e.preventDefault()
+      var $btn = $(this).addClass('disabled')
+      var unit = groupEl.find('.js-unit').last()
+      unit.transition('fade up', {
+        onComplete: function () {
+          unit.remove()
+          var remaining = groupEl.find('.js-unit').length
+          if (!remaining) return rmGroup()
+
+          $btn.removeClass('disabled')
+          if (remaining < MAX_UNITS_IN_GRP) {
+            groupEl.find('.js-btn-addunit').removeClass('disabled')
+          }
+        }
+      })
     })
   }
 
-  function checkRemainingGroups (side) {
-    var cnt = getSideContainer(side).find('.js-grp-root').length
-    console.log(cnt);
-    if (!cnt) {
-      toggleShowSide(side, true)
-    }
+  // Deletes a group with animation
+  function deleteGroup (grpRootEl, side) {
+    grpRootEl.transition({
+      animation: 'horizontal flip',
+      allowRepeats: false,
+      onComplete: function () {
+        grpRootEl.remove()
+        checkRemainingGroups(side)
+      }
+    })
   }
 
+  // side gets hidden if no remaining groups
+  function checkRemainingGroups (side) {
+    var cnt = getSideContainer(side).find('.js-grp-root').length
+    if (!cnt) toggleShowSide(side, true)
+  }
 
   $('#create-date').pickadate({
     format: 'ddd dd mmm, yyyy',
@@ -118,12 +166,12 @@ $(function () {
     sqmUploadBtn.click(function (e) {
       e.preventDefault()
       errorContainer.addClass('hidden')
-      $('#js-input-file-sqm').click()
+      sqmFileInput.click()
     })
 
     sqmFileInput.change(function () {
       var file = this.files[0]
-      if (!file) return
+      if (!file || !file.size) return
       if (file.size / (1024 * 2) > 3) {
         resetFileInput()
         return printSqmError('File exceeds limit (3mb)')
