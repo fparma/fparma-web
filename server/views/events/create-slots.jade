@@ -1,6 +1,6 @@
-.ui.container.top-space
+.ui.container.mt-top2
 	h2.ui.dividing.header Slots
-	p Select how you wish to input slots
+	p Choose how you wish to input slots
 	button#js-slots-btn-sqm.ui.icon.blue.button(type="button")
 		i.cloud.upload.icon
 		span Upload SQM
@@ -14,20 +14,35 @@
 		i.close.icon
 		p.small
 
-form#slots.ui.container.form.top-space
-	-sideList = ['BLUFOR', 'OPFOR', 'GREENFOR', 'CIVILIAN']
-	h3.ui.header Sides
-	p Select all playable sides in the event
-	.js-sides
+form#slots.ui.form.container.mt-top2
+	-sideList = ['blufor', 'opfor', 'greenfor', 'civilian']
+	h3(style="padding-top: 1.2em") Sides
+	p Select playable sides in the event
 		each val in sideList
-			.ui.small.button.js-btn-side(data-side=val.toLowerCase()) #{val}
-		each val in sideList
-			h3.ui.dividing.header #{val} slots
-			.js-side-slot(data-side=val.toLowerCase())
-				button.ui.tiny.labeled.icon.button
-					i.users.icon
-					span New group
-				.ui.raised.segment
-					input(type='text', placeholder='Group name')
-					
-					
+			.ui.small.button.js-btn-side(data-side=val) #{val.toUpperCase()}
+	each val in sideList
+		.side.hidden.mt-top2(id='js-side-container-' + val)
+			h4.ui.dividing.header #{val.toUpperCase()} slots
+			.ui.js-btn-newgrp.tiny.labeled.icon.button(data-side=val)
+				i.users.icon
+				span New group
+			.ui.js-group-container.four.column.doubling.stackable.grid.mt-top1
+
+script#js-grp-template(type='text/template')
+	.column.js-grp-root
+		.ui.raised.segment
+			h4.ui.dividing.header
+			input.js-grp(type='text', placeholder='Group name, e.g Alpha')
+			.js-btn-rmgrp.mt-top1.ui.tiny.basic.fluid.red.icon.button
+				i.remove.icon
+				| Remove group							
+			h4.ui.dividing.header Unit roles
+			.ui.two.tiny.buttons(style='padding-bottom: 4px')
+					.js-btn-addunit.ui.basic.green.icon.button
+						i.add.user.icon
+					.or(data-text='()')
+					.js-btn-remunit.ui.basic.yellow.icon.button
+						i.remove.user.icon
+
+script#js-unit-template(type='text/template')
+	input.js-unit(type='text', placeholder='SQL, Medic, Asst AR, etc')

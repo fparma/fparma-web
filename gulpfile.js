@@ -3,6 +3,7 @@ var nodemon = require('gulp-nodemon')
 var rem = require('rimraf')
 var sourcemaps = require('gulp-sourcemaps')
 var uglify = require('gulp-uglify')
+var plumber = require('gulp-plumber')
 var browserSync = require('browser-sync')
 var buildSemantic = require('./client/semantic/tasks/build')
 var watchSemantic = require('./client/semantic/tasks/watch')
@@ -25,6 +26,7 @@ gulp.task('dev', ['build'], function (cb) {
 gulp.task('scripts', function () {
   rem('public/js/**/*', function () {
     gulp.src(['client/js/**/*.js'])
+      .pipe(plumber())
       .pipe(sourcemaps.init())
       .pipe(uglify({mangle: true}))
       .pipe(sourcemaps.write('./'))

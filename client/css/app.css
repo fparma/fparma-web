@@ -16,6 +16,18 @@ form#slots button, .button {
   margin-bottom: 0.2em !important;
 }
 
+#slots .side.hidden {
+  display: none;
+}
+
+.mt-top1 {
+  margin-top: 1em !important;
+}
+
+.mt-top2 {
+  margin-top: 2em !important;
+}
+
 nav span.title {
   font-size: 100%;
   font-weight: bold;

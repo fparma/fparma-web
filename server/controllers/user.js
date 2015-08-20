@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+
 const User = mongoose.model('User')
 
 /**
@@ -9,7 +10,6 @@ exports.findOrCreate = (profile, cb) => {
   let info = profile._json
 
   User.findOne({steam_id: id})
-  .lean()
   .exec((err, user) => {
     if (err) return cb(err)
     if (!user) {
@@ -50,9 +50,9 @@ exports.saveUsername = (id, name, cb) => {
       if (user.name) return cb(new Error('Error: You have already selected a username'))
 
       user.name = name
-      user.save((err, newUser) => {
+      user.save((err, rowsAffected) => {
         if (err) cb(err)
-        cb(null, newUser)
+        cb(null, rowsAffected)
       })
     })
   })
