@@ -7,8 +7,8 @@ const GroupSchema = new Schema({
   side: {type: String},
   units: [{
     description: String,
-    player_id: Number,
-    player_name: String
+    user_id: Number,
+    user_name: String
   }]
 })
 
