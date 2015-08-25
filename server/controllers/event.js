@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import _ from 'lodash'
 
+const ObjectId = mongoose.Types.ObjectId
 const Event = mongoose.model('Event')
 const Group = mongoose.model('Group')
 
@@ -67,10 +68,48 @@ exports.getEvent = (id, cb) => {
   .exec(cb)
 }
 
+// Finds the slot occupied by the user in an event and removes him
+function unreserveSlot (eventId, user, cb) {
+  let userId = new ObjectId(user._id)
+  let cond = {event_id: eventId, 'units.user_id': userId}
+  let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
+
+  Group.findOneAndUpdate(cond, upd, cb)
+}
+exports.unreserveSlot = unreserveSlot
+
+// Reserves a slot
+// 1) Check if the slot is already taken
+// 2) Remove whoever user that wants the slot from any
+// other group in the same event
+// 3) Reserve the slot
 exports.reserveSlot = (eventId, unitId, user, cb) => {
-  Group.findOneAndUpdate({event_id: eventId, 'units._id': unitId},)
+  unitId = new ObjectId(unitId) // so we can do .equals
+
+  let cond = {event_id: eventId, 'units._id': unitId}
+  Group.findOne(cond, (err, result) => {
+    if (err) return cb(err)
+    if (!result) return cb(new Error('Group or unit does not exist'))
+
+    let slotTaken =
+      result.units.filter(unit => (unitId.equals(unit._id) && unit.user_id)).length
+    if (slotTaken) return cb(new Error('Slot is already occupied'))
+
+    unreserveSlot(eventId, user, (err, res) => {
+      if (err) return cb(err)
+
+      let upd = {$set: {'units.$.user_id': user._id, 'units.$.user_name': user.name}}
+      Group.findOneAndUpdate(cond, upd, cb)
+    })
+  })
 }
 
-exports.unreserveSlot = (groupId, unitId, cb) => {
-  //Group.find({event})
+// Clear whoever has taken the slot (kick, for admins)
+exports.kickSlot = (eventId, unitId, cb) => {
+  eventId = new ObjectId(eventId)
+  unitId = new ObjectId(unitId)
+
+  let cond = {event_id: eventId, 'units._id': unitId}
+  let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
+  Group.findOneAndUpdate(cond, upd, cb)
 }
