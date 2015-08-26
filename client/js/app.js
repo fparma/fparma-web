@@ -128,11 +128,34 @@ $(function () {
 
   function postEvent () {
     var evt = {
-      name: $('.js-event-name'),
+      name: $('.js-event-name').val(),
       type: $('.js-event-type input :checked').val() || 'CO',
-      authors: $('.js-event-authors') || 'System'
+      authors: $('.js-event-authors').val() || 'System'
     }
+    // TODO: date
 
+    var grps = evt.groups = []
+    $('div[id^="js-side-container-"]').each(function () {
+      var $cntr = $(this)
+      var side = $cntr.find('.js-btn-newgrp').attr('data-side')
+
+      $cntr.find('.js-grp-root').each(function () {
+        var name = $(this).find('input.js-grp').val()
+        var units = []
+
+        $(this).find('input.js-unit').each(function () {
+          units.push({
+            description: $(this).val()
+          })
+        })
+
+        grps.push({
+          name: name,
+          side: side,
+          units: units
+        })
+      })
+    })
   }
 
   var pickDate = $('#create-date').pickadate({

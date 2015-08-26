@@ -3,8 +3,9 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const GroupSchema = new Schema({
-  event_id: {type: Schema.ObjectId, ref: 'Event'},
+  name: {type: String},
   side: {type: String},
+  event_id: {type: Schema.ObjectId, ref: 'Event'},
   units: [{
     description: String,
     user_id: Number,
