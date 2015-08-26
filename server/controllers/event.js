@@ -48,15 +48,17 @@ exports.create = (evt, cb) => {
     groups.forEach(grp => grp.save(err => {
       // TODO: maybe remove the event if a group failed to save?
       if (err) console.error(`Failed to save group ${grp._id}`, err)
+      // FIXME: is there any possibility this would not be true
+      // if so, callback never happens
       if (++actual >= expectedGroups) cb(null, event)
     }))
   })
 }
 
-// List events
+// List events. No groups
 exports.list = cb => {
   Event.find({})
-  .sort({'created_at': 1})
+  .sort({'created_at': -1})
   .limit(20)
   .lean
   .exec(cb)
