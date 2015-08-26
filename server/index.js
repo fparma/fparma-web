@@ -39,10 +39,7 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-  console.log(err.stack)
-  if (!err.status || err.status !== 404) console.error(err)
-  // TODO: handle this better. if user has been dropped from DB.
-  if (err.message === 'No such user') req.logout()
+  if (res.status !== 404) console.error(err, err.stack.split('\n'))
   res.render('error', {
     title: err.status === 404 ? '404 Not found' : 'Oops!',
     page: '404',

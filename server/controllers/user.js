@@ -30,7 +30,11 @@ function findBySteamId (id, cb) {
   User.findOne({steam_id: id})
   .exec((err, user) => {
     if (err) return cb(err)
-    if (!user) return cb(new Error('Error: Could not find user'))
+    if (!user) {
+      let err = new Error('Could not find user')
+      err.name = 'NonExistingUserError'
+      return cb(err)
+    }
 
     cb(null, user)
   })
@@ -43,11 +47,11 @@ exports.findBySteamId = findBySteamId
 exports.saveUsername = (id, name, cb) => {
   User.find({name: name}, (err, users) => {
     if (err) return cb(err)
-    if (users.length) return cb(new Error(`Error: Username ${name} is already taken`))
+    if (users.length) return cb(new Error(`Username ${name} is already taken`))
 
     findBySteamId(id, (err, user) => {
       if (err) return cb(err)
-      if (user.name) return cb(new Error('Error: You have already selected a username'))
+      if (user.name) return cb(new Error('You have already selected a username'))
 
       user.name = name
       user.save((err, rowsAffected) => {
