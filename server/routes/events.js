@@ -1,5 +1,9 @@
 import {Router} from 'express'
 import multer from 'multer'
+import mongoose from 'mongoose'
+// import {ensureAuthenticated, ensureAdmin} from './auth'
+
+const Event = mongoose.model('Event')
 
 const storage = multer.diskStorage({
   destination: './tmp',
@@ -43,4 +47,14 @@ router.post('/create/upload-sqm', upload, (req, res) => {
   console.log('error')
   console.log(err)
   res.json({ok: false, error: err.message})
+})
+
+router.post('/create', (req, res, next) => {
+  Event.create(req.body.event, (err, evt) => {
+    res.status(200).json({
+      ok: !!err,
+      data: err ? null : evt,
+      error: err ? err.message : null
+    })
+  })
 })

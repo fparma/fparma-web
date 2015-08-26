@@ -8,7 +8,7 @@ import {USR_REGEXP, USR_ERROR} from '../models/user'
 const router = Router()
 export default router
 
-function ensureAuthenticated (req, res, next) {
+export function ensureAuthenticated (req, res, next) {
   if (!req.isAuthenticated()) {
     let err = new Error('Sorry! You do not have permission to view this page')
     err.status = 401
@@ -16,7 +16,16 @@ function ensureAuthenticated (req, res, next) {
   }
   next()
 }
-exports.ensureAuthenticated = ensureAuthenticated
+
+export function ensureAdmin (req, res, next) {
+  if (req.isAuthenticated() && req.user.admin) {
+    return next()
+  }
+
+  let err = new Error('Not authorized')
+  err.status = 401
+  return next(err)
+}
 
 router.get('/login', (req, res) => {
   if (req.isAuthenticated()) return res.redirect('/profile')

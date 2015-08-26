@@ -75,9 +75,7 @@ $(function () {
     var rmGroup = function () {
       var rootEl = groupEl.closest('.js-grp-root')
       rootEl.find('.button').addClass('disabled')
-      setTimeout(function () {
-        deleteGroup(rootEl, side)
-      }, 200)
+      deleteGroup(rootEl, side)
     }
     groupEl.find('.js-btn-rmgrp').click(rmGroup)
 
@@ -94,15 +92,14 @@ $(function () {
 
     groupEl.find('.js-btn-rmunit').click(function (e) {
       e.preventDefault()
-      var $btn = $(this).addClass('disabled')
       var unit = groupEl.find('.js-unit').last()
+      if (!unit.length) return
+
       unit.transition('fade up', {
         onComplete: function () {
           unit.remove()
           var remaining = groupEl.find('.js-unit').length
           if (!remaining) return rmGroup()
-
-          $btn.removeClass('disabled')
           if (remaining < MAX_UNITS_IN_GRP) {
             groupEl.find('.js-btn-addunit').removeClass('disabled')
           }
@@ -129,14 +126,24 @@ $(function () {
     if (!cnt) toggleShowSide(side, true)
   }
 
-  $('#create-date').pickadate({
+  function postEvent () {
+    var evt = {
+      name: $('.js-event-name'),
+      type: $('.js-event-type input :checked').val() || 'CO',
+      authors: $('.js-event-authors') || 'System'
+    }
+
+  }
+
+  var pickDate = $('#create-date').pickadate({
     format: 'ddd dd mmm, yyyy',
     selectYears: false,
     firstDay: true,
     min: window.moment().add(1, 'hour').toDate(),
     max: window.moment().add(2, 'months').toDate()
   })
-  $('#create-time').pickatime({
+
+  var pickTime = $('#create-time').pickatime({
     format: 'HH:i',
     formatLabel: 'HH:i'
   })

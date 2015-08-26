@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500)
   if (res.status !== 404) console.error(err, err.stack.split('\n'))
   res.render('error', {
-    title: err.status === 404 ? '404 Not found' : 'Oops!',
+    title: err.status === 404 ? 'Not found' : 'Oops!',
     page: '404',
     message: err.message,
     error: IS_DEV ? err : null
@@ -56,7 +56,6 @@ var connect = function () {
 connect()
 
 mongoose.connection.on('error', console.log)
-mongoose.connection.on('disconnected', connect)
 
 mongoose.connection.once('connected', () => {
   console.log(`Mongoose connected to ${config.db_url}`)

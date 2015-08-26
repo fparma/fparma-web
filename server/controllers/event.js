@@ -10,15 +10,15 @@ const ALLOWED_SIDES = /blufor|opfor|greenfor|civilian/
 
 // Saves a new event
 exports.create = (evt, cb) => {
-  let abortErr = false
   if (!_.isObject(evt) || _.isEmpty(evt)) return cb(new Error('No data received'))
   if (!_.isArray(evt.groups) || _.isEmpty(evt.groups)) return cb(new Error('Missing groups'))
 
   let groups = evt.groups.map(grp => new Group(grp))
+  if (groups.length >= MAX_GROUPS) return cb(new Error('Too many groups'))
   delete evt.groups
 
-  // Validate groups. No validation occurs in event-group
-  if (groups.length >= MAX_GROUPS) return cb(new Error('Too many groups'))
+  let abortErr = false
+  // Validate groups. No validation occurs in the schema
   groups.some(grp => {
     if (!ALLOWED_SIDES.test(grp.side)) abortErr = new Error('Group with invalid side')
     if (!_.isArray(grp.units) || _.isEmpty(grp.units)) abortErr = new Error('Group is missing units')
@@ -46,17 +46,19 @@ exports.create = (evt, cb) => {
     let expectedGroups = groups.length
     let actual = 0
     groups.forEach(grp => grp.save(err => {
-      // TODO: maybe remove the event if a group failed to save
+      // TODO: maybe remove the event if a group failed to save?
       if (err) console.error(`Failed to save group ${grp._id}`, err)
       if (++actual >= expectedGroups) cb(null, event)
     }))
   })
 }
 
-// Finds an event with no groups populated
-exports.getEventInfo = (id, cb) => {
-  Event.findOne({_id: id})
-  .lean()
+// List events
+exports.list = cb => {
+  Event.find({})
+  .sort({'created_at': 1})
+  .limit(20)
+  .lean
   .exec(cb)
 }
 
@@ -93,7 +95,7 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
 
     let slotTaken =
       result.units.filter(unit => (unitId.equals(unit._id) && unit.user_id)).length
-    if (slotTaken) return cb(new Error('Slot is already occupied'))
+    if (slotTaken) return cb(new Error('Selected slot is already occupied'))
 
     unreserveSlot(eventId, user, (err, res) => {
       if (err) return cb(err)
@@ -106,7 +108,6 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
 
 // Clear whoever has taken the slot (kick, for admins)
 exports.kickSlot = (eventId, unitId, cb) => {
-  eventId = new ObjectId(eventId)
   unitId = new ObjectId(unitId)
 
   let cond = {event_id: eventId, 'units._id': unitId}

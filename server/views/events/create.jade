@@ -15,20 +15,22 @@ block content
 				.two.column.row
 					.field.column
 						label Event name
-						input(type='text', name='name')
-						.inline.fields
+						input.js-event-name(type='text', name='name')
+						.inline.fields.js-event-type
 							.field
-								.ui.radio.checkbox.time-local
-									input(type='radio', name='mission-type', value='CO')
-									label CO
+								.ui.radio.checkbox
+									input(type='radio', checked="" name='mission-type', value='CO')
+									label
+										b CO
 							.field
-								.ui.radio.checkbox.time-utc
+								.ui.radio.checkbox
 									input(type='radio', name='mission-type', value='TVT')
-									label TvT
+									label
+										b TvT
 				.two.column.row
 					.field.column
 						label Author(s)
-						input(type='text', name='author')
+						input.js-event-authors(type='text', name='author')
 				.four.column.row
 					.field.column
 						label Date

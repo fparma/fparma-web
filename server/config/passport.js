@@ -7,8 +7,18 @@ export const STEAM_RETURN_URL = '/auth/steam/return'
 passport.serializeUser(function (user, done) {
   done(null, user.steam_id)
 })
+
 passport.deserializeUser(function (id, done) {
-  User.findBySteamId(id, (err, user) => done(err, user))
+  User.findBySteamId(id, (err, user) => {
+    if (err) return done(err)
+    if (!user) return done(new Error('Missing user'))
+    done(null, {
+      _id: user._id,
+      name: user.name,
+      admin: user.admin,
+      steam_id: user.steam_id
+    })
+  })
 })
 
 export function init (app, config) {
