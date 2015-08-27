@@ -1,8 +1,17 @@
 (function ($) {
 
+  var UNITS_IN_NEW_GRP = 8
   var MAX_UNITS_IN_GRP = 20
   var GRP_TEMPLATE = $($('#js-grp-template').html())
   var UNIT_TEMPLATE = $($('#js-unit-template').html())
+
+  function capitalize (str) {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+
+  function getSideContainer (side) {
+    return $('#js-side-container-' + side)
+  }
 
   $('#js-slots-btn-manual').click(function () {
     $(this).addClass('disabled')
@@ -19,14 +28,6 @@
     $('#js-slots-btn-manual').removeClass('disabled')
 
   })
-
-  function capitalize (str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
-  }
-
-  function getSideContainer (side) {
-    return $('#js-side-container-' + side)
-  }
 
   // The selectable 'sides' buttons
   $('.js-btn-side').click(function () {
@@ -78,7 +79,7 @@
     var unitRoot = grpContainer.children('.segment')
     var i = 0
 
-    for (; i < 8; i++) {
+    for (; i < UNITS_IN_NEW_GRP; i++) {
       unitRoot.append(UNIT_TEMPLATE.clone())
     }
 
@@ -91,7 +92,7 @@
     .hide()
     .transition('scale')
 
-    updateUnitsInGroup(grpContainer, 8)
+    updateUnitsInGroup(grpContainer, UNITS_IN_NEW_GRP)
   }
 
   // removes a group with fade out
@@ -160,7 +161,7 @@
   function postEvent () {
     var evt = {
       name: $('.js-event-name').val(),
-      type: $('.js-event-type input :checked').val(),
+      type: $('.js-event-type input :checked').val().toUpperCase(),
       authors: $('.js-event-authors').val()
     }
     // TODO: date
@@ -202,6 +203,20 @@
       format: 'HH:i',
       formatLabel: 'HH:i'
     })
+
+    pickDate.change(updateTime)
+    pickTime.change(updateTime)
+
+    function updateTime () {
+      var d = pickDate.pickadate('get', 'select')
+      var t = pickTime.pickatime('get', 'select')
+      if (!d || !t) return
+      d.obj.setHours(t.hour)
+      d.obj.setMinutes(t.mins)
+      $('.js-time')
+        .html('Entered time in UTC: <b>' +
+          window.moment(d.obj).utc().format('YYYY-MM-DD, HH:mm') + '</b>')
+    }
   })
 
   /* Handle Upload SQM*/

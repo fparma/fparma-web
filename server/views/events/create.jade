@@ -1,56 +1,46 @@
 extends ../layout
 
 block head
-	link(href='/vendor/picker.min.css', rel='stylesheet', media='all')    
+  link(href='/vendor/picker.min.css', rel='stylesheet', media='all')    
 
 block content
-	form#js-form-upload-file(enctype='multipart/form-data'
-		| action='/events/create/upload-sqm' method='post', style='display:none')
-		input#js-input-file-sqm(name='file'
-			| type='file', accept='.sqm')
-	.ui.container
-		h1.ui.dividing.header Create new event
-		form#create.ui.form
-			.ui.two.column.stackable.grid
-				.two.column.row
-					.field.column
-						label Event name
-						input.js-event-name(type='text', name='name')
-						.inline.fields.js-event-type
-							.field
-								.ui.radio.checkbox
-									input(type='radio', checked="" name='mission-type', value='CO')
-									label
-										b CO
-							.field
-								.ui.radio.checkbox
-									input(type='radio', name='mission-type', value='TVT')
-									label
-										b TvT
-				.two.column.row
-					.field.column
-						label Author(s)
-						input.js-event-authors(type='text', name='author')
-				.four.column.row
-					.field.column
-						label Date
-						input#create-date(type='text')
-					.field.column
-						label Time (local)
-						input#create-time(type='text')
-						//
-							.inline.fields
-								.field
-									.ui.radio.checkbox
-										input(type='radio', name='user-time', value='local')
-										label Local
-								.field
-									.ui.radio.checkbox
-										input(type='radio', name='user-time', value='utc')
-										label UTC
-	include ./create-slots.jade
+  form#js-form-upload-file(enctype='multipart/form-data' action='/events/create/upload-sqm' method='post', style='display:none')
+    input#js-input-file-sqm(name='file' type='file', accept='.sqm')
+  .ui.container
+    h1.ui.dividing.header Create new event
+    form#create.ui.form
+      .ui.two.column.stackable.grid
+        .two.column.row
+          .field.column
+            label Event name
+            input.js-event-name(type='text', name='name')
+            .inline.fields.js-event-type
+              .field
+                .ui.radio.checkbox
+                  input(type='radio', checked="" name='mission-type', value='CO')
+                  label
+                    b CO
+              .field
+                .ui.radio.checkbox
+                  input(type='radio', name='mission-type', value='TVT')
+                  label
+                    b TvT
+        .two.column.row
+          .field.column
+            label Author(s)
+            input.js-event-authors(type='text', name='author')
+        .four.column.row
+          .field.column
+            label Date
+            input#create-date(type='text')
+          .field.column
+            label Time (local)
+            input#create-time(type='text')
+        .field.column(style='padding-top: 0')
+          p.js-time
+  include ./create-slots.jade
 
 block tail
-	script(src='/vendor/moment.min.js')
-	script(src='/vendor/picker.min.js')
-	script(src='/js/create.js')
+  script(src='/vendor/moment.min.js')
+  script(src='/vendor/picker.min.js')
+  script(src='/js/create.js')
