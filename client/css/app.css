@@ -20,8 +20,8 @@ form#slots button, .button {
   margin-bottom: 0.2em !important;
 }
 
-#slots .side.hidden {
-  display: none;
+.invis {
+  display: none !important;
 }
 
 .mt-top1 {
@@ -39,6 +39,10 @@ nav span.title {
 
 .message .close {
   padding-left: 0.6em;
+}
+
+.full-w {
+  width: 100%;
 }
 
 .message p.small {

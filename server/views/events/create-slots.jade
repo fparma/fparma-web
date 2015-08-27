@@ -10,23 +10,27 @@
 	button#js-slots-btn-reset.ui.reset.icon.button.red(type="button")
 		i.repeat.icon
 		span Reset all slots
-	#js-sqm-error.ui.compact.error.message.hidden
-		i.close.icon
-		p.small
+	div.full-w
+		#js-sqm-error.ui.compact.error.message.hidden
+			i.close.icon
+			p.small(style='padding-right: 1em')
 
-form#slots.ui.form.container.mt-top2
+form#slots.ui.form.container.invis.mt-top2
 	-sideList = ['blufor', 'opfor', 'greenfor', 'civilian']
+	-sideColor = {blufor: 'blue', opfor: 'red', greenfor: 'green', civilian: 'purple'}
 	h3(style="padding-top: 1.2em") Sides
 	p Select playable sides in the event
 		each val in sideList
 			.ui.small.button.js-btn-side(data-side=val) #{val.toUpperCase()}
 	each val in sideList
-		.side.hidden.mt-top2(id='js-side-container-' + val)
-			h4.ui.dividing.header #{val.toUpperCase()} slots
+		.side.invis.mt-top2(id='js-side-container-' + val)
+			h4.ui.dividing.header(class="#{sideColor[val]} text") #{val.toUpperCase()} slots
 			.ui.js-btn-newgrp.tiny.labeled.icon.button(data-side=val)
 				i.users.icon
 				span New group
 			.ui.js-group-container.four.column.doubling.stackable.grid.mt-top1
+	.mt-top2
+		#submit-btn.ui.disabled.large.primary.button Submit
 
 script#js-grp-template(type='text/template')
 	.column.js-grp-root
@@ -36,7 +40,9 @@ script#js-grp-template(type='text/template')
 			.js-btn-rmgrp.mt-top1.ui.tiny.basic.fluid.red.icon.button
 				i.remove.icon
 				| Remove group							
-			h4.ui.dividing.header Unit roles
+			h4.ui.dividing.header Units
+				span.js-unit-amount(style="padding-left: 0.2em")
+			p.small Enter roles
 			.ui.two.tiny.buttons(style='padding-bottom: 4px')
 					.js-btn-addunit.ui.basic.green.animated.fade.icon.button
 						.hidden.content +1

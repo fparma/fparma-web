@@ -25,12 +25,12 @@ gulp.task('dev', ['build'], function (cb) {
 
 gulp.task('scripts', function () {
   rem('public/js/**/*', function () {
-    gulp.src(['client/js/**/*.js'])
+    gulp.src(['./client/js/**/*.js'])
       .pipe(plumber())
       .pipe(sourcemaps.init())
       .pipe(uglify({mangle: true}))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('public/js'))
+      .pipe(gulp.dest('./public/js'))
   })
 })
 

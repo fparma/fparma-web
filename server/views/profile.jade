@@ -6,7 +6,7 @@ block content
       h1 Welcome, #{user.steam_info.personaname}
       .field
         label Select a username
-        input(type='text', name="username", placeholder="Username")
+        input(type='text', name='username', placeholder='Username')
       .ui.error.message
        ul.list
         li
@@ -15,7 +15,7 @@ block content
         | This name will be shown in events, comments etc.
       p Your steam profile is not shown
       .pad
-        button.ui.button.primary(type="submit") Submit
+        button.ui.button.primary(type='submit') Submit
         a.ui.button(href='/logout') Logout
       script.
         $(function () {
@@ -26,7 +26,7 @@ block content
                 rules: [
                   {
                     type: 'regExp[!{locals.validation.REG}]',
-                    prompt: "!{locals.validation.MSG}"
+                    prompt: '!{locals.validation.MSG}'
                   }
                 ]
               }
@@ -36,4 +36,4 @@ block content
   else
     h1 Profile
     h4 #{user.name}
-  script(src='/js/profile.js' charset="utf8")
+  script(src='/js/profile.js' charset='utf8')
