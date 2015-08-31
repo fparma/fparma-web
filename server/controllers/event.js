@@ -5,13 +5,15 @@ const ObjectId = mongoose.Types.ObjectId
 const Event = mongoose.model('Event')
 const Group = mongoose.model('Group')
 
+const MAX_UNITS_IN_GRP = 20
 const MAX_GROUPS = 40
 const ALLOWED_SIDES = /blufor|opfor|greenfor|civilian/
 
 // Saves a new event
-exports.create = (evt, cb) => {
+exports.create = (evt, userId, cb) => {
   if (!_.isObject(evt) || _.isEmpty(evt)) return cb(new Error('No data received'))
   if (!_.isArray(evt.groups) || _.isEmpty(evt.groups)) return cb(new Error('Missing groups'))
+  evt.created_by = userId
 
   let groups = evt.groups.map(grp => new Group(grp))
   if (groups.length >= MAX_GROUPS) return cb(new Error('Too many groups'))
@@ -22,6 +24,7 @@ exports.create = (evt, cb) => {
   groups.some(grp => {
     if (!ALLOWED_SIDES.test(grp.side)) abortErr = new Error('Group with invalid side')
     if (!_.isArray(grp.units) || _.isEmpty(grp.units)) abortErr = new Error('Group is missing units')
+    if (grp.units.length > MAX_UNITS_IN_GRP) abortErr = new Error('Group has too many units')
     // TODO: regexp for unit descriptions. maybe save all errors instead of overwriting
     return abortErr
   })

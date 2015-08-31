@@ -50,7 +50,7 @@ router.post('/create/upload-sqm', upload, (req, res) => {
 })
 
 router.post('/create', (req, res, next) => {
-  Event.create(req.body.event, (err, evt) => {
+  Event.create(req.body.event, req.user._id, (err, evt) => {
     res.status(200).json({
       ok: !!err,
       data: err ? null : evt,

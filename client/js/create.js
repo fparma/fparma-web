@@ -34,6 +34,12 @@
     toggleShowSide($(this).data('side'))
   })
 
+  // 'New group' button for each side
+  $('.js-btn-newgrp').click(function () {
+    var side = $(this).data('side')
+    createNewGroup(side)
+  })
+
   function removeSide (side) {
     var sideContainer = getSideContainer(side)
     $('.js-btn-side[data-side= ' + side + ']').removeClass('toggle active')
@@ -66,24 +72,19 @@
     }
   }
 
-  // 'New group' button
-  $('.js-btn-newgrp').click(function () {
-    var side = $(this).data('side')
-    createNewGroup(side)
-  })
-
   // Creates a new group and appends to container
-  function createNewGroup (side) {
+  function createNewGroup (side, amountUnits) {
     var sideContainer = getSideContainer(side)
     var grpContainer = GRP_TEMPLATE.clone()
     var unitRoot = grpContainer.children('.segment')
+    var l = amountUnits || UNITS_IN_NEW_GRP
     var i = 0
 
-    for (; i < UNITS_IN_NEW_GRP; i++) {
+    for (; i < l; i++) {
       unitRoot.append(UNIT_TEMPLATE.clone())
     }
 
-    var title = capitalize(side) + ' group '
+    var title = capitalize(side) + ' group'
     unitRoot.find('h4').first().html(title)
     addGroupClickHandlers(grpContainer, side)
 
@@ -92,7 +93,8 @@
     .hide()
     .transition('scale')
 
-    updateUnitsInGroup(grpContainer, UNITS_IN_NEW_GRP)
+    updateUnitsInGroup(grpContainer, l)
+    return grpContainer
   }
 
   // removes a group with fade out
@@ -158,18 +160,58 @@
     })
   }
 
-  function postEvent () {
+  var dateInput = (function () {
+    var pickDate = $('#create-date').pickadate({
+      format: 'ddd dd mmm, yyyy',
+      selectYears: false,
+      firstDay: true,
+      min: window.moment().add(1, 'hour').toDate(),
+      max: window.moment().add(2, 'months').toDate()
+    })
+
+    var pickTime = $('#create-time').pickatime({
+      format: 'HH:i',
+      formatLabel: 'HH:i'
+    })
+
+    pickDate.change(updateTime)
+    pickTime.change(updateTime)
+
+    function updateTime () {
+      var d = getUTCDate()
+      if (!d) return
+      $('.js-time')
+        .html('Entered time in UTC: <b>' +
+          d.format('YYYY-MM-DD, HH:mm') + '</b>')
+    }
+
+    function getUTCDate () {
+      var d = pickDate.pickadate('get', 'select')
+      var t = pickTime.pickatime('get', 'select')
+      if (!d || !t) return null
+      d.obj.setHours(t.hour)
+      d.obj.setMinutes(t.mins)
+      return window.moment(d.obj).utc()
+    }
+
+    return {
+      getUTCDate: getUTCDate
+    }
+  })()
+
+  $('#submit-btn').click(submitEvent)
+  function submitEvent () {
     var evt = {
       name: $('.js-event-name').val(),
-      type: $('.js-event-type input :checked').val().toUpperCase(),
-      authors: $('.js-event-authors').val()
+      type: $('.js-event-type input:checked').val().toUpperCase(),
+      authors: $('.js-event-authors').val(),
+      date: dateInput.getUTCDate()
     }
-    // TODO: date
 
     var grps = evt.groups = []
     $('div[id^="js-side-container-"]').each(function () {
       var $cntr = $(this)
-      var side = $cntr.find('.js-btn-newgrp').attr('data-side')
+      var side = $cntr.find('.js-btn-newgrp').attr('data-side').toLowerCase()
 
       $cntr.find('.js-grp-root').each(function () {
         var name = $(this).find('input.js-grp').val()
@@ -188,58 +230,34 @@
         })
       })
     })
+    $.post('/events/create', {
+      data: evt
+    }).success(function (response) {
+      console.log(response)
+    })
   }
 
-  $(function () {
-    var pickDate = $('#create-date').pickadate({
-      format: 'ddd dd mmm, yyyy',
-      selectYears: false,
-      firstDay: true,
-      min: window.moment().add(1, 'hour').toDate(),
-      max: window.moment().add(2, 'months').toDate()
-    })
-
-    var pickTime = $('#create-time').pickatime({
-      format: 'HH:i',
-      formatLabel: 'HH:i'
-    })
-
-    pickDate.change(updateTime)
-    pickTime.change(updateTime)
-
-    function updateTime () {
-      var d = pickDate.pickadate('get', 'select')
-      var t = pickTime.pickatime('get', 'select')
-      if (!d || !t) return
-      d.obj.setHours(t.hour)
-      d.obj.setMinutes(t.mins)
-      $('.js-time')
-        .html('Entered time in UTC: <b>' +
-          window.moment(d.obj).utc().format('YYYY-MM-DD, HH:mm') + '</b>')
-    }
-  })
+  var errorContainer = $('#js-sqm-error')
+  var printSqmError = function (msg) {
+    if (!msg) return
+    errorContainer.find('p').html(msg)
+    errorContainer.removeClass('hidden')
+  }
 
   /* Handle Upload SQM*/
   var xhr2 = !!(window.FormData && ('upload' in ($.ajaxSettings.xhr())))
   if (!xhr2) {
-    $('#js-slots-sqm').addClass('disabled')
+    $('#js-slots-btn-sqm').addClass('disabled')
+    printSqmError('Your browser does not support file upload')
   } else {
-
     var fileForm = $('#js-form-upload-file')
     var sqmFileInput = $('#js-input-file-sqm')
     var sqmUploadBtn = $('#js-slots-btn-sqm')
-    var errorContainer = $('#js-sqm-error')
 
+    // Resets the input
     var resetFileInput = function () {
-      // Resets the input
       sqmFileInput.wrap('<form>').closest('form').get(0).reset()
       sqmFileInput.unwrap()
-    }
-
-    var printSqmError = function (msg) {
-      if (!msg) return
-      errorContainer.find('p').html(msg)
-      errorContainer.removeClass('hidden')
     }
 
     sqmUploadBtn.click(function (e) {
@@ -251,7 +269,6 @@
     sqmFileInput.change(function () {
       var file = this.files[0]
       if (!file || !file.size) return
-      console.log(file.size)
       if (file.size > 3000000) {
         resetFileInput()
         return printSqmError('File exceeds limit (3mb)')
@@ -260,6 +277,7 @@
       fileForm.submit()
     })
 
+    // Submits SQM file
     fileForm.submit(function (e) {
       e.preventDefault()
       var formData = new window.FormData($(this)[0])

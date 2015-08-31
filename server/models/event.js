@@ -11,8 +11,8 @@ const EventSchema = new Schema({
   type: {type: String},
   authors: {type: String},
   date: {type: Date},
-  original_date: {type: Date},
   created_at: {type: Date, default: Date.now},
+  created_by: {type: String},
   groups: [{type: mongoose.Schema.ObjectId, ref: 'Group'}]
 })
 
