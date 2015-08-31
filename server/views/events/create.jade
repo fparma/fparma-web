@@ -12,8 +12,12 @@ block content
       .ui.two.column.stackable.grid
         .two.column.row
           .field.column
+            label Author(s)
+            input.js-event-authors(type='text', name='author' placeholder="User1, user2")
+        .two.column.row
+          .field.column
             label Event name
-            input.js-event-name(type='text', name='name')
+            input.js-event-name(type='text', name='name' placeholder="Operation FPARMA")
             .inline.fields.js-event-type
               .field
                 .ui.radio.checkbox
@@ -27,8 +31,8 @@ block content
                     b TvT
         .two.column.row
           .field.column
-            label Author(s)
-            input.js-event-authors(type='text', name='author')
+            label Event description
+            textarea(rows=6, placeholder="Briefing explaining the event")
         .four.column.row
           .field.column
             label Date
