@@ -1,39 +1,41 @@
 extend layout
 
 block content
-  if !user.name
-    form#form.ui.form(method='POST')
-      h1 Welcome, #{user.steam_info.personaname}
-      .field
-        label Select a username
-        input(type='text', name='username', placeholder='Username')
-      .ui.error.message
-       ul.list
-        li
-          span #{locals.validation.MSG}
-      p Consider using your ingame name for easier identification. 
-        | This name will be shown in events, comments etc.
-      p Your steam profile is not shown
-      .pad
-        button.ui.button.primary(type='submit') Submit
-        a.ui.button(href='/logout') Logout
-      script.
-        $(function () {
-          $('#form').form({
-            fields: {
-              username: {
-                identifier: 'username',
-                rules: [
-                  {
-                    type: 'regExp[!{locals.validation.REG}]',
-                    prompt: '!{locals.validation.MSG}'
+  .ui.container
+    .ui.segment
+      if !user.name
+        form#form.ui.form(method='POST')
+          h1 Welcome!
+          .field
+            label Select a username
+            input(type='text', name='username', placeholder='Username')
+          .ui.error.message
+           ul.list
+            li
+              span #{locals.validation.MSG}
+          p Consider using your ingame name for easier identification. 
+            | This name will be shown in events, comments etc.
+          p Your steam profile is not shown
+          .pad
+            button.ui.button.primary(type='submit') Submit
+            a.ui.button(href='/logout') Logout
+          script.
+            $(function () {
+              $('#form').form({
+                fields: {
+                  username: {
+                    identifier: 'username',
+                    rules: [
+                      {
+                        type: 'regExp[!{locals.validation.REG}]',
+                        prompt: '!{locals.validation.MSG}'
+                      }
+                    ]
                   }
-                ]
-              }
-            }
-          })
-        })
-  else
-    h1 Profile
-    h4 #{user.name}
-  script(src='/js/profile.js' charset='utf8')
+                }
+              })
+            })
+      else
+        h1 Profile
+        h4 #{user.name}
+      script(src='/js/profile.js' charset='utf8')
