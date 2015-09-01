@@ -1,58 +1,65 @@
-.ui.container.mt-top2
-	h2.ui.dividing.header Slots
-	p Choose how you wish to input slots
-	button#js-slots-btn-sqm.ui.icon.blue.button(type="button")
-		i.cloud.upload.icon
-		span Upload SQM
-	button#js-slots-btn-manual.ui.icon.blue.button(type="button")
-		i.write.icon
-		span Manually
-	button#js-slots-btn-reset.ui.reset.icon.button.red(type="button")
-		i.repeat.icon
-		span Reset all slots
-	div.full-w
-		#js-sqm-error.ui.compact.error.message.hidden
-			i.close.icon
-			p.small(style='padding-right: 1em')
+#slots-container.segment
 
-form#slots.ui.form.container.invis.mt-top2
-	-sideList = ['blufor', 'opfor', 'greenfor', 'civilian']
-	-sideColor = {blufor: 'blue', opfor: 'red', greenfor: 'green', civilian: 'purple'}
-	h3(style="padding-top: 1.2em") Sides
-	p Select playable sides in the event
-		each val in sideList
-			.ui.small.button.js-btn-side(data-side=val) #{val.toUpperCase()}
-	each val in sideList
-		.side.invis.mt-top2(id='js-side-container-' + val)
-			h4.ui.dividing.header(class="#{sideColor[val]} text") #{val.toUpperCase()} slots
-			.ui.js-btn-newgrp.tiny.labeled.icon.button(data-side=val)
-				i.users.icon
-				span New group
-			.ui.js-group-container.four.column.doubling.stackable.grid.mt-top1
-	.mt-top2
-		#submit-btn.ui.disabled.large.primary.button Submit
+  #js-back-step.ui.secondary.icon.button
+    i.icon.step.backward
+    span Back to event description
+  p Going back will not delete any slots
+
+  .ui.container.mt-top2
+    h2.ui.dividing.header Slots
+    p Choose how you wish to input slots
+    button#js-slots-btn-sqm.ui.icon.blue.button(type="button")
+      i.cloud.upload.icon
+      span Upload SQM
+    button#js-slots-btn-manual.ui.icon.blue.button(type="button")
+      i.write.icon
+      span Manually
+    button#js-slots-btn-reset.ui.reset.icon.button.red(type="button")
+      i.repeat.icon
+      span Reset all slots
+    div.full-w
+      #js-sqm-error.ui.compact.error.message.hidden
+        i.close.icon
+        p.small(style='padding-right: 1em')
+
+  form#slots.ui.form.container.invis.mt-top2
+    -sideList = ['blufor', 'opfor', 'greenfor', 'civilian']
+    -sideColor = {blufor: 'blue', opfor: 'red', greenfor: 'green', civilian: 'purple'}
+    h3(style="padding-top: 1.2em") Sides
+    p Select playable sides in the event
+      each val in sideList
+        .ui.small.button.js-btn-side(data-side=val) #{val.toUpperCase()}
+    each val in sideList
+      .side.invis.mt-top2(id='js-side-container-' + val)
+        h4.ui.dividing.header(class="#{sideColor[val]} text") #{val.toUpperCase()} slots
+        .ui.js-btn-newgrp.tiny.labeled.icon.button(data-side=val)
+          i.users.icon
+          span New group
+        .ui.js-group-container.four.column.doubling.stackable.grid.mt-top1
+    .mt-top2
+      #submit-btn.ui.disabled.large.primary.submit.button Submit
 
 script#js-grp-template(type='text/template')
-	.column.js-grp-root
-		.ui.raised.segment
-			h4.ui.dividing.header
-			input.js-grp(type='text', placeholder='Group name, e.g Alpha')
-			.js-btn-rmgrp.mt-top1.ui.tiny.basic.fluid.red.icon.button
-				i.remove.icon
-				| Remove group							
-			h4.ui.dividing.header Units
-				span.js-unit-amount(style="padding-left: 0.2em")
-			p.small Enter roles
-			.ui.two.tiny.buttons(style='padding-bottom: 4px')
-					.js-btn-addunit.ui.basic.green.animated.fade.icon.button
-						.hidden.content +1
-						.visible.content
-							i.add.user.icon
-					.or(data-text='()')
-					.js-btn-rmunit.ui.basic.yellow.animated.fade.icon.button
-						.hidden.content -1
-						.visible.content
-							i.remove.user.icon
+  .column.js-grp-root
+    .ui.raised.segment
+      h4.ui.dividing.header
+      input.js-grp(type='text', placeholder='Group name, e.g Alpha')
+      .js-btn-rmgrp.mt-top1.ui.tiny.basic.fluid.red.icon.button
+        i.remove.icon
+        | Remove group							
+      h4.ui.dividing.header Units
+        span.js-unit-amount(style="padding-left: 0.2em")
+      p.small Enter roles
+      .ui.two.tiny.buttons(style='padding-bottom: 4px')
+          .js-btn-addunit.ui.basic.green.animated.fade.icon.button
+            .hidden.content +1
+            .visible.content
+              i.add.user.icon
+          .or(data-text='()')
+          .js-btn-rmunit.ui.basic.yellow.animated.fade.icon.button
+            .hidden.content -1
+            .visible.content
+              i.remove.user.icon
 
 script#js-unit-template(type='text/template')
-	input.js-unit(type='text', placeholder='SQL, Medic, Asst AR, etc')
+  input.js-unit(type='text', placeholder='SQL, Medic, Asst AR, etc')

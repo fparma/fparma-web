@@ -1,4 +1,55 @@
 (function ($) {
+  $('#slots-container').hide()
+  $('#js-back-step').click(function () {
+    $('#slots-container').hide()
+    $('#create').fadeIn()
+  })
+
+  $('#create').form({
+    fields: {
+      author: {
+        identifier: 'author',
+        optional: true,
+        rules: [{
+          type: 'maxLength[24]',
+          prompt: 'Authors cannot contain more than 24 characters'
+        }]
+      },
+      name: {
+        identifier: 'name',
+        rules: [{
+          type: 'empty',
+          prompt: 'Event name cannot be empty'
+        }, {
+          type: 'maxLength[48]',
+          prompt: 'Event name cannot contain more than 48 characters'
+        }, {
+          type: 'minLength[4]',
+          prompt: 'Event name must contain more than 3 characters'
+        }]
+      },
+      description: {
+        identifier: 'description',
+        rules: [{
+          type: 'empty',
+          prompt: 'Description cannot be empty'
+        }, {
+          type: 'maxLength[4096]',
+          prompt: 'Description cannot contain more than 4096 characters'
+        }, {
+          type: 'minLength[25]',
+          prompt: 'Description must contain more than 24 characters'
+        }]
+      }
+    },
+    onSuccess: function (e) {
+      $(this).hide()
+      $('#slots-container').fadeIn()
+      window.scrollTo(0, 0)
+      e.preventDefault()
+      return false
+    }
+  })
 
   var UNITS_IN_NEW_GRP = 8
   var MAX_UNITS_IN_GRP = 20

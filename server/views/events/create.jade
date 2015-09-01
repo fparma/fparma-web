@@ -8,7 +8,7 @@ block content
     input#js-input-file-sqm(name='file' type='file', accept='.sqm')
   .ui.container
     h1.ui.dividing.header Create new event
-    form#create.ui.form
+    form#create.ui.form.segment
       .ui.two.column.stackable.grid
         .two.column.row
           .field.column
@@ -32,7 +32,7 @@ block content
         .two.column.row
           .field.column
             label Event description
-            textarea(rows=6, placeholder="Briefing explaining the event")
+            textarea(rows=6, name='description' placeholder="Briefing explaining the event")
         .four.column.row
           .field.column
             label Date
@@ -42,7 +42,11 @@ block content
             input#create-time(type='text')
         .field.column(style='padding-top: 0')
           p.js-time
-  include ./create-slots.jade
+      #js-create-next.ui.secondary.submit.icon.button
+        i.icon.step.forward
+        span Next
+      .ui.error.message
+    include ./create-slots.jade
 
 block tail
   script(src='/vendor/moment.min.js')
