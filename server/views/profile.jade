@@ -1,8 +1,7 @@
 extend layout
 
 block content
-  .ui.container
-    .ui.segment
+  .ui.container.segment
       if !user.name
         form#form.ui.form(method='POST')
           h1 Welcome!
