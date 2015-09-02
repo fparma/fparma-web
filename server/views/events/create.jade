@@ -6,47 +6,21 @@ block head
 block content
   form#js-form-upload-file(enctype='multipart/form-data' action='/events/create/upload-sqm' method='post', style='display:none')
     input#js-input-file-sqm(name='file' type='file', accept='.sqm')
-  .ui.container
+  
+  script.
+    $(function() {$('.menu .item').tab()})
+  form#create.ui.form.container
     h1.ui.dividing.header Create new event
-    form#create.ui.form.segment
-      .ui.two.column.stackable.grid
-        .two.column.row
-          .field.column
-            label Author(s)
-            input.js-event-authors(type='text', name='author' placeholder="User1, user2")
-        .two.column.row
-          .field.column
-            label Event name
-            input.js-event-name(type='text', name='name' placeholder="Operation FPARMA")
-            .inline.fields.js-event-type
-              .field
-                .ui.radio.checkbox
-                  input(type='radio', checked="" name='mission-type', value='CO')
-                  label
-                    b CO
-              .field
-                .ui.radio.checkbox
-                  input(type='radio', name='mission-type', value='TVT')
-                  label
-                    b TvT
-        .two.column.row
-          .field.column
-            label Event description
-            textarea(rows=6, name='description' placeholder="Briefing explaining the event")
-        .four.column.row
-          .field.column
-            label Date
-            input#create-date(type='text')
-          .field.column
-            label Time (local)
-            input#create-time(type='text')
-        .field.column(style='padding-top: 0')
-          p.js-time
-      #js-create-next.ui.secondary.submit.icon.button
-        i.icon.step.forward
-        span Next
-      .ui.error.message
-    include ./create-slots.jade
+    .ui.top.attached.tabular.menu
+      a.active.item(data-tab='first') Description
+      a.item(data-tab='second') Slots
+      a.item(data-tab='third') Review / Submit
+    .ui.bottom.attached.active.tab.segment(data-tab='first')
+      include ./create-description.jade
+    .ui.bottom.attached.tab.segment(data-tab='second')
+      include ./create-slots.jade
+    .ui.bottom.attached.tab.segment(data-tab='third')
+      include ./create-review.jade
 
 block tail
   script(src='/vendor/moment.min.js')
