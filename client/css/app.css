@@ -6,17 +6,13 @@
   padding-top: 2rem;
 }
 
-form#create .inline.fields {
+#create .inline.fields {
   padding-left: 0.1em;
   padding-top: 0.4em;
   margin-bottom: 0;
 }
 
-form#slots {
-  margin-bottom: 6em;
-}
-
-form#slots button, .button {
+#slots button, .button {
   margin-bottom: 0.2em !important;
 }
 

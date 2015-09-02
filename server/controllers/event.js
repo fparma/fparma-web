@@ -23,8 +23,8 @@ exports.create = (evt, userId, cb) => {
   // Validate groups. No validation occurs in the schema
   groups.some(grp => {
     if (!ALLOWED_SIDES.test(grp.side)) abortErr = new Error('Group with invalid side')
-    if (!_.isArray(grp.units) || _.isEmpty(grp.units)) abortErr = new Error('Group is missing units')
-    if (grp.units.length > MAX_UNITS_IN_GRP) abortErr = new Error('Group has too many units')
+    if (!_.isArray(grp.units) || _.isEmpty(grp.units)) abortErr = new Error(`${grp.side} group is missing units`)
+    if (grp.units.length > MAX_UNITS_IN_GRP) abortErr = new Error(`${grp.side} group has too many units`)
     // TODO: regexp for unit descriptions. maybe save all errors instead of overwriting
     return abortErr
   })

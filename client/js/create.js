@@ -1,11 +1,8 @@
 (function ($) {
-  $('#slots-container').hide()
-  $('#js-back-step').click(function () {
-    $('#slots-container').hide()
-    $('#create').fadeIn()
-  })
 
-  $('#create').form({
+  var formCreate = $('#create')
+
+  formCreate.form({
     fields: {
       author: {
         identifier: 'author',
@@ -43,11 +40,8 @@
       }
     },
     onSuccess: function (e) {
-      $(this).hide()
-      $('#slots-container').fadeIn()
-      window.scrollTo(0, 0)
       e.preventDefault()
-      return false
+      submitEvent()
     }
   })
 
@@ -55,6 +49,12 @@
   var MAX_UNITS_IN_GRP = 20
   var GRP_TEMPLATE = $($('#js-grp-template').html())
   var UNIT_TEMPLATE = $($('#js-unit-template').html())
+  var SLOT_SIDES = ['blufor', 'opfor', 'greenfor', 'civilian']
+
+  var btnManual = $('#js-slots-btn-manual')
+  var btnSqm = $('#js-slots-btn-sqm')
+  var slotsContainer = $('#slots')
+  slotsContainer.hide().removeClass('invis')
 
   function capitalize (str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
@@ -64,19 +64,19 @@
     return $('#js-side-container-' + side)
   }
 
-  $('#js-slots-btn-manual').click(function () {
-    $(this).addClass('disabled')
-    $('#js-slots-btn-sqm').addClass('disabled')
-    $('#slots').removeClass('invis')
+  btnManual.click(function () {
+    btnManual.addClass('disabled')
+    btnSqm.addClass('disabled')
+    slotsContainer.fadeIn()
   })
 
   $('#js-slots-btn-reset').click(function () {
-    $.each(['blufor', 'opfor', 'greenfor', 'civilian'], function (i, side) {
+    $.each(SLOT_SIDES, function (i, side) {
       removeSide(side)
     })
-    $('#slots').addClass('invis')
-    $('#js-slots-btn-sqm').removeClass('disabled')
-    $('#js-slots-btn-manual').removeClass('disabled')
+    slotsContainer.fadeOut()
+    btnSqm.removeClass('disabled')
+    btnManual.removeClass('disabled')
 
   })
 
@@ -231,7 +231,7 @@
     function updateTime () {
       var d = getUTCDate()
       if (!d) return
-      $('.js-time')
+      $('#js-time')
         .html('Entered time in UTC: <b>' +
           d.format('YYYY-MM-DD, HH:mm') + '</b>')
     }
@@ -250,7 +250,6 @@
     }
   })()
 
-  $('#submit-btn').click(submitEvent)
   function submitEvent () {
     var evt = {
       name: $('.js-event-name').val(),
@@ -260,11 +259,9 @@
     }
 
     var grps = evt.groups = []
-    $('div[id^="js-side-container-"]').each(function () {
-      var $cntr = $(this)
-      var side = $cntr.find('.js-btn-newgrp').attr('data-side').toLowerCase()
-
-      $cntr.find('.js-grp-root').each(function () {
+    $(SLOT_SIDES).each(function (i, side) {
+      getSideContainer(side)
+      .find('.js-grp-root').each(function () {
         var name = $(this).find('input.js-grp').val()
         var units = []
 
@@ -288,11 +285,11 @@
     })
   }
 
-  var errorContainer = $('#js-sqm-error')
+  var sqmErrorContainer = $('#js-sqm-error')
   var printSqmError = function (msg) {
     if (!msg) return
-    errorContainer.find('p').html(msg)
-    errorContainer.removeClass('hidden')
+    sqmErrorContainer.find('p').html(msg)
+    sqmErrorContainer.fadeIn()
   }
 
   /* Handle Upload SQM*/
@@ -313,14 +310,14 @@
 
     sqmUploadBtn.click(function (e) {
       e.preventDefault()
-      errorContainer.addClass('hidden')
+      sqmErrorContainer.fadeOut()
       sqmFileInput.click()
     })
 
     sqmFileInput.change(function () {
       var file = this.files[0]
       if (!file || !file.size) return
-      if (file.size > 3000000) {
+      if (file.size > (1024 * 1024 * 3)) {
         resetFileInput()
         return printSqmError('File exceeds limit (3mb)')
       }

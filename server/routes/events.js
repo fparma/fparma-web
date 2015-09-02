@@ -1,11 +1,15 @@
 import {Router} from 'express'
 import multer from 'multer'
 import mongoose from 'mongoose'
+import {readFile, unlink} from 'fs'
+import sqmParser from '../utils/sqm-parser'
+
 // import {ensureAuthenticated, ensureAdmin} from './auth'
 
 const Event = mongoose.model('Event')
 
 const storage = multer.diskStorage({
+  // use computer temp folder
   destination: './tmp',
   filename: (req, file, cb) => cb(null, `${Date.now()}${Math.random(100)}.sqm`)
 })
@@ -38,14 +42,20 @@ router.get('/create', (req, res) => {
   res.render('events/create.jade', {title: 'Create event', page: 'events'})
 })
 
-// TODO: handle deleted /tmp folder
-router.post('/create/upload-sqm', upload, (req, res) => {
-  console.log('success')
-  console.log(req.file)
-  res.json({ok: true, data: null})
+// TODO: handle deleted /tmp folder?
+router.post('/create/upload-sqm', upload, (req, res, next) => {
+  // FIXME: multer doesn't give an error for filesize atm
+  if (!req.file) return next(new Error('Upload failed'))
+  readFile(req.file.path, 'utf8', (err, data) => {
+    unlink(req.file.path)
+    if (err) return next(err)
+    sqmParser(data, (err, parsed) => {
+      if (err) return next(err)
+      res.json({ok: true, data: parsed})
+    })
+  })
 }, (err, req, res, next) => {
-  console.log('error')
-  console.log(err)
+  console.error(err)
   res.json({ok: false, error: err.message})
 })
 
