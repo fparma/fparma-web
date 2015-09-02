@@ -10,6 +10,7 @@ var watchSemantic = require('./client/semantic/tasks/watch')
 
 var BROWSER_SYNC_RELOAD_DELAY = 500
 
+gulp.task('post-install', ['build-semantic', 'build'])
 gulp.task('build', ['scripts', 'css'])
 gulp.task('build-semantic', buildSemantic)
 gulp.task('watch-semantic', watchSemantic)
