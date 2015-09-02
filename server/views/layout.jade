@@ -22,9 +22,6 @@ html(lang='en')
           p This site requires JavaScript enabled to function properly
     #wrapper
       block content
-  if IS_DEV
-    script(src='/semantic/semantic.js' charset="utf8")
-  else
     script(src='/semantic/semantic.min.js' charset="utf8")
 block tail
 script(src='https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js')

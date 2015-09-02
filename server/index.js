@@ -49,15 +49,14 @@ app.use((err, req, res, next) => {
 })
 
 // Connect to mongodb
-var connect = function () {
-  var options = { server: { socketOptions: { keepAlive: 1 } } }
-  mongoose.connect(config.db_url, options)
-}
-connect()
+let mOpt = { server: { socketOptions: { keepAlive: 1 } } }
+mongoose.connect(config.db_url, mOpt)
 
 mongoose.connection.on('error', console.log)
 
 mongoose.connection.once('connected', () => {
   console.log(`Mongoose connected to ${config.db_url}`)
-  app.listen(config.port, () => console.log(`Server listening on ${config.port} (dev: ${IS_DEV})`))
+  app.listen(config.port, () => {
+    console.log(`Server listening on ${config.port} (dev: ${IS_DEV})`)
+  })
 })

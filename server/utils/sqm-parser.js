@@ -3,17 +3,17 @@
 import armaClassParser from 'arma-class-parser'
 import _ from 'lodash'
 
-const ALLOWED_SIDES = ['WEST', 'EAST', 'GUER', 'CIV']
-const PLAYABLE_TYPES = ['PLAY CDG', 'PLAYER COMMANDER']
 const SIDE_TRANSLATE_MAP = {
   WEST: 'blufor',
   EAST: 'opfor',
   GUER: 'greenfor',
   CIV: 'civilian'
 }
+const ALLOWED_SIDES = _.keys(SIDE_TRANSLATE_MAP)
+const PLAYABLE_TYPES = ['PLAY CDG', 'PLAYER COMMANDER']
 
-let isAllowedSide = str => _.includes(ALLOWED_SIDES, (str || '').toUpperCase())
-let isUnitPlayable = str => _.includes(PLAYABLE_TYPES, (str || '').toUpperCase())
+let isAllowedSide = str => _.includes(ALLOWED_SIDES, (str + '').toUpperCase())
+let isUnitPlayable = str => _.includes(PLAYABLE_TYPES, (str + '').toUpperCase())
 let translateSide = str => SIDE_TRANSLATE_MAP[(str + '').toUpperCase()] || null
 let parseGroupName = str => {
   str = str + ''
@@ -31,7 +31,9 @@ let parseGroupName = str => {
 }
 
 export default function (sqmFileString, callback) {
-  if (!_.isString(sqmFileString)) return callback(new Error('Expected SQM file as string'))
+  if (!_.isString(sqmFileString)) {
+    return callback(new Error('Expected SQM file as string'))
+  }
   if (!_.isFunction(callback)) return callback(new Error('Missing callback'))
   let ret = []
   let parsed
@@ -43,22 +45,27 @@ export default function (sqmFileString, callback) {
   }
 
   // empty sqm?
-  if (!parsed.Mission || !parsed.Mission.Groups) return callback(new Error('Could not find any groups in SQM file'))
+  if (!parsed.Mission || !parsed.Mission.Groups) {
+    return callback(new Error('Could not find any groups in SQM file'))
+  }
+
   process.nextTick(() => {
     _.forOwn(parsed.Mission.Groups, val => {
       if (_.isEmpty(val.Vehicles) || !isAllowedSide(val.side)) return
 
       let grp = {units: []}
       _.forOwn(val.Vehicles, unit => {
-        if (_.isEmpty(unit) || !isAllowedSide(unit.side) || !isUnitPlayable(unit.player)) return
+        if (_.isEmpty(unit) ||
+          !isAllowedSide(unit.side) ||
+          !isUnitPlayable(unit.player)) return
 
         if (unit.leader) {
-          grp.side = translateSide(_.escape(unit.side))
+          grp.side = translateSide(unit.side)
           grp.name = _.escape(parseGroupName(unit.init) || '')
         }
 
         grp.units.push({
-          description: _.escape(unit.description || '').trim()
+          description: _.escape(unit.description).trim()
         })
       })
 

@@ -82,7 +82,9 @@
 
   // The selectable 'sides' buttons
   $('.js-btn-side').click(function () {
-    toggleShowSide($(this).data('side'))
+    var side = $(this).data('side')
+    toggleShowSide(side)
+    createNewGroup(side)
   })
 
   // 'New group' button for each side
@@ -109,18 +111,12 @@
     }
 
     if (sideContainer.hasClass('invis')) {
-      createNewGroup(side)
       sideContainer.removeClass('invis')
     } else {
       sideContainer.children('.js-group-container').empty()
       sideContainer.addClass('invis')
     }
     $('.js-btn-side[data-side=' + side + ']').toggleClass('toggle active')
-    if ($('.js-btn-side.active').length > 0) {
-      $('#submit-btn').removeClass('disabled')
-    } else {
-      $('#submit-btn').addClass('disabled')
-    }
   }
 
   // Creates a new group and appends to container
@@ -139,8 +135,7 @@
     unitRoot.find('h4').first().html(title)
     addGroupClickHandlers(grpContainer, side)
 
-    grpContainer
-    .appendTo(sideContainer.find('.js-group-container'))
+    grpContainer.appendTo(sideContainer.find('.js-group-container'))
     .hide()
     .transition('scale')
 
@@ -325,6 +320,32 @@
       fileForm.submit()
     })
 
+    var handleParsedSqmGroups = function (reply) {
+      btnSqm.removeClass('disabled')
+      if (!reply.ok) return printSqmError(reply.error)
+      if (!reply.data.length) return printSqmError('No groups found')
+      btnManual.addClass('disabled')
+      btnSqm.addClass('disabled')
+
+      var sides = []
+      $.each(reply.data, function (i, grp) {
+        if (!~sides.indexOf(grp.side)) sides.push(grp.side)
+        var grpCntr = createNewGroup(grp.side, grp.units.length)
+        grpCntr.find('.js-grp').val(grp.name)
+
+        var units = grpCntr.find('.js-unit')
+        $.each(grp.units, function (i, unit) {
+          $(units.get(0)).val(unit.description)
+          units.splice(0, 1)
+        })
+      })
+
+      $.each(sides, function (i, side) {
+        toggleShowSide(side)
+      })
+      slotsContainer.fadeIn()
+    }
+
     // Submits SQM file
     fileForm.submit(function (e) {
       e.preventDefault()
@@ -337,12 +358,11 @@
         cache: false,
         contentType: false,
         processData: false
-      }).success(function (reply) {
-        if (!reply.ok) return printSqmError(reply.error)
-        console.log(reply.data)
-      }).always(function () {
+      })
+      .success(handleParsedSqmGroups)
+      .always(function () {
         resetFileInput()
-        sqmUploadBtn.removeClass('disabled loading')
+        sqmUploadBtn.removeClass('loading')
       })
       return false
     })
