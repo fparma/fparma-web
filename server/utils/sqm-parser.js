@@ -22,7 +22,8 @@ let parseGroupName = str => {
   let match = str.substr(str.toLowerCase().lastIndexOf('setgroupid'))
   if (match) {
     // semicolon could be missing if last command
-    match = match.substr(match.indexOf('[') + 1, (match.indexOf(';') || match.length))
+    let semi = match.indexOf(';')
+    match = match.substr(match.indexOf('[') + 1, (semi !== -1 ? semi : match.length))
     match = match.substr(0, match.lastIndexOf(']'))
     ret = match.replace(/['"]+/g, '')
   }
@@ -46,7 +47,7 @@ export default function (sqmFileString, callback) {
 
   // empty sqm?
   if (!parsed.Mission || !parsed.Mission.Groups) {
-    return callback(new Error('Could not find any groups in SQM file'))
+    return callback(new Error('Could not find any groups'))
   }
 
   process.nextTick(() => {
@@ -55,14 +56,14 @@ export default function (sqmFileString, callback) {
 
       let grp = {units: []}
       _.forOwn(val.Vehicles, unit => {
-        if (_.isEmpty(unit) ||
-          !isAllowedSide(unit.side) ||
-          !isUnitPlayable(unit.player)) return
+        if (_.isEmpty(unit) || !isAllowedSide(unit.side)) return
 
         if (unit.leader) {
           grp.side = translateSide(unit.side)
           grp.name = _.escape(parseGroupName(unit.init) || '')
         }
+
+        if (!isUnitPlayable(unit.player)) return
 
         grp.units.push({
           description: _.escape(unit.description).trim()
@@ -74,8 +75,9 @@ export default function (sqmFileString, callback) {
           let grpNameReg = new RegExp(grp.name, 'i')
           grp.units.forEach(unit => {
             let orig = unit.description
-            if (orig.toLowerCase().indexOf(grp.name.toLowerCase()) === 0) {
+            if (!orig.toLowerCase().indexOf(grp.name.toLowerCase())) {
               let desc = orig.replace(grpNameReg, '').trim()
+              // OR orig because we don't want to replace unit desc if it's only the grpname e.g actual
               unit.description = desc || orig
             }
           })

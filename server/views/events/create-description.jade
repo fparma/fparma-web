@@ -3,21 +3,22 @@
     .field.column
       label Event name
       input.js-event-name(type='text', name='name' placeholder="Operation FPARMA" autofocus)
-      .inline.fields.js-event-type
-        .field
-          .ui.radio.checkbox
-            input(type='radio', checked="" name='type', value='CO')
-            label
-              b CO
-        .field
-          .ui.radio.checkbox
-            input(type='radio', name='type', value='TVT')
-            label
-              b TvT
-  .two.column.row
+  .event-type.column
+    .inline.fields.js-event-type
+      .field
+        .ui.radio.checkbox
+          input(type='radio', checked="" name='type', value='CO')
+          label
+            b CO
+      .field
+        .ui.radio.checkbox
+          input(type='radio', name='type', value='TVT')
+          label
+            b TvT
+  .one.column.row
     .field.column
       label Event description
-      textarea(rows=6, name='description' placeholder="Info on the event")
+      textarea#js-description(rows=6, name='description' placeholder="Info on the event")
   .two.column.row
     .field.column
       label Author(s)

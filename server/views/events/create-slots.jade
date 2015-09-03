@@ -5,7 +5,7 @@ h4.ui.header Choose how you wish to input slots
   span Upload SQM
 #js-slots-btn-manual.ui.icon.blue.button
   span Manually
-#js-slots-btn-reset.ui.reset.icon.button.red
+#js-slots-btn-reset.ui.icon.button.red
   i.repeat.icon
   span Reset
 #js-sqm-error.ui.compact.error.message
@@ -29,10 +29,10 @@ h4.ui.header Choose how you wish to input slots
 
 script#js-grp-template(type='text/template')
   .column.js-grp-root
-    .ui.raised.segment
+    .grp-segment.ui.raised.segment
       h4.ui.dividing.header
-      input.js-grp(type='text', name="grp-name" placeholder='Group name, e.g Alpha')
-      .js-btn-rmgrp.mt-top1.ui.tiny.basic.fluid.red.icon.button
+      input.js-grp(type='text', data-validate="grpName" placeholder='Group name, e.g Alpha')
+      .js-btn-rmgrp.mt-top1.ui.compact.tiny.basic.fluid.red.icon.button
         i.remove.icon
         | Remove group							
       h4.ui.dividing.header Units
@@ -50,4 +50,4 @@ script#js-grp-template(type='text/template')
               i.remove.user.icon
 
 script#js-unit-template(type='text/template')
-  input.js-unit(type='text', name='grp-unit' placeholder='SQL, Medic, Asst AR, etc')
+    input.js-unit(type='text', data-validate='grpUnit' placeholder='SQL, Medic, Asst AR, etc')

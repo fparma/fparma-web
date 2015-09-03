@@ -5,9 +5,7 @@ const ObjectId = mongoose.Types.ObjectId
 const Event = mongoose.model('Event')
 const Group = mongoose.model('Group')
 
-const MAX_UNITS_IN_GRP = 20
 const MAX_GROUPS = 40
-const ALLOWED_SIDES = /blufor|opfor|greenfor|civilian/
 
 // Saves a new event
 exports.create = (evt, userId, cb) => {
@@ -15,46 +13,45 @@ exports.create = (evt, userId, cb) => {
   if (!_.isArray(evt.groups) || _.isEmpty(evt.groups)) return cb(new Error('Missing groups'))
   evt.created_by = userId
 
+  if (evt.groups.length > MAX_GROUPS) return cb(new Error('Too many groups'))
   let groups = evt.groups.map(grp => new Group(grp))
-  if (groups.length >= MAX_GROUPS) return cb(new Error('Too many groups'))
   delete evt.groups
 
-  let abortErr = false
-  // Validate groups. No validation occurs in the schema
-  groups.some(grp => {
-    if (!ALLOWED_SIDES.test(grp.side)) abortErr = new Error('Group with invalid side')
-    if (!_.isArray(grp.units) || _.isEmpty(grp.units)) abortErr = new Error(`${grp.side} group is missing units`)
-    if (grp.units.length > MAX_UNITS_IN_GRP) abortErr = new Error(`${grp.side} group has too many units`)
-    // TODO: regexp for unit descriptions. maybe save all errors instead of overwriting
-    return abortErr
-  })
+  let expectedGroups = groups.length
+  let actual = 0
 
-  if (abortErr) return cb(abortErr)
-
-  let event = new Event(evt)
-
-  // Save all groups ids on the event and the event id on the groups
-  // for .populate to work
+  let abort
   groups.forEach(grp => {
-    grp.event_id = event._id
-    event.groups.push(grp._id)
-  })
+    grp.validate(e => {
+      if (abort) return
+      if (e) {
+        abort = true
+        return cb(e)
+      }
+      if (!(++actual >= expectedGroups)) return
+      actual = 0
+      let event = new Event(evt)
+      // Save all groups ids on the event and the event id on the groups
+      // for .populate to work
+      groups.forEach(grp => {
+        grp.event_id = event._id
+        event.groups.push(grp._id)
+      })
 
-  event.save(err => {
-    if (err) {
-      groups.forEach(grp => grp.remove())
-      return cb(err)
-    }
-
-    let expectedGroups = groups.length
-    let actual = 0
-    groups.forEach(grp => grp.save(err => {
-      // TODO: maybe remove the event if a group failed to save?
-      if (err) console.error(`Failed to save group ${grp._id}`, err)
-      // FIXME: is there any possibility this would not be true
-      // if so, callback never happens
-      if (++actual >= expectedGroups) cb(null, event)
-    }))
+      event.save(err => {
+        if (err) {
+          groups.forEach(grp => grp.remove())
+          return cb(err)
+        }
+        groups.forEach(grp => grp.save(err => {
+          // TODO: maybe remove the event if a group failed to save?
+          if (err) console.error(`Failed to save group ${grp._id}`, err)
+          // FIXME: is there any possibility this would not be true
+          // if so, callback never happens
+          if (++actual >= expectedGroups) cb(null, event)
+        }))
+      })
+    })
   })
 }
 

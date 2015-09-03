@@ -7,6 +7,12 @@ var plumber = require('gulp-plumber')
 var browserSync = require('browser-sync')
 var buildSemantic = require('./client/semantic/tasks/build')
 var watchSemantic = require('./client/semantic/tasks/watch')
+var config
+try {
+  config = require('./config.json')
+} catch (e) {
+  config = require('./config.example.json')
+}
 
 var BROWSER_SYNC_RELOAD_DELAY = 500
 
@@ -47,7 +53,7 @@ gulp.task('css', function () {
 gulp.task('browsersync', ['nodemon'], function () {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
-    proxy: 'http://localhost:8080',
+    proxy: 'http://localhost:' + config.port + '',
     port: 3000,
     notify: false
   })

@@ -1,7 +1,6 @@
 (function ($) {
 
   var formCreate = $('#create')
-
   formCreate.form({
     fields: {
       author: {
@@ -42,6 +41,20 @@
     onSuccess: function (e) {
       e.preventDefault()
       submitEvent()
+    },
+    selector: {
+      message: '#js-create-errors'
+    }
+  })
+
+
+  $('#slots').on('keyup', '.js-unit, .js-grp', function () {
+    var $this = $(this)
+    var val = $this.val()
+    if (val.length < 2 || val.length > 12) {
+      $this.addClass('error')
+    }else {
+      $this.removeClass('error')
     }
   })
 
@@ -53,6 +66,7 @@
 
   var btnManual = $('#js-slots-btn-manual')
   var btnSqm = $('#js-slots-btn-sqm')
+  var btnSubmit = $('#submit-btn')
   var slotsContainer = $('#slots')
   slotsContainer.hide().removeClass('invis')
 
@@ -248,10 +262,13 @@
   function submitEvent () {
     var evt = {
       name: $('.js-event-name').val(),
-      type: $('.js-event-type input:checked').val().toUpperCase(),
+      type: $('.js-event-type input:checked').val().toLowerCase(),
       authors: $('.js-event-authors').val(),
-      date: dateInput.getUTCDate()
+      description: $('#js-description').val()
     }
+
+    var d = dateInput.getUTCDate()
+    if (d) evt.date = d.toISOString()
 
     var grps = evt.groups = []
     $(SLOT_SIDES).each(function (i, side) {
@@ -273,10 +290,27 @@
         })
       })
     })
-    $.post('/events/create', {
-      data: evt
-    }).success(function (response) {
+
+    btnSubmit.addClass('disabled loading')
+    $.ajax({
+      url: '/events/create',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(evt)
+    })
+    .success(function (response) {
       console.log(response)
+      if (!response.ok) {
+        var cntr = $('#js-create-errors').html('').append('<ul class="list">')
+        $.each(response.error, function (i, err) {
+          cntr.append($('<li>' + err + '</li>'))
+        })
+        cntr.append('</ul>').fadeIn()
+      }else {
+        console.log(response.data)
+      }
+    }).always(function () {
+      btnSubmit.removeClass('loading disabled')
     })
   }
 

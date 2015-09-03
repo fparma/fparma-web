@@ -1,28 +1,80 @@
 /* The Schema for Events. References group model */
 import mongoose from 'mongoose'
+import moment from 'moment'
 import slug from 'slug'
 
 const Schema = mongoose.Schema
+let mkMsg = (str, i, isMin) => `${str} must have at ${isMin ? 'least' : 'most'} ${i} characters`
 
 const EventSchema = new Schema({
-  name: {type: String},
-  description: {type: String},
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: [4, mkMsg('Name', 4, true)],
+    maxlength: [48, mkMsg('Name', 48, false)]
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: [24, mkMsg('Description', 24, true)],
+    maxlength: [4096, mkMsg('Description', 4096, false)]
+  },
+  type: {
+    type: String,
+    trim: true,
+    required: true,
+    lowercase: true,
+    enum: {
+      values: ['co', 'tvt'],
+      message: 'Type must be CO or TVT'
+    }
+  },
+  authors: {
+    type: String,
+    default: 'System',
+    trim: true,
+    maxlength: [24, mkMsg('Authors', 24, false)]
+  },
   permalink: String,
-  type: {type: String},
-  authors: {type: String},
-  date: {type: Date},
+  date: {type: Date, required: true},
   created_at: {type: Date, default: Date.now},
-  created_by: {type: String},
+  created_by: String,
   groups: [{type: mongoose.Schema.ObjectId, ref: 'Group'}]
 })
 
-EventSchema.pre('save', next => {
+EventSchema.path('groups').validate(v => v && v.length && v.length <= 40, 'Event groups must be at least 1 and max 40')
+
+EventSchema.path('date').set(v => {
+  let d = moment.utc(v ? v : moment.utc())
+  let m = d.minutes()
+  d.minutes((m >= 15 && m <= 45) ? 30 : 0)
+  return d.seconds(0).milliseconds(0)
+})
+
+let dateError = 'Date must be 2 hours ahead and max 2 months in the future'
+EventSchema.path('date').validate(v => {
+  let time = moment.utc().add(2, 'hours')
+  if (v < time) return false
+  if (v > time.subtract(2, 'hours').add(2, 'months')) return false
+  return true
+}, dateError)
+
+EventSchema.pre('save', function (next) {
   if (this.permalink) return next()
 
-  // FIXME: what do when permalink exists
-  this.permalink = slug(`${this.type} - ${this.name}`, {
+  let permalink = slug(`${this.type} - ${this.name}`, {
     symbols: false,
     lower: true
+  })
+
+  mongoose.model('Event').findOne({permalink: permalink}, (err, res) => {
+    if (err) return next(err)
+    if (res) return next(new Error('Event name is taken'))
+
+    this.permalink = permalink
+    return next()
   })
 })
 
