@@ -4,6 +4,7 @@
 
 #steam-img {
   padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 #create {
@@ -11,21 +12,18 @@
 }
 
 #create .event-type {
-  
-}
-
-#create .inline.fields {
-  padding-left: 0.1em;
-  padding-top: 0.4em;
-  margin-bottom: 0;
+  padding-top: 0 !important;
 }
 
 #slots button, .button {
   margin-bottom: 0.2em !important;
 }
 
-input.error {
-  background-color: antiquewhite !important;
+#slots input.js-unit {
+  margin-bottom: 1px;
+}
+#slots input.error {
+  border-color: red;
 }
 
 #slots .grp-segment {

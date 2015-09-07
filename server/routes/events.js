@@ -4,13 +4,24 @@ import {readFile, unlink} from 'fs'
 import sqmParser from '../utils/sqm-parser'
 import errHelper from '../utils/error-helper'
 import Event from '../controllers/event'
+import moment from 'moment'
 // import {ensureAuthenticated, ensureAdmin} from './auth'
 
 const router = Router()
 export default router
 
-router.get('/', (req, res) => {
-  res.render('events/list.jade', {page: 'events', title: 'Events', events: {upcoming: [], completed: []}})
+router.get('/', (req, res, next) => {
+  Event.list((err, events) => {
+    if (err) return next(err)
+    let now = moment()
+    let upc = events.filter(v => v.date > now)
+    let cmp = events.filter(v => v.date < now)
+    res.render('events/list.jade', {
+      page: 'events',
+      title: 'Events',
+      events: {upcoming: upc, completed: cmp}
+    })
+  })
 })
 
 router.get('/event/:permalink', (req, res) => {
@@ -23,11 +34,10 @@ router.get('/create', (req, res) => {
 
 router.post('/create', (req, res, next) => {
   Event.create(req.body, 'cuel', (err, evt) => {
-    console.dir(err)
     res.status(200).json({
       ok: !err,
-      data: err ? null : evt,
-      error: err ? errHelper(err) : null
+      data: err ? null : evt.permalink,
+      error: err ? errHelper(err, true) : null
     })
   })
 })

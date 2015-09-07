@@ -8,7 +8,7 @@ const messages = {
   'enum': '%s not an allowed value.'
 }
 
-export default function helper (err) {
+export default function helper (err, makeUnique) {
   if (err.name !== 'ValidationError') return [err.message]
   let errors = []
 
@@ -23,5 +23,5 @@ export default function helper (err) {
     else errors.push(_.capitalize(util.format(messages[eObj.kind], eObj.path)))
   })
 
-  return errors
+  return makeUnique ? _.uniq(errors) : errors
 }

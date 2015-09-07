@@ -1,10 +1,11 @@
-/* global $ */
-$(function () {
-  window.addEventListener('load', function () {
-    window.FastClick(document.body)
-  }, false)
+(function ($) {
+
+  $(window).load(function () {
+    window.FastClick(window.document.body)
+  })
 
   $('.message .close').on('click', function () {
     $(this).closest('.message').transition('fade')
   })
-})
+
+})(window.jQuery)

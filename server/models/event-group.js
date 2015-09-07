@@ -2,15 +2,17 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-const sides = ['blufor', 'opfor', 'greenfor', 'civilian']
-let mkMsg = (str, i, isMin) => `${str} must have at ${isMin ? 'least' : 'most'} ${i} characters`
+const SIDES = ['blufor', 'opfor', 'greenfor', 'civilian']
+const MIN = 2
+const MAX = 24
+let mkMsg = (str, isMin) => `${str} can have at ${isMin ? 'least' : 'most'} ${isMin ? MIN : MAX} characters`
 
 const GroupSchema = new Schema({
-  name: {type: String, trim: true, minlength: [2, mkMsg('A group name', 2, true)], maxlength: [12, mkMsg('A group name', 2)]},
-  side: {type: String, trim: true, enum: {values: sides, message: 'Invalid side for group: `{VALUE}`'}},
+  name: {type: String, trim: true, minlength: [MIN, mkMsg('A group name', true)], maxlength: [MAX, mkMsg('A group name')]},
+  side: {type: String, trim: true, enum: {values: SIDES, message: 'Invalid side for group: `{VALUE}`'}},
   event_id: {type: Schema.ObjectId, ref: 'Event'},
   units: [{
-    description: {type: String, trim: true, minlength: [2, mkMsg('A unit description', 2, true)], maxlength: [12, mkMsg('A unit description', 12)]},
+    description: {type: String, trim: true, minlength: [MIN, mkMsg('A unit description', true)], maxlength: [MAX, mkMsg('A unit description')]},
     user_id: Number,
     user_name: String
   }]

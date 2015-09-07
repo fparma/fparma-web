@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import moment from 'moment'
 import _ from 'lodash'
 
 const ObjectId = mongoose.Types.ObjectId
@@ -29,7 +30,8 @@ exports.create = (evt, userId, cb) => {
         return cb(e)
       }
       if (!(++actual >= expectedGroups)) return
-      actual = 0
+
+      if (!evt.authors) evt.authors = null
       let event = new Event(evt)
       // Save all groups ids on the event and the event id on the groups
       // for .populate to work
@@ -43,6 +45,8 @@ exports.create = (evt, userId, cb) => {
           groups.forEach(grp => grp.remove())
           return cb(err)
         }
+
+        actual = 0
         groups.forEach(grp => grp.save(err => {
           // TODO: maybe remove the event if a group failed to save?
           if (err) console.error(`Failed to save group ${grp._id}`, err)
@@ -58,10 +62,15 @@ exports.create = (evt, userId, cb) => {
 // List events. No groups
 exports.list = cb => {
   Event.find({})
-  .sort({'created_at': -1})
+  .sort({'date': -1})
   .limit(20)
-  .lean
-  .exec(cb)
+  .lean()
+  .exec((err, res) => {
+    if (err) return cb(err)
+    _.isArray(res) && res.forEach(v => v.displayDate = moment.utc(v.date).format('YYYY-MMM-DD, HH:mm'))
+
+    cb(null, res)
+  })
 }
 
 // Finds an event and populates all the groups

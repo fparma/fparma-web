@@ -47,17 +47,10 @@
     }
   })
 
-
-  $('#slots').on('keyup', '.js-unit, .js-grp', function () {
-    var $this = $(this)
-    var val = $this.val()
-    if (val.length < 2 || val.length > 12) {
-      $this.addClass('error')
-    }else {
-      $this.removeClass('error')
-    }
-  })
-
+  var SLOTS_INP = {
+    MIN: 2,
+    MAX: 24
+  }
   var UNITS_IN_NEW_GRP = 8
   var MAX_UNITS_IN_GRP = 20
   var GRP_TEMPLATE = $($('#js-grp-template').html())
@@ -77,6 +70,17 @@
   function getSideContainer (side) {
     return $('#js-side-container-' + side)
   }
+
+  // Mark slots inputs in red if invalid
+  $('#slots').on('blur, keyup', '.js-unit, .js-grp', function () {
+    var $this = $(this)
+    var val = $this.val()
+    if (val.length < SLOTS_INP.MIN || val.length > SLOTS_INP.MAX) {
+      $this.addClass('error')
+    }else {
+      $this.removeClass('error')
+    }
+  })
 
   btnManual.click(function () {
     btnManual.addClass('disabled')
@@ -299,7 +303,6 @@
       data: JSON.stringify(evt)
     })
     .success(function (response) {
-      console.log(response)
       if (!response.ok) {
         var cntr = $('#js-create-errors').html('').append('<ul class="list">')
         $.each(response.error, function (i, err) {
@@ -365,11 +368,20 @@
       $.each(reply.data, function (i, grp) {
         if (!~sides.indexOf(grp.side)) sides.push(grp.side)
         var grpCntr = createNewGroup(grp.side, grp.units.length)
-        grpCntr.find('.js-grp').val(grp.name)
+        var grpInp = grpCntr.find('.js-grp')
+        grpInp.val(grp.name)
+        if (grp.name.length < SLOTS_INP.MIN || grp.name.length > SLOTS_INP.MAX) {
+          grpInp.addClass('error')
+        }
 
         var units = grpCntr.find('.js-unit')
         $.each(grp.units, function (i, unit) {
-          $(units.get(0)).val(unit.description)
+          var inp = $(units.get(0))
+          inp.val(unit.description)
+          if (unit.description.length < SLOTS_INP.MIN ||
+              unit.description.length > SLOTS_INP.MAX) {
+            inp.addClass('error')
+          }
           units.splice(0, 1)
         })
       })

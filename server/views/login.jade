@@ -3,9 +3,10 @@ extends layout
 block content
   .ui.container.segment
     h1.pad Login or register
-    p This site uses Steam to authenticate you, click below to sign in.
-    p If this is your first time signing up,
-      | you may select a username which will be your displayname after logging in on steam.
+    p This site uses Steam OAuth to authenticate you.
+    p If this is your first time logging in,
+      | you'll have to select a username which will be your displayname.
+    p Click the steam button below to login.
     .ui.grid.centered
       a.pad(href='/auth/steam')
-        img#steam-img(src='/img/sign-in-steam.png')
+        img#steam-img(src='/img/sign-in-steam.png' alt='Login')

@@ -3,23 +3,32 @@ extends ../layout
 mixin mkevent(evt)
   .item
     .content
-      a.header(href='/event/' + evt.permalink) (#{evt.type}) #{evt.name}
-      p by #{evt.author}
-      .description= moment(evt.date).utc().calendar() + ' (UTC)'
-
+      a.header(href='/event/' + evt.permalink) #{evt.type.toUpperCase()} #{evt.name}
+      p by #{evt.authors}
+      .js-events-date(data-orig-date=evt.date)= evt.displayDate
 block content
-  button.ui.button
-    a(href='/events/create') Create
-  if events.upcoming.length
-    h1.pad Upcoming events
-    each event in events.upcoming
-      .ui.relaxed.divided.list.segment.small
-        +mkevent(event)
-  else
-    h1.pad No upcoming events
-  
-  if events.completed.length
-    h1.pad Previous events
-    each event in events.completed
-      .ui.relaxed.divided.list.segment.small
-        +mkevent(event)
+  .ui.container.segment
+    a.ui.primary.button(href='/events/create')
+      span Create new event
+    if (events.upcoming.length || events.completed.length)
+      .ui.list
+        .item 
+          b Show dates in
+        .item
+          select#js-event-dates.ui.dropdown
+            option(value='utc') UTC
+            option(value='local') Local
+            option(value='from_now') From now
+    if events.upcoming.length
+      h1.pad Upcoming events
+      each event in events.upcoming
+        .ui.relaxed.divided.list.segment.small
+          +mkevent(event)
+    else
+      h1.pad No upcoming events
+    
+    if events.completed.length
+      h1.pad Previous events
+      each event in events.completed
+        .ui.relaxed.divided.list.segment.small
+          +mkevent(event)
