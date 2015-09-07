@@ -64,7 +64,7 @@ exports.list = cb => {
   .exec(cb)
 }
 
-// Finds the entire event and populates all the groups
+// Finds an event and populates all the groups
 exports.getEvent = (id, cb) => {
   Event.findOne({_id: id})
   .populate('groups')
