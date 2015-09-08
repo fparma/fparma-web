@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .ui.container.segment
+    .ui.list
+      h1.item= evt.name
+      span.item Type: #{evt.type.toUpperCase()}
+      span.item Available slots: #{slots.total - slots.taken + ' / ' + slots.total}
+      span.item Time: #{time + ' (UTC)'}
+    .ui.raised.segment.mt-top2
+      h4 Event description
+      span= evt.description
+
+    h2 Slots
+    -list=['blufor', 'greenfor', 'opfor', 'civilian']
+    -sideColor = {blufor: 'blue', opfor: 'red', greenfor: 'green', civilian: 'purple'}
+    each side in list
+      -grps = evt.groups.filter(function (v) {return v.side === side})
+      if (grps.length)
+        h3.ui.dividing.header.mt-top2(
+          class="#{sideColor[side]} text") #{side.toUpperCase() + ' groups'}
+        .mt-top1.ui.three.column.doubling.stackable.grid.container
+          each grp in grps
+            .column
+              .ui.raised.segment
+                h4.ui.dividing.header=grp.name
+                .ui.relaxed.divided.list
+                  each unit in grp.units
+                    .item
+                      if (unit.user_name)
+                        i.middle.aligned.grey.user.icon
+                        .content
+                          .header=unit.description
+                          .description #{'- ' + unit.user_name}
+                      else
+
+                        i.middle.aligned.green.add.user.icon.link
+                        .content
+                          .header=unit.description

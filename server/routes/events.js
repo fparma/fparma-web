@@ -24,8 +24,28 @@ router.get('/', (req, res, next) => {
   })
 })
 
-router.get('/event/:permalink', (req, res) => {
-  res.redirect('/events')
+router.get('/event/:permalink', (req, res, next) => {
+  Event.findOne(req.params.permalink, (err, event) => {
+    if (err) return next(err)
+
+    let slots = {
+      total: event.groups.map(v => {
+        return v.units.length
+      }).reduce((a, b) => {return a + b}),
+      taken: event.groups.map(v => {
+        return v.units.filter(v => {
+          if (v.user_name) return true
+        }).length
+      }).reduce((a, b) => {return a + b})
+    }
+    console.log(slots)
+    res.render('events/event.jade', {
+      evt: event,
+      slots,
+      time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm'),
+      eventCompleted: moment.utc() > moment.utc(event.date)
+    })
+  })
 })
 
 router.get('/create', (req, res) => {

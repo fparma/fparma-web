@@ -170,15 +170,11 @@
       allowRepeats: false,
       onComplete: function () {
         rootEl.remove()
-        checkRemainingGroups(side)
+        if (!getSideContainer(side).find('.js-grp-root').length) {
+          removeSide(side)
+        }
       }
     })
-  }
-
-  // side gets hidden if no remaining groups
-  function checkRemainingGroups (side) {
-    var cnt = getSideContainer(side).find('.js-grp-root').length
-    if (!cnt) removeSide(side)
   }
 
   function updateUnitsInGroup (groupEl, amount) {

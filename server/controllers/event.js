@@ -72,8 +72,8 @@ exports.list = cb => {
 }
 
 // Finds an event and populates all the groups
-exports.getEvent = (id, cb) => {
-  Event.findOne({_id: id})
+exports.findOne = (permalink, cb) => {
+  Event.findOne({permalink: permalink})
   .populate('groups')
   .lean()
   .exec(cb)

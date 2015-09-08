@@ -55,6 +55,7 @@ EventSchema.path('date').set(v => {
 
 let dateError = 'Date must be 2 hours ahead and max 2 months in the future'
 EventSchema.path('date').validate(v => {
+  if (!moment.utc(v).isValid) return false
   let time = moment.utc().add(2, 'hours')
   if (v < time) return false
   if (v > time.subtract(2, 'hours').add(2, 'months')) return false
