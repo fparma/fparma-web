@@ -31,7 +31,7 @@ exports.create = (evt, userId, cb) => {
       }
       if (!(++actual >= expectedGroups)) return
 
-      if (!evt.authors) evt.authors = null
+      if (!evt.authors) delete evt.authors
       let event = new Event(evt)
       // Save all groups ids on the event and the event id on the groups
       // for .populate to work
@@ -48,10 +48,8 @@ exports.create = (evt, userId, cb) => {
 
         actual = 0
         groups.forEach(grp => grp.save(err => {
-          // TODO: maybe remove the event if a group failed to save?
+          // TODO: just continue if a group failed to save?
           if (err) console.error(`Failed to save group ${grp._id}`, err)
-          // FIXME: is there any possibility this would not be true
-          // if so, callback never happens
           if (++actual >= expectedGroups) cb(null, event)
         }))
       })
@@ -62,7 +60,7 @@ exports.create = (evt, userId, cb) => {
 // List events. No groups
 exports.list = cb => {
   Event.find({})
-  .sort({'date': -1})
+  .sort({'date': 1})
   .limit(20)
   .lean()
   .exec((err, res) => {
