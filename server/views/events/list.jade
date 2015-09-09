@@ -9,18 +9,15 @@ mixin mkevent(evt)
 
 block content
   .ui.container.segment
-    a.ui.primary.button(href='/events/create')
-      span Create new event
+    a.ui.primary.button(href='/events/create') Create new event
     if (events.upcoming.length || events.completed.length)
       .full-w.mt-top1
-        .ui.compact.menu
-          .ui.simple.dropdown.item
-            | Show dates in
-            i.dropdown.icon
-            #js-date-select.menu
-              .item.active(data-value='utc') UTC
-              .item(data-value='local') Local
-              .item(data-value='from_now') From now
+        p
+          b Show dates as
+        select#js-date-select.ui.drop.dropdown
+          option(value='utc' selected='') UTC
+          option(value='local') Local
+          option(value='from_now') From now
       if events.upcoming.length
       h1 Upcoming events
       each event in events.upcoming

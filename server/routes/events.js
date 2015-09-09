@@ -31,22 +31,24 @@ router.get('/event/:permalink', (req, res, next) => {
     let slots = {
       total: event.groups.map(v => {
         return v.units.length
-      }).reduce((a, b) => {return a + b}),
+      }).reduce((a, b) => { return a + b }),
       taken: event.groups.map(v => {
         return v.units.filter(v => {
           if (v.user_name) return true
         }).length
-      }).reduce((a, b) => {return a + b})
+      }).reduce((a, b) => { return a + b })
     }
-    console.log(slots)
+
     res.render('events/event.jade', {
-      evt: event,
+      event,
       slots,
       time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm'),
       eventCompleted: moment.utc() > moment.utc(event.date)
     })
   })
 })
+
+router.post('/sign-up')
 
 router.get('/create', (req, res) => {
   res.render('events/create.jade', {title: 'Create event', page: 'events'})

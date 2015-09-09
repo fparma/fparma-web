@@ -75,7 +75,6 @@ exports.list = cb => {
 exports.findOne = (permalink, cb) => {
   Event.findOne({permalink: permalink})
   .populate('groups')
-  .lean()
   .exec(cb)
 }
 
