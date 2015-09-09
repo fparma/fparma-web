@@ -80,7 +80,13 @@ exports.findOne = (permalink, cb) => {
 
 // Finds the slot occupied by the user in an event and removes him
 function unreserveSlot (eventId, user, cb) {
-  let userId = new ObjectId(user._id)
+  let userId
+  try {
+    userId = new ObjectId(user._id)
+  } catch (e) {
+    return cb(new Error('Invalid unit ID'))
+  }
+
   let cond = {event_id: eventId, 'units.user_id': userId}
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
 
@@ -94,8 +100,12 @@ exports.unreserveSlot = unreserveSlot
 // other group in the same event
 // 3) Reserve the slot
 exports.reserveSlot = (eventId, unitId, user, cb) => {
-  unitId = new ObjectId(unitId) // so we can do .equals
-
+  // so we can do .equals
+  try {
+    unitId = new ObjectId(unitId)
+  } catch (e) {
+    return cb(new Error('Invalid unit ID'))
+  }
   let cond = {event_id: eventId, 'units._id': unitId}
   Group.findOne(cond, (err, result) => {
     if (err) return cb(err)
@@ -107,16 +117,28 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
 
     unreserveSlot(eventId, user, (err, res) => {
       if (err) return cb(err)
+      let removed
+      if (res) removed = res.units.filter(v => v.user_name === user.name)[0]
 
       let upd = {$set: {'units.$.user_id': user._id, 'units.$.user_name': user.name}}
-      Group.findOneAndUpdate(cond, upd, cb)
+      Group.findOneAndUpdate(cond, upd, {new: true}, (err, newDoc) => {
+        if (err) return cb(err)
+        cb(null, {
+          taken: newDoc.units.filter(v => v.user_name === user.name)[0],
+          removed
+        })
+      })
     })
   })
 }
 
 // Clear whoever has taken the slot (kick, for admins)
 exports.kickSlot = (eventId, unitId, cb) => {
-  unitId = new ObjectId(unitId)
+  try {
+    unitId = new ObjectId(unitId)
+  } catch (e) {
+    return cb(new Error('Invalid unit ID'))
+  }
 
   let cond = {event_id: eventId, 'units._id': unitId}
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}

@@ -13,7 +13,7 @@ const GroupSchema = new Schema({
   event_id: {type: Schema.ObjectId, ref: 'Event'},
   units: [{
     description: {type: String, trim: true, minlength: [MIN, mkMsg('A unit description', true)], maxlength: [MAX, mkMsg('A unit description')]},
-    user_id: Number,
+    user_id: String,
     user_name: String
   }]
 })

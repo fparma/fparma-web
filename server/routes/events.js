@@ -38,7 +38,7 @@ router.get('/event/:permalink', (req, res, next) => {
         }).length
       }).reduce((a, b) => { return a + b })
     }
-
+    console.log(event);
     res.render('events/event.jade', {
       event,
       slots,
@@ -48,7 +48,18 @@ router.get('/event/:permalink', (req, res, next) => {
   })
 })
 
-router.post('/sign-up')
+router.post('/take-slot', (req, res) => {
+  let body = req.body || {}
+  var user = {
+    name: 'Cuel',
+    _id: '55e4c91274a5bbf5e8f3f770'
+  }
+
+  Event.reserveSlot(body.eventId, body.slotId, user, (err, data) => {
+    if (err) return res.json({ok: false, error: err.message})
+    res.json({ok: true, data})
+  })
+})
 
 router.get('/create', (req, res) => {
   res.render('events/create.jade', {title: 'Create event', page: 'events'})
