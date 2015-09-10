@@ -31,7 +31,7 @@
     }
 
     $.ajax({
-      url: '/events/take-slot',
+      url: '/events/slot-assign',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(data)

@@ -87,7 +87,7 @@ function unreserveSlot (eventId, user, cb) {
     return cb(new Error('Invalid unit ID'))
   }
 
-  let cond = {event_id: eventId, 'units.user_id': userId}
+  let cond = {event_id: eventId, 'units.$.user_id': userId}
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
 
   Group.findOneAndUpdate(cond, upd, cb)

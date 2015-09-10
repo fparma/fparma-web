@@ -13,7 +13,7 @@ export default router
 router.get('/', (req, res, next) => {
   Event.list((err, events) => {
     if (err) return next(err)
-    let now = moment()
+    let now = moment.utc()
     let upc = events.filter(v => v.date > now)
     let cmp = events.filter(v => v.date < now)
     res.render('events/list.jade', {
@@ -38,17 +38,18 @@ router.get('/event/:permalink', (req, res, next) => {
         }).length
       }).reduce((a, b) => { return a + b })
     }
-    console.log(event);
+
     res.render('events/event.jade', {
       event,
       slots,
+      userId: '55e4c91274a5bbf5e8f3f770',
       time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm'),
       eventCompleted: moment.utc() > moment.utc(event.date)
     })
   })
 })
 
-router.post('/take-slot', (req, res) => {
+router.post('/slot-assign', (req, res) => {
   let body = req.body || {}
   var user = {
     name: 'Cuel',
@@ -58,6 +59,19 @@ router.post('/take-slot', (req, res) => {
   Event.reserveSlot(body.eventId, body.slotId, user, (err, data) => {
     if (err) return res.json({ok: false, error: err.message})
     res.json({ok: true, data})
+  })
+})
+
+router.post('/slot-unassign', (req, res) => {
+  let eventId = (req.body || {}).eventId
+  var user = {
+    name: 'Cuel',
+    _id: '55e4c91274a5bbf5e8f3f770'
+  }
+
+  Event.unreserveSlot(eventId, user, (err, data) => {
+    if (err) return res.json({ok: false, error: err.message})
+    res.json({ok: true, data: !!data})
   })
 })
 
