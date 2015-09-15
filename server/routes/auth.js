@@ -18,7 +18,7 @@ export function ensureAuthenticated (req, res, next) {
 }
 
 export function ensureAdmin (req, res, next) {
-  if (req.isAuthenticated() && req.user.admin) {
+  if (req.isAuthenticated() && req.user.admin === true) {
     return next()
   }
 

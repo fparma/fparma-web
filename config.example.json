@@ -1,6 +1,6 @@
 {
   "_comment": "Rename this file to config.json and change the settings.",
-  "db_url": "mongodb://localhost/fparma-test",
+  "db_url": "mongodb://localhost/fparma",
   "port": 8080,
   "session_secret": "keyboard cat",
   "steam" : {

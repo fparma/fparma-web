@@ -36,8 +36,8 @@ exports.create = (evt, userId, cb) => {
       // Save all groups ids on the event and the event id on the groups
       // for .populate to work
       groups.forEach(grp => {
-        grp.event_id = event._id
-        event.groups.push(grp._id)
+        grp.event_id = event.id
+        event.groups.push(grp.id)
       })
 
       event.save(err => {
@@ -80,14 +80,8 @@ exports.findOne = (permalink, cb) => {
 
 // Finds the slot occupied by the user in an event and removes him
 function unreserveSlot (eventId, user, cb) {
-  let userId
-  try {
-    userId = new ObjectId(user._id)
-  } catch (e) {
-    return cb(new Error('Invalid unit ID'))
-  }
 
-  let cond = {event_id: eventId, 'units.$.user_id': userId}
+  let cond = {event_id: eventId, 'units.$.user_id': user.steam_id}
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
 
   Group.findOneAndUpdate(cond, upd, cb)
@@ -106,6 +100,7 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
   } catch (e) {
     return cb(new Error('Invalid unit ID'))
   }
+
   let cond = {event_id: eventId, 'units._id': unitId}
   Group.findOne(cond, (err, result) => {
     if (err) return cb(err)
@@ -116,11 +111,12 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
     if (slotTaken) return cb(new Error('Selected slot is already occupied'))
 
     unreserveSlot(eventId, user, (err, res) => {
+      console.log(res);
       if (err) return cb(err)
       let removed
       if (res) removed = res.units.filter(v => v.user_name === user.name)[0]
 
-      let upd = {$set: {'units.$.user_id': user._id, 'units.$.user_name': user.name}}
+      let upd = {$set: {'units.$.user_id': user.steam_id, 'units.$.user_name': user.name}}
       Group.findOneAndUpdate(cond, upd, {new: true}, (err, newDoc) => {
         if (err) return cb(err)
         cb(null, {

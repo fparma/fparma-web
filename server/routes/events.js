@@ -5,7 +5,7 @@ import sqmParser from '../utils/sqm-parser'
 import errHelper from '../utils/error-helper'
 import Event from '../controllers/event'
 import moment from 'moment'
-// import {ensureAuthenticated, ensureAdmin} from './auth'
+import {ensureAuthenticated, ensureAdmin} from './auth'
 
 const router = Router()
 export default router
@@ -24,9 +24,10 @@ router.get('/', (req, res, next) => {
   })
 })
 
-router.get('/event/:permalink', (req, res, next) => {
+router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
   Event.findOne(req.params.permalink, (err, event) => {
     if (err) return next(err)
+    if (!event) return next()
 
     let slots = {
       total: event.groups.map(v => {
@@ -42,45 +43,37 @@ router.get('/event/:permalink', (req, res, next) => {
     res.render('events/event.jade', {
       event,
       slots,
-      userId: '55e4c91274a5bbf5e8f3f770',
+      userId: req.user.id,
       time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm'),
       eventCompleted: moment.utc() > moment.utc(event.date)
     })
   })
 })
 
-router.post('/slot-assign', (req, res) => {
+router.post('/slot-assign', ensureAuthenticated, (req, res) => {
   let body = req.body || {}
-  var user = {
-    name: 'Cuel',
-    _id: '55e4c91274a5bbf5e8f3f770'
-  }
 
-  Event.reserveSlot(body.eventId, body.slotId, user, (err, data) => {
+  Event.reserveSlot(body.eventId, body.slotId, req.user, (err, data) => {
     if (err) return res.json({ok: false, error: err.message})
     res.json({ok: true, data})
   })
 })
 
-router.post('/slot-unassign', (req, res) => {
+router.post('/slot-unassign', ensureAuthenticated, (req, res) => {
   let eventId = (req.body || {}).eventId
-  var user = {
-    name: 'Cuel',
-    _id: '55e4c91274a5bbf5e8f3f770'
-  }
 
-  Event.unreserveSlot(eventId, user, (err, data) => {
+  Event.unreserveSlot(eventId, req.user, (err, data) => {
     if (err) return res.json({ok: false, error: err.message})
     res.json({ok: true, data: !!data})
   })
 })
 
-router.get('/create', (req, res) => {
+router.get('/create', ensureAdmin, (req, res) => {
   res.render('events/create.jade', {title: 'Create event', page: 'events'})
 })
 
-router.post('/create', (req, res, next) => {
-  Event.create(req.body, 'cuel', (err, evt) => {
+router.post('/create', ensureAdmin, (req, res, next) => {
+  Event.create(req.body, req.user.steam_id, (err, evt) => {
     res.status(200).json({
       ok: !err,
       data: err ? null : evt.permalink,

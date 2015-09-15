@@ -301,15 +301,18 @@
     .success(function (response) {
       if (!response.ok) {
         var cntr = $('#js-create-errors').html('').append('<ul class="list">')
-        $.each(response.error, function (i, err) {
-          cntr.append($('<li>' + err + '</li>'))
-        })
+        if ($.isArray(response.error)) {
+          $.each(response.error, function (i, err) {
+            cntr.append($('<li>' + err + '</li>'))
+          })
+        } else {
+          cntr.append($('<li>' + response.error + '</li>'))
+        }
         cntr.append('</ul>').fadeIn()
+        btnSubmit.removeClass('loading disabled')
       }else {
-        console.log(response.data)
+        window.location.replace(window.location.origin + '/events/event/' + response.data)
       }
-    }).always(function () {
-      btnSubmit.removeClass('loading disabled')
     })
   }
 

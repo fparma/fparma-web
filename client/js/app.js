@@ -21,10 +21,12 @@
     })
   })
 
+  var isBusy
   $('#js-event-slots').on('click', '.js-claim-slot', function () {
+    if (isBusy) return
+    isBusy = true
     var $this = $(this)
-    if ($this.hasClass('is-busy')) return
-    $this.removeClass('add green user').addClass('is-busy notched circle loading')
+    $this.removeClass('add green user').addClass('notched circle loading')
     var data = {
       eventId: $('#js-event-id').val(),
       slotId: $this.attr('data-id')
@@ -43,11 +45,10 @@
         .next('.content').append(msg)
         setTimeout(function () {
           msg.remove()
-          $this.removeClass('is-busy')
         }, 3000)
         return
       }
-
+      /*
       var data = response.data
       if (data.removed) {
         $('.js-taken-slot[data-id="' + data.removed._id + '"]')
@@ -63,9 +64,10 @@
         .addClass('js-taken-slot grey user')
         .next('.content')
         .append($('<div class="description">' + data.taken.user_name + '</div>'))
-      }
+      }*/
     })
     .always(function () {
+      isBusy = false
       $this.removeClass('notched circle loading')
     })
 

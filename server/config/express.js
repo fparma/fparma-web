@@ -1,11 +1,15 @@
 import express from 'express'
+import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import logger from 'morgan'
 import favicon from 'serve-favicon'
 import compression from 'compression'
 import bodyParser from 'body-parser'
+import MongoStore from 'connect-mongo'
 import {join} from 'path'
+
+const SessionStore = MongoStore(session)
 
 export function init (app, config, root, IS_DEV) {
 
@@ -24,6 +28,9 @@ export function init (app, config, root, IS_DEV) {
   app.use(cookieParser())
   app.use(session({
     secret: config.session_secret,
+    store: new SessionStore({
+      mongooseConnection: mongoose.createConnection(config.db_url)
+    }),
     resave: false,
     saveUninitialized: false
   }))
