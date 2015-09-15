@@ -22,17 +22,29 @@
   })
 
   var isBusy = false
-  $('#js-event-slots').on('click', '.js-slot', function () {
+  $('#js-event-slots').on('click', '.js-slot-reserve', function () {
+    handleSlot(this, 'slot-reserve')
+  })
+
+  $('#js-event-slots').on('click', '.js-slot-unreserve', function () {
+    handleSlot(this, 'slot-unreserve')
+  })
+
+  $('#js-event-slots').on('click', '.js-slot-kick', function () {
+    handleSlot(this, 'slot-kick')
+  })
+
+  function handleSlot (el, endpoint) {
     if (isBusy) return
     isBusy = true
-    var $itemSlot = $(this)
+    var $itemSlot = $(el)
     var data = {
       eventId: $('#js-event-id').val(),
-      slotId: $itemSlot.attr('data-id')
+      slotId: $itemSlot.parentsUntil('.list', '.js-slot-item').attr('data-id')
     }
 
     $.ajax({
-      url: '/events/slot-assign',
+      url: '/events/' + endpoint,
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(data)
@@ -40,7 +52,7 @@
     .success(function (response) {
       if (!response.ok) {
         var msg = $('<div class="ui pointing red tiny label">' + response.error + '</div>')
-        $itemSlot.find('.content').append(msg)
+        $itemSlot.parent().parent().find('.content:not(.floated)').append(msg)
         setTimeout(function () {
           msg.remove()
           isBusy = false
@@ -53,5 +65,5 @@
         window.location.reload()
       }
     })
-  })
+  }
 })(window.jQuery)

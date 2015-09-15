@@ -49,7 +49,7 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
   })
 })
 
-router.post('/slot-assign', ensureAuthenticated, (req, res) => {
+router.post('/slot-reserve', ensureAuthenticated, (req, res) => {
   let body = req.body || {}
 
   Event.reserveSlot(body.eventId, body.slotId, req.user, (err, data) => {
@@ -58,10 +58,19 @@ router.post('/slot-assign', ensureAuthenticated, (req, res) => {
   })
 })
 
-router.post('/slot-unassign', ensureAuthenticated, (req, res) => {
+router.post('/slot-unreserve', ensureAuthenticated, (req, res) => {
   let eventId = (req.body || {}).eventId
 
   Event.unreserveSlot(eventId, req.user, (err, data) => {
+    if (err) return res.json({ok: false, error: err.message})
+    res.json({ok: true, data: !!data})
+  })
+})
+
+router.post('/slot-kick', ensureAdmin, (req, res) => {
+  let body = req.body || {}
+
+  Event.kickSlot(body.eventId, body.slotId, (err, data) => {
     if (err) return res.json({ok: false, error: err.message})
     res.json({ok: true, data: !!data})
   })

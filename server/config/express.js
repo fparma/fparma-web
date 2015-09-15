@@ -28,7 +28,7 @@ export function init (app, config, root, IS_DEV) {
   app.use(session({
     secret: config.session_secret,
     store: new SessionStore({
-      mongooseConnection: mongoose.createConnection(config.db_url)
+      mongooseConnection: mongoose.connection
     }),
     resave: false,
     saveUninitialized: false

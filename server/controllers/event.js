@@ -116,12 +116,6 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
 
 // Clear whoever has taken the slot (kick, for admins)
 exports.kickSlot = (eventId, unitId, cb) => {
-  try {
-    unitId = new ObjectId(unitId)
-  } catch (e) {
-    return cb(new Error('Invalid unit ID'))
-  }
-
   let cond = {event_id: eventId, 'units._id': unitId}
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
   Group.findOneAndUpdate(cond, upd, cb)
