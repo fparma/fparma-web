@@ -41,11 +41,10 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
     }
 
     res.render('events/event.jade', {
+      page: 'events',
       event,
       slots,
-      userId: req.user.id,
-      time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm'),
-      eventCompleted: moment.utc() > moment.utc(event.date)
+      time: moment.utc(event.date).format('YYYY-MMM-DD, HH:mm')
     })
   })
 })

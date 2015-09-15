@@ -9,7 +9,8 @@ mixin mkevent(evt)
 
 block content
   .ui.container.segment
-    a.ui.primary.button(href='/events/create') Create new event
+    if (locals.user.admin)
+      a.ui.primary.button(href='/events/create') Create new event
     if (events.upcoming.length || events.completed.length)
       .full-w.mt-top1
         p

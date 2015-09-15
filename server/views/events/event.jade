@@ -10,9 +10,11 @@ block content
       span.item Time: #{time + ' (UTC)'}
     .ui.raised.segment.mt-top2
       h4 Event description
-      span= event.description
+      span(style='white-space: pre')= event.description
 
     h2 Slots
+    p Please consider filling groups before taking a slot in an empty group.
+
     -list=['blufor', 'greenfor', 'opfor', 'civilian']
     -sideColor = {blufor: 'blue', opfor: 'red', greenfor: 'green', civilian: 'purple'}
     each side in list
@@ -24,18 +26,25 @@ block content
           each grp in grps
             .column
               .ui.raised.segment
-                h4.ui.dividing.header=grp.name
-                .ui.relaxed.divided.animated.list
+                h4.ui.dividing.header(class=grp.is_full ? 'disabled': '')
+                  i.icon(class=grp.units.length > 1 ? 'users': 'user')
+                  .content=grp.name
+                .ui.relaxed.divided.list
                   each unit in grp.units
-                    .item
-                      if (unit.user_name)
-                        i.js-taken-slot.middle.aligned.grey.user.icon(data-id=unit.id)
+                    .item(data-id=unit.id, title=unit.user_id ? '': 'Take slot')
+                      if (unit.user_id)
+                        .ui.right.floated.content
+                          if (locals.user.steam_id === unit.user_id)
+                            .ui.basic.button.icon
+                                i.ui.red.remove.user.icon.link(title='Leave slot')
+                          else if (locals.user.admin)
+                            .ui.basic.button.icon
+                              i.ui.red.legal.icon.link(title='Kick user')
+                        i.middle.aligned.user.icon(class = locals.user.steam_id === unit.user_id ? 'green' : 'grey')
                         .content
                           .header=unit.description
                           .description=unit.user_name
                       else
-
-                        i.js-claim-slot.middle.aligned.green.add.user.icon.link(
-                          data-id=unit.id, title='Claim slot')
+                        i.middle.aligned.green.add.user.icon(data-id=unit.id)
                         .content
                           .header=unit.description

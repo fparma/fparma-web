@@ -21,15 +21,14 @@
     })
   })
 
-  var isBusy
-  $('#js-event-slots').on('click', '.js-claim-slot', function () {
+  var isBusy = false
+  $('#js-event-slots').on('click', '.js-slot', function () {
     if (isBusy) return
     isBusy = true
-    var $this = $(this)
-    $this.removeClass('add green user').addClass('notched circle loading')
+    var $itemSlot = $(this)
     var data = {
       eventId: $('#js-event-id').val(),
-      slotId: $this.attr('data-id')
+      slotId: $itemSlot.attr('data-id')
     }
 
     $.ajax({
@@ -41,35 +40,18 @@
     .success(function (response) {
       if (!response.ok) {
         var msg = $('<div class="ui pointing red tiny label">' + response.error + '</div>')
-        $this.addClass('js-claim-slot green add user')
-        .next('.content').append(msg)
+        $itemSlot.find('.content').append(msg)
         setTimeout(function () {
           msg.remove()
+          isBusy = false
         }, 3000)
         return
       }
-      /*
-      var data = response.data
-      if (data.removed) {
-        $('.js-taken-slot[data-id="' + data.removed._id + '"]')
-        .parent().empty().append($(
-          '<i class="js-claim-slot middle aligned green add user icon link" data-id="' + data.removed._id + '" title="Claim slot"></i>' +
-          '<div class="content"><div class="header">' + data.removed.description + '</div></div>')
-        )
+
+      // TODO: maybe client render instead
+      if (response.data) {
+        window.location.reload()
       }
-
-      if (data.taken) {
-        $this
-        .removeClass('js-claim-slot is-busy green add user link')
-        .addClass('js-taken-slot grey user')
-        .next('.content')
-        .append($('<div class="description">' + data.taken.user_name + '</div>'))
-      }*/
     })
-    .always(function () {
-      isBusy = false
-      $this.removeClass('notched circle loading')
-    })
-
   })
 })(window.jQuery)

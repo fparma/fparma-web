@@ -12,14 +12,13 @@ import {join} from 'path'
 const SessionStore = MongoStore(session)
 
 export function init (app, config, root, IS_DEV) {
-
   app.set('x-powered-by', false)
 
   // View engine
   app.set('views', join(root, 'views'))
   app.set('view engine', 'jade')
 
-  // Middlewares. ORDER MATTERS
+  // Middlewares
   app.use(compression())
   app.use(favicon(join(root, '../public/img/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))

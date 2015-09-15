@@ -46,13 +46,6 @@ const EventSchema = new Schema({
 
 EventSchema.path('groups').validate(v => v && v.length && v.length <= 40, 'Event groups must be at least 1 and max 40')
 
-EventSchema.path('date').set(v => {
-  let d = moment.utc(v ? v : moment.utc())
-  let m = d.minutes()
-  d.minutes((m >= 15 && m <= 45) ? 30 : 0)
-  return d.seconds(0).milliseconds(0)
-})
-
 let dateError = 'Date must be 2 hours ahead and max 2 months in the future'
 EventSchema.path('date').validate(v => {
   if (!moment.utc(v).isValid) return false
@@ -77,6 +70,17 @@ EventSchema.pre('save', function (next) {
     this.permalink = permalink
     return next()
   })
+})
+
+EventSchema.path('date').set(v => {
+  let d = moment.utc(v ? v : moment.utc())
+  let m = d.minutes()
+  d.minutes((m >= 15 && m <= 45) ? 30 : 0)
+  return d.seconds(0).milliseconds(0)
+})
+
+EventSchema.virtual('completed').get(function () {
+  return moment.utc() > moment.utc(this.date)
 })
 
 mongoose.model('Event', EventSchema)

@@ -20,4 +20,8 @@ const GroupSchema = new Schema({
 
 GroupSchema.path('units').validate(v => v && v.length && v.length <= 20, 'Group must have at least 1 unit and max 20')
 
+GroupSchema.virtual('is_full').get(function () {
+  return this.units.filter(v => v.user_id).length === this.units.length
+})
+
 mongoose.model('Group', GroupSchema)

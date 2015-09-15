@@ -22,7 +22,7 @@ passportConfig(app, config)
 // Make user available to Jade templates
 app.use((req, res, next) => {
   res.locals.IS_DEV = IS_DEV
-  res.locals.user = req.isAuthenticated() ? req.user : null
+  res.locals.user = req.isAuthenticated() ? req.user : {}
   next()
 })
 
@@ -43,7 +43,6 @@ app.use((err, req, res, next) => {
   if (req.xhr) return res.json({ok: false, error: err.message})
   res.render('error', {
     title: err.status === 404 ? 'Not found' : 'Oops!',
-    page: '404',
     message: err.message,
     error: IS_DEV ? err : null
   })

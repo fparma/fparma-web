@@ -10,9 +10,7 @@ export default router
 
 export function ensureAuthenticated (req, res, next) {
   if (!req.isAuthenticated()) {
-    let err = new Error('Sorry! You do not have permission to view this page')
-    err.status = 401
-    return next(err)
+    return res.redirect('/login')
   }
   next()
 }
