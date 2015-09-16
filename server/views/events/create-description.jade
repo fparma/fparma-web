@@ -7,14 +7,13 @@
     .inline.fields.js-event-type
       .field
         .ui.radio.checkbox
-          input(type='radio', checked="" name='type', value='CO')
-          label
+          input#radio-co(type='radio', checked="" name='type', value='CO')
+          label(for='radio-co')
             b CO
       .field
         .ui.radio.checkbox
-          input(type='radio', name='type', value='TVT')
-          label
-            b TvT
+          input#radio-tvt(type='radio', name='type', value='TVT')
+          label(for='radio-tvt') TvT
   .one.column.row
     .field.column
       label Event description

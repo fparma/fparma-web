@@ -2,9 +2,10 @@ extends layout
 
 block content
   .ui.grid.container.centered
-    h1.pad= message
-  if IS_DEV
-    h4 Details: 
-    pre
-      code.text=error.stack
-  a.ui.button(href='/') Home
+    .ui.segment
+      h1.pad= message
+      if IS_DEV
+        h4 Details: 
+        pre
+          code.text=error.stack
+      a.ui.primary.button(href='/') Home

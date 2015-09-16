@@ -28,7 +28,8 @@ export function init (app, config, root, IS_DEV) {
   app.use(session({
     secret: config.session_secret,
     store: new SessionStore({
-      mongooseConnection: mongoose.connection
+      mongooseConnection: mongoose.connection,
+      touchAfter: 600 // 10 min
     }),
     resave: false,
     saveUninitialized: false

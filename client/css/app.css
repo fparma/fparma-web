@@ -1,5 +1,6 @@
 #wrapper {
-  margin-top: 5em
+  margin-top: 5em;
+  margin-bottom: 5em;
 }
 
 #steam-img {
@@ -13,6 +14,11 @@
 
 #create .event-type {
   padding-top: 0 !important;
+}
+
+#create .event-type label {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 #slots button, .button {

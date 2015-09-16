@@ -1,6 +1,7 @@
 (function ($) {
-
   var formCreate = $('#create')
+  formCreate.find('.js-tab').tab()
+
   formCreate.form({
     fields: {
       author: {
@@ -95,7 +96,6 @@
     slotsContainer.fadeOut()
     btnSqm.removeClass('disabled')
     btnManual.removeClass('disabled')
-
   })
 
   // The selectable 'sides' buttons
@@ -120,17 +120,11 @@
 
   // Toggles a side after clicking the side buttons
   // or when no groups in side
-  function toggleShowSide (side, forceClose) {
+  function toggleShowSide (side) {
     var sideContainer = getSideContainer(side)
-    if (forceClose) {
-      $('.js-btn-side[data-side= ' + side + ']').removeClass('toggle active')
-      sideContainer.children('.js-group-container').empty()
-      return sideContainer.addClass('invis')
-    }
 
-    if (sideContainer.hasClass('invis')) {
-      sideContainer.removeClass('invis')
-    } else {
+    if (sideContainer.hasClass('invis')) sideContainer.removeClass('invis')
+    else {
       sideContainer.children('.js-group-container').empty()
       sideContainer.addClass('invis')
     }
@@ -221,6 +215,7 @@
   }
 
   var dateInput = (function () {
+    var formatDateStr = 'YYYY-MMM-DD, HH:mm'
     var pickDate = $('#create-date').pickadate({
       format: 'ddd dd mmm, yyyy',
       selectYears: false,
@@ -242,7 +237,7 @@
       if (!d) return
       $('#js-time')
         .html('Entered time in UTC: <b>' +
-          d.format('YYYY-MM-DD, HH:mm') + '</b>')
+          d.format(formatDateStr) + '</b>')
     }
 
     function getUTCDate () {
@@ -255,11 +250,16 @@
     }
 
     return {
-      getUTCDate: getUTCDate
+      getUTCDate: getUTCDate,
+      getDisplayDate: function () {
+        var d = getUTCDate()
+        if (!d) return null
+        return d.format(formatDateStr)
+      }
     }
   })()
 
-  function submitEvent () {
+  function getEventData () {
     var evt = {
       name: $('.js-event-name').val(),
       type: $('.js-event-type input:checked').val().toLowerCase(),
@@ -290,6 +290,39 @@
         })
       })
     })
+
+    return evt
+  }
+
+  formCreate.find('#js-review-btn').on('click', function updateReview () {
+    var missingMsg = 'Not specified'
+    function getUnitsAmount (side) {
+      return grps
+      .filter(function (v) { return v.side === side })
+      .map(function (v) { return v.units.length })
+      .reduce(function (a, b) { return a + b }, 0)
+    }
+
+    var data = getEventData()
+    $('#js-review-list .js-name').html(data.name || missingMsg)
+    $('#js-review-list .js-type').html(data.type.toUpperCase())
+    $('#js-review-list .js-authors').html(data.authors || missingMsg + ' (default System)')
+    $('#js-review-list .js-date').html(dateInput.getDisplayDate() || missingMsg)
+
+    var grps = data.groups || []
+    $('#js-review-list .js-groups').html(grps.length)
+    if (!grps.length) return $('#js-review-list .js-total').html(0)
+
+    var str = ''
+    SLOT_SIDES.forEach(function (v) {
+      var amount = getUnitsAmount(v)
+      if (amount) str += capitalize(v) + ': ' + amount + ', '
+    })
+    $('#js-review-list .js-total').html(str.substr(0, str.lastIndexOf(',')))
+  })
+
+  function submitEvent () {
+    var evt = getEventData()
 
     btnSubmit.addClass('disabled loading')
     $.ajax({

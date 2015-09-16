@@ -6,15 +6,13 @@ block head
 block content
   form#js-form-upload-file(enctype='multipart/form-data' action='/events/create/upload-sqm' method='post', style='display:none')
     input#js-input-file-sqm(name='file' type='file', accept='.sqm')
-  
-  script.
-    $(function() {$('#create .menu .item').tab()})
+
   form#create.ui.form.container
     h1.ui.dividing.header Create new event
     .ui.top.attached.tabular.menu
-      a.active.item(data-tab='first') Info
-      a.item(data-tab='second') Slots
-      a#js-review-btn.item(data-tab='third') Review / Submit
+      a.js-tab.active.item(data-tab='first') Info
+      a.js-tab.item(data-tab='second') Slots
+      a#js-review-btn.js-tab.item(data-tab='third') Review / Submit
     .ui.bottom.attached.active.tab.segment(data-tab='first')
       include ./create-description.jade
     .ui.bottom.attached.tab.segment(data-tab='second')

@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 // Error handler
 app.use((err, req, res, next) => {
   res.status(err.status || req.xhr && err.status !== 404 ? 200 : 500)
-  if (res.status !== 404) console.error(err, err.stack.split('\n'))
+  if (err.status !== 404) console.error(err, err.stack.split('\n'))
   if (req.xhr) return res.json({ok: false, error: err.message})
   res.render('error', {
     title: err.status === 404 ? 'Not found' : 'Oops!',
