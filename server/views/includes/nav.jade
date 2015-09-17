@@ -1,38 +1,35 @@
-mixin mklink(name, url, rightAlign)
-  a.item(href=url,
-    class=(attributes.class || '')
-    class=rightAlign ? 'ui right floated' : '',
-    // TODO: substr should only check until second slash
-    class=(page && page == url.substr(1) ? 'active': ''))
-    span=name
+mixin mklink(page, url, cl)
+  a.item(
+    href!=url,
+    class=locals.page == url.substr(1).split('/')[0] ? 'active': '',
+    class=cl
+  )!=page
 
-mixin usermenu(isDesktop)
-  if locals.user.steam_id
-    .ui.item.simple.dropdown(class= isDesktop ? 'right desktop-only': '')
-      i.icon.user.green
-      span=user.name || 'Unknown'
+mixin menu(isDesktop)
+  if (locals.user.steam_id)
+    .ui.item.selection.dropdown(class=isDesktop ? 'compact right': '')
+      i.user.icon(class=user.name ? 'green': 'grey')
+      span=user.name || 'New user'
       .menu
         +mklink('Profile', '/profile')
         +mklink('Logout', '/logout')
-  else
-    +mklink('Login / Register', '/login', true)(class= isDesktop ? 'desktop-only': '')
+  else 
+    +mklink('Login / Register', '/login', 'right')
 
-nav.ui.top.menu.inverted.fixed
-  .ui.container
-    // DESKTOP
-    a.header.item.desktop-only(href='/', class=(page == 'home' ? 'active' : ''))
+nav.ui.fixed.inverted.menu
+  .ui.container.desktop-only
+    a.header.item(href='/', class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
-    +mklink('Events', '/events')(class='desktop-only')
-    +mklink('About', '/about')(class='disabled desktop-only')
-    +usermenu(true)
-    
-    // MOBILE
-    .ui.item.simple.dropdown.mobile-only
-      i.icon.content
-      span Menu
-      .menu
-        +mklink('Events', '/events')
-        +mklink('About', '/about')(class='disabled')
-        +usermenu(false)
-    a.header.item.right.mobile-only(href='/', class=(page == 'home' ? 'active' : ''))
-      span.title FPARMA
+    +mklink('Events', '/events')
+    +mklink('About', '/about')
+    +menu(true)
+
+  .ui.item.dropdown.mobile-only
+    i.icon.content
+    span Menu
+    .menu
+      +mklink('Events', '/events')
+      +mklink('About', '/about')
+      +menu(false)
+  a.header.item.right.mobile-only(href='/', class=(locals.page == 'home' ? 'active' : ''))
+    span.title FPARMA

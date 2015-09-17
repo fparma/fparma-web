@@ -1,6 +1,6 @@
 #wrapper {
   margin-top: 5em;
-  margin-bottom: 5em;
+  height: 100%;
 }
 
 #steam-img {
@@ -77,20 +77,20 @@ nav span.title {
 }
 
 @media only screen and (max-width: 767px) {
-  .desktop-only {
+  nav .desktop-only {
       display: none !important;
   }
-  .mobile-only {
-    display: block !important;
+  nav .mobile-only {
+    display: inline-block; !important;
   }
 }
 
 @media only screen and (min-width : 768px) {
-  .mobile-only {
+  nav .mobile-only {
       display: none !important;
   }
 
-  .desktop-only {
-      display: block !important;
+  nav .desktop-only {
+      display: inline-block; !important;
   }
 }

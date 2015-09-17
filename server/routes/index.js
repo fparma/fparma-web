@@ -16,5 +16,9 @@ router.get('/', (req, res, next) => {
   res.render('index.jade', {page: 'home'})
 })
 
+router.get('/about', (req, res, next) => {
+  res.render('about.jade', {page: 'about'})
+})
+
 router.use(auth)
 router.use('/events', events)

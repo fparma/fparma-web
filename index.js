@@ -1,5 +1,6 @@
 var join = require('path').join
 var read = require('fs').readdirSync
+
 // Let babel register from here on
 require('babel/register', {
   sourceMaps: 'inline'

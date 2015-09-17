@@ -4,7 +4,7 @@ block content
   .ui.grid.container.centered
     .ui.segment
       h1.pad= message
-      if IS_DEV
+      if locals.error
         h4 Details: 
         pre
           code.text=error.stack

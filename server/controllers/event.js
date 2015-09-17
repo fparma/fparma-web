@@ -106,7 +106,7 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
       if (err) return cb(err)
 
       let upd = {$set: {'units.$.user_id': user.steam_id, 'units.$.user_name': user.name}}
-      Group.findOneAndUpdate(cond, upd, {new: true}, (err, newDoc) => {
+      Group.findOneAndUpdate(cond, upd, (err) => {
         if (err) return cb(err)
         cb(null, true)
       })

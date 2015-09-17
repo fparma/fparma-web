@@ -5,14 +5,15 @@ const Schema = mongoose.Schema
 const SIDES = ['blufor', 'opfor', 'greenfor', 'civilian']
 const MIN = 2
 const MAX = 24
-let mkMsg = (str, isMin) => `${str} can have at ${isMin ? 'least' : 'most'} ${isMin ? MIN : MAX} characters`
+let msgMin = (str) => `${str} must have at least ${MIN} characters`
+let msgMax = (str) => `${str} can have at most ${MAX} characters`
 
 const GroupSchema = new Schema({
-  name: {type: String, trim: true, minlength: [MIN, mkMsg('A group name', true)], maxlength: [MAX, mkMsg('A group name')]},
+  name: {type: String, trim: true, minlength: [MIN, msgMin('A group name')], maxlength: [MAX, msgMax('A group name')]},
   side: {type: String, trim: true, enum: {values: SIDES, message: 'Invalid side for group: `{VALUE}`'}},
   event_id: {type: Schema.ObjectId, ref: 'Event'},
   units: [{
-    description: {type: String, trim: true, minlength: [MIN, mkMsg('A unit description', true)], maxlength: [MAX, mkMsg('A unit description')]},
+    description: {type: String, trim: true, minlength: [MIN, msgMin('A unit description')], maxlength: [MAX, msgMax('A unit description')]},
     user_id: String,
     user_name: String
   }]
