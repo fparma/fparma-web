@@ -25,6 +25,7 @@
     "mongoose": "^4.1.2",
     "morgan": "^1.6.1",
     "multer": "^1.0.3",
+    "nconf": "^0.7.2",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "passport-steam": "^0.1.5",

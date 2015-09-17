@@ -1,4 +1,5 @@
 import passport from 'passport'
+import nconf from 'nconf'
 import {Strategy as SteamStrategy} from 'passport-steam'
 import User from '../controllers/user'
 
@@ -21,15 +22,14 @@ passport.deserializeUser(function (id, done) {
   })
 })
 
-export function init (app, config) {
-
+export function init (app) {
   app.use(passport.initialize())
   app.use(passport.session())
 
   passport.use(new SteamStrategy({
-    returnURL: config.steam.realm + STEAM_RETURN_URL,
-    realm: config.steam.realm,
-    apiKey: config.steam.api_key
+    returnURL: nconf.get('STEAM:REALM') + STEAM_RETURN_URL,
+    realm: nconf.get('STEAM:REALM'),
+    apiKey: nconf.get('STEAM:KEY')
   }, (identifier, profile, done) => {
     User.findOrCreate(profile, (err, user) => {
       done(err, user)

@@ -1,24 +1,21 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import nconf from 'nconf'
 
 import {init as expressConfig} from './config/express'
 import {init as passportConfig} from './config/passport'
 import {router} from './routes'
 
-let config
-try {
-  config = require('../config.json')
-} catch (e) {
-  config = require('../config.example.json')
-}
-
 const IS_DEV = (process.env.NODE_ENV || 'development') === 'development'
 const app = express()
 export default app
 
-expressConfig(app, config, __dirname, IS_DEV)
-passportConfig(app, config)
-app.set('port', process.env.NODE_ENV || config.port)
+expressConfig(app, __dirname, IS_DEV)
+passportConfig(app)
+
+app.locals.app = {
+  version: require('../package.json').version
+}
 
 // Make user available to Jade templates
 app.use((req, res, next) => {
@@ -48,14 +45,17 @@ app.use((err, req, res, next) => {
   })
 })
 
-let mOpt = { server: { socketOptions: { keepAlive: 1 } } }
-mongoose.connect(config.db_url, mOpt)
+let mOpt = {
+  server: { socketOptions: { keepAlive: 1 } },
+  user: nconf.get('DB:USER'),
+  password: nconf.get('DB:PASSWORD')
+}
+mongoose.connect(nconf.get('DB:URI'), mOpt)
 mongoose.connection.on('error', console.error)
 
 mongoose.connection.once('connected', () => {
-  let conn = mongoose.connection
-  console.log(`Mongoose connected to ${conn.host}:${conn.port}/${conn.name}`)
-  app.listen(app.get('port'), () => {
-    console.log(`Server listening on ${app.get('port')} (mode: ${process.env.NODE_ENV || 'development'})`)
+  console.log(`Mongoose connected to ${nconf.get('DB:URI')}`)
+  app.listen(nconf.get('PORT'), () => {
+    console.log(`Server listening on ${nconf.get('PORT')} (mode: ${process.env.NODE_ENV || 'development'})`)
   })
 })

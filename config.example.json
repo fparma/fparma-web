@@ -1,10 +1,16 @@
 {
-  "_comment": "Rename this file to config.json and change the settings.",
-  "db_url": "mongodb://localhost/fparma",
-  "port": 8080,
-  "session_secret": "keyboard cat",
-  "steam" : {
-    "realm": "http://localhost:8080",
-    "api_key": ""
-  }
+	"_comment": "Rename this file to config.json and change the settings.",
+	"PORT": 8080,
+	"SESSION": {
+		"SECRET": "keyboard cat",
+	},
+	"DB": {
+		"URI": "localhost:27017:fparma",
+		"USER": "",
+		"PASSWORD": ""
+	},
+	"STEAM": {
+		"REALM": "http://localhost:8080",
+		"KEY": ""
+	}
 }

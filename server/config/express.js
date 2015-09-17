@@ -1,4 +1,5 @@
 import express from 'express'
+import nconf from 'nconf'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
@@ -11,7 +12,7 @@ import {join} from 'path'
 
 const SessionStore = MongoStore(session)
 
-export function init (app, config, root, IS_DEV) {
+export function init (app, root, IS_DEV) {
   app.set('x-powered-by', false)
 
   // View engine
@@ -26,7 +27,7 @@ export function init (app, config, root, IS_DEV) {
   app.use(bodyParser.json())
   app.use(cookieParser())
   app.use(session({
-    secret: config.session_secret,
+    secret: nconf.get('SESSION:SECRET'),
     store: new SessionStore({
       mongooseConnection: mongoose.connection,
       touchAfter: 600 // 10 min
