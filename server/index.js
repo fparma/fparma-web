@@ -6,7 +6,7 @@ import {init as expressConfig} from './config/express'
 import {init as passportConfig} from './config/passport'
 import {router} from './routes'
 
-const IS_DEV = (process.env.NODE_ENV || 'development') === 'development'
+const IS_DEV = nconf.get('NODE_ENV') === 'development'
 const app = express()
 export default app
 
@@ -55,7 +55,7 @@ mongoose.connection.on('error', console.error)
 
 mongoose.connection.once('connected', () => {
   console.log(`Mongoose connected to ${nconf.get('DB:URI')}`)
-  app.listen(nconf.get('PORT'), () => {
+  app.listen(nconf.get('PORT')).on('listening', () => {
     console.log(`Server listening on ${nconf.get('PORT')} (mode: ${process.env.NODE_ENV || 'development'})`)
   })
 })

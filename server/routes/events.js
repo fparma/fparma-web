@@ -81,7 +81,7 @@ router.get('/create', ensureAdmin, (req, res) => {
 })
 
 router.post('/create', ensureAdmin, (req, res, next) => {
-  Event.create(req.body, req.user.steam_id, (err, evt) => {
+  Event.create(req.body, req.user, (err, evt) => {
     res.status(200).json({
       ok: !err,
       data: err ? null : evt.permalink,

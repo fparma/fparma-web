@@ -44,7 +44,9 @@ const EventSchema = new Schema({
   groups: [{type: mongoose.Schema.ObjectId, ref: 'Group'}]
 })
 
-EventSchema.path('groups').validate(v => v && v.length && v.length <= 40, 'Event groups must be at least 1 and max 40')
+EventSchema.path('groups').validate(v => {
+  v && v.length && v.length <= 40
+}, 'Event groups must be at least 1 and max 40')
 
 let dateError = 'Date must be 2 hours ahead and max 2 months in the future'
 EventSchema.path('date').validate(v => {
@@ -63,12 +65,12 @@ EventSchema.pre('save', function (next) {
     lower: true
   })
 
-  let q = {$or: [{permalink: permalink}, {date: {
+  let query = {$or: [{permalink: permalink}, {date: {
     $gt: moment.utc(this.date).subtract(1, 'hour').toISOString(),
     $lt: moment.utc(this.date).add(1, 'hour').toISOString()
   }}]}
 
-  mongoose.model('Event').findOne(q, (err, res) => {
+  mongoose.model('Event').findOne(query, (err, res) => {
     if (err) return next(err)
     if (res && permalink === res.permalink) return next(new Error('Event name is taken'))
     if (res) return next(new Error(`Event cannot be within 1 hour of another event (${res.name})`))
@@ -87,6 +89,10 @@ EventSchema.path('date').set(v => {
 
 EventSchema.virtual('completed').get(function () {
   return moment.utc() > moment.utc(this.date)
+})
+
+EventSchema.virtual('display_date').get(function () {
+  return moment.utc(this.date).format('YYYY-MMM-DD, HH:mm')
 })
 
 mongoose.model('Event', EventSchema)

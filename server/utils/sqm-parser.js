@@ -13,7 +13,7 @@ const ALLOWED_SIDES = _.keys(SIDE_TRANSLATE_MAP)
 const PLAYABLE_TYPES = ['PLAY CDG', 'PLAYER COMMANDER']
 
 let isAllowedSide = str => _.includes(ALLOWED_SIDES, (str + '').toUpperCase())
-let isUnitPlayable = str => _.includes(PLAYABLE_TYPES, (str + '').toUpperCase())
+let isPlayerSlot = str => _.includes(PLAYABLE_TYPES, (str + '').toUpperCase())
 let translateSide = str => SIDE_TRANSLATE_MAP[(str + '').toUpperCase()] || null
 let parseGroupName = str => {
   str = str + ''
@@ -33,9 +33,9 @@ let parseGroupName = str => {
 
 export default function (sqmFileString, callback) {
   if (!_.isString(sqmFileString)) {
-    return callback(new Error('Expected SQM file as string'))
+    return callback(new Error('Expected SQM in string format'))
   }
-  if (!_.isFunction(callback)) return callback(new Error('Missing callback'))
+  callback = callback || function () {}
   let ret = []
   let parsed
 
@@ -63,7 +63,7 @@ export default function (sqmFileString, callback) {
           grp.name = _.escape(parseGroupName(unit.init) || '')
         }
 
-        if (!isUnitPlayable(unit.player)) return
+        if (!isPlayerSlot(unit.player)) return
 
         grp.units.push({
           description: _.escape(unit.description).trim()

@@ -53,7 +53,7 @@ gulp.task('css', function () {
 gulp.task('browsersync', ['nodemon'], function () {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
-    proxy: 'http://localhost:' + config.port + '',
+    proxy: 'http://localhost:' + config.PORT,
     port: 3000,
     notify: false
   })
@@ -70,7 +70,7 @@ gulp.task('nodemon', function (cb) {
   .once('start', function onStart () {
     setTimeout(function () {
       cb()
-    }, 1500)
+    }, 5000)
   })
   .on('restart', function onRestart () {
     setTimeout(function reload () {

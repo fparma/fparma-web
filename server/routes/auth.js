@@ -35,20 +35,16 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/auth/steam',
-  passport.authenticate('steam', { failureRedirect: '/login' }),
-  function (req, res) {
-    res.redirect('/')
-  }
-)
+const authenticate = passport.authenticate('steam', { failureRedirect: '/login' })
 
-router.get(STEAM_RETURN_URL,
-  passport.authenticate('steam', { failureRedirect: '/login' }),
-  (req, res) => {
-    if (req.isAuthenticated() && !req.user.name) return res.redirect('/profile')
-    res.redirect('/')
-  }
-)
+router.get('/auth/steam', authenticate, (req, res) => {
+  res.redirect('/')
+})
+
+router.get(STEAM_RETURN_URL, authenticate, (req, res) => {
+  if (req.isAuthenticated() && !req.user.name) return res.redirect('/profile')
+  res.redirect('/')
+})
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
   res.render('profile.jade', {title: 'Profile', page: 'profile', validation: {REG: USR_REGEXP, MSG: USR_ERROR}})

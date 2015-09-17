@@ -1,16 +1,16 @@
 {
-	"_comment": "Rename this file to config.json and change the settings.",
-	"PORT": 8080,
-	"SESSION": {
-		"SECRET": "keyboard cat",
-	},
-	"DB": {
-		"URI": "localhost:27017:fparma",
-		"USER": "",
-		"PASSWORD": ""
-	},
-	"STEAM": {
-		"REALM": "http://localhost:8080",
-		"KEY": ""
-	}
+  "_comment": "Rename this file to config.json and change the settings.",
+  "PORT": 8080,
+  "SESSION": {
+    "SECRET": "keyboard cat"
+  },
+  "DB": {
+    "URI": "localhost:27017/fparma"
+    "USER": "",
+    "PASSWORD": ""
+  },
+  "STEAM": {
+    "REALM": "http://localhost:8080",
+    "KEY": ""
+  }
 }

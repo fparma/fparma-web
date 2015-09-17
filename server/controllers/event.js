@@ -1,18 +1,16 @@
 import mongoose from 'mongoose'
-import moment from 'moment'
 import _ from 'lodash'
 
-const ObjectId = mongoose.Types.ObjectId
 const Event = mongoose.model('Event')
 const Group = mongoose.model('Group')
 
 const MAX_GROUPS = 40
 
 // Saves a new event
-exports.create = (evt, userId, cb) => {
+exports.create = (evt, user, cb) => {
   if (!_.isObject(evt) || _.isEmpty(evt)) return cb(new Error('No data received'))
   if (!_.isArray(evt.groups) || _.isEmpty(evt.groups)) return cb(new Error('Missing groups'))
-  evt.created_by = userId
+  evt.created_by = user.steam_id
 
   if (evt.groups.length > MAX_GROUPS) return cb(new Error('Too many groups'))
   let groups = evt.groups.map(grp => new Group(grp))
@@ -49,7 +47,7 @@ exports.create = (evt, userId, cb) => {
         actual = 0
         groups.forEach(grp => grp.save(err => {
           // TODO: just continue if a group failed to save?
-          if (err) console.error(`Failed to save group ${grp._id}`, err)
+          if (err) console.error(`Failed to save group ${grp.id}`, err)
           if (++actual >= expectedGroups) cb(null, event)
         }))
       })
@@ -62,10 +60,8 @@ exports.list = cb => {
   Event.find({})
   .sort({'date': 1})
   .limit(20)
-  .lean()
   .exec((err, res) => {
     if (err) return cb(err)
-    _.isArray(res) && res.forEach(v => v.displayDate = moment.utc(v.date).format('YYYY-MMM-DD, HH:mm'))
 
     cb(null, res)
   })

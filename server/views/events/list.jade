@@ -4,8 +4,8 @@ mixin mkevent(evt)
   .item
     .content
       a.header(href='/events/event/' + evt.permalink) #{evt.type.toUpperCase()} - #{evt.name}
-      p by #{evt.authors}
-      span.js-event-date(data-date=evt.date data-def=evt.displayDate)= evt.displayDate
+      p by: #{evt.authors}
+      span.js-event-date(data-date=evt.date, data-def=evt.display_date)=evt.display_date
 
 block content
   .ui.container.segment
