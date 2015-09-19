@@ -31,6 +31,7 @@ exports.create = (evt, user, cb) => {
 
       if (!evt.authors) delete evt.authors
       let event = new Event(evt)
+    
       // Save all groups ids on the event and the event id on the groups
       // for .populate to work
       groups.forEach(grp => {

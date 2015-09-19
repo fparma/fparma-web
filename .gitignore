@@ -5,6 +5,7 @@ public/semantic
 public/js
 public/css
 tmp
+dist
 
 # Logs
 logs
