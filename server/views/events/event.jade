@@ -1,4 +1,4 @@
-mixin makeGroup(grp)
+mixin makeGroup(grp, eventCompleted)
   .column
     .ui.raised.segment
       h4.ui.dividing.header(class=grp.is_full ? 'disabled': '')
@@ -6,16 +6,16 @@ mixin makeGroup(grp)
         .content=grp.name
       .ui.divided.list
         each unit in grp.units
-          +makeUnit(unit)
+          +makeUnit(unit, eventCompleted)
 
-mixin makeUnit(unit)
+mixin makeUnit(unit, eventCompleted)
   .js-slot-item.item(data-id=unit.id)
     if (unit.user_id)
       .ui.right.floated.content
-        if (locals.user.steam_id === unit.user_id)
+        if (!eventCompleted && locals.user.steam_id === unit.user_id)
           .js-slot-unreserve.ui.tiny.basic.button.icon(title='Leave slot')
               i.ui.red.remove.user.icon
-        else if (locals.user.admin)
+        else if (!eventCompleted  && locals.user.admin)
           .js-slot-kick.ui.tiny.basic.button.icon(title='Kick user')
             i.ui.red.legal.icon
       i.middle.aligned.user.icon(class = locals.user.steam_id === unit.user_id ? 'green' : 'grey')
@@ -24,8 +24,9 @@ mixin makeUnit(unit)
         .description=unit.user_name
     else
       .ui.right.floated.content
-        .js-slot-reserve.ui.basic.tiny.button.icon(title='Take slot')
-            i.ui.red.green.add.user.icon
+        if (!eventCompleted)
+          .js-slot-reserve.ui.basic.tiny.button.icon(title='Take slot')
+              i.ui.red.green.add.user.icon
       i.middle.aligned.user.icon
       .content
         .header=unit.description
@@ -34,8 +35,9 @@ mixin makeUnit(unit)
 extends ../layout
 
 block content
-  input#js-event-id(type='hidden', value=event.id)
-  #js-event-slots.ui.container.segment
+  if (!event.completed)
+    input#js-event-id(type='hidden', value=event.id)
+  .ui.container.segment(id=event.completed ? '': 'js-event-slots')
     .ui.list
       h1.item= event.name
       span.item Type: #{event.type.toUpperCase()}
@@ -57,4 +59,4 @@ block content
           class="#{sideColor[side]} text") #{side.toUpperCase() + ' groups'}
         .mt-top1.ui.three.column.doubling.stackable.grid.container
           each grp in grps
-            +makeGroup(grp)
+            +makeGroup(grp, event.completed)

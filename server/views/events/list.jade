@@ -19,7 +19,7 @@ block content
           option(value='utc' selected='') UTC
           option(value='local') Local
           option(value='from_now') From now
-      if events.upcoming.length
+    if events.upcoming.length
       h1 Upcoming events
       each event in events.upcoming
         .ui.relaxed.divided.list.segment.small
@@ -28,7 +28,7 @@ block content
       h1 No upcoming events
     
     if events.completed.length
-      h1 Previous events
+      h1.mt-top2 Previous events
       each event in events.completed
         .ui.relaxed.divided.list.segment.small
           +mkevent(event)

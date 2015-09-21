@@ -75,6 +75,11 @@ exports.findOne = (permalink, cb) => {
   .exec(cb)
 }
 
+exports.findOneById = (id, cb) => {
+  Event.findOne({_id: id})
+  .exec(cb)
+}
+
 // Finds the slot occupied by the user in an event and removes him
 function unreserveSlot (eventId, user, cb) {
   let cond = {event_id: eventId, 'units.user_id': user.steam_id}

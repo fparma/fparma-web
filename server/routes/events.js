@@ -49,6 +49,15 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
   })
 })
 
+router.post('/slot-*', (req, res, next) => {
+  let body = req.body || {}
+  Event.findOneById(body.eventId, (err, data) => {
+    if (err) return next(err)
+    if (data && data.completed) return next(new Error('Event is closed'))
+    next()
+  })
+})
+
 router.post('/slot-reserve', ensureAuthenticated, (req, res) => {
   let body = req.body || {}
 
