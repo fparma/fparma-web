@@ -1,5 +1,6 @@
 doctype html
 html(lang='en')
+  include includes/helpers.jade
   head
     meta(charset='utf-8')
     if title
@@ -9,9 +10,9 @@ html(lang='en')
     meta(name='description', content='FPARMA website')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
-    link(href='/semantic/semantic.min.css', rel='stylesheet', media='all')
-    link(href='/css/app.css', rel='stylesheet', media='all')    
-    script(src='/vendor/jquery-2.1.4.min.js')
+    +style_link('/semantic/semantic.min.css', true)
+    +style_link('/css/app.css', true)
+    +script_link('/vendor/jquery-2.1.4.min.js', true)
     block head
   body
     include includes/nav.jade
@@ -22,9 +23,8 @@ html(lang='en')
           p This site requires JavaScript enabled to function
     #wrapper
       block content
-    script(src='/semantic/semantic.min.js' charset="utf8")
+    +script_link('/semantic/semantic.min.js', true)
+
 block tail
-script(src='/vendor/fastclick.min.js')
-script(src='/js/app.js')
-  
-  
++script_link('/vendor/fastclick.min.js', true)
++script_link('/js/app.js', true)

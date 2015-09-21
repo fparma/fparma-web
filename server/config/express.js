@@ -35,5 +35,5 @@ export function init (app, root, IS_DEV) {
     resave: false,
     saveUninitialized: false
   }))
-  app.use(express.static('public', {maxage: IS_DEV ? 0 : '1h'}))
+  app.use(express.static('public', {maxage: IS_DEV ? 0 : '1d'}))
 }

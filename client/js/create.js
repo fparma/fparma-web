@@ -78,7 +78,7 @@
     var val = $this.val()
     if (val.length < SLOTS_INP.MIN || val.length > SLOTS_INP.MAX) {
       $this.addClass('error')
-    }else {
+    } else {
       $this.removeClass('error')
     }
   })

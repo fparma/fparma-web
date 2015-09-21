@@ -21,6 +21,6 @@ block content
       include ./create-review.jade
 
 block tail
-  script(src='/vendor/moment.min.js')
-  script(src='/vendor/picker.min.js')
-  script(src='/js/create.js')
+  +script_link('/vendor/moment.min.js', true)
+  +script_link('/vendor/picker.min.js', true)
+  +script_link('/js/create.js', true)

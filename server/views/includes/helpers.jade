@@ -1,0 +1,7 @@
+mixin script_link(url, appendQueryParam)
+  -url = url + (appendQueryParam ? '?v=' + locals.app.version : '')
+  script(src=url charset="utf8")
+
+mixin style_link(url, appendQueryParam)
+  -url = url + (appendQueryParam ? '?v=' + locals.app.version : '')
+  link(href=url, rel='stylesheet', media='all')

@@ -24,13 +24,13 @@ var base = {
 
 var paths = {
   scripts: ['js/**/*.js'],
-  css: 'css/**/.css',
+  css: 'css/**/*.css',
   semantic: 'semantic/'
 }
 
 function checkErr (cb) {
   return function (e) {
-    cb(e.length ? e : null)
+    cb()
   }
 }
 
@@ -64,6 +64,7 @@ gulp.task('build:css', ['clean:css'], function () {
   return gulp.src(paths.css, {cwd: base.client})
   .pipe(minifyCss())
   .pipe(gulp.dest('css', {cwd: base.public}))
+  .pipe(browserSync.stream())
 })
 
 gulp.task('dev', ['build'], function (cb) {
