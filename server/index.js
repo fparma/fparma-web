@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
 let mOpt = {
   server: { socketOptions: { keepAlive: 1 } },
   user: nconf.get('DB:USER'),
-  password: nconf.get('DB:PASSWORD')
+  pass: nconf.get('DB:PASSWORD')
 }
 mongoose.connect(nconf.get('DB:URI'), mOpt)
 mongoose.connection.on('error', console.error)

@@ -4,7 +4,7 @@
   "description": "FPARMA web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node pm2",
     "postinstall": "gulp post-install"
   },
   "author": "Cuel",
@@ -29,6 +29,7 @@
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "passport-steam": "^0.1.5",
+    "pm2": "^0.14.7",
     "require-dot-file": "^0.4.0",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1"

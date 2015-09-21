@@ -47,7 +47,7 @@ gulp.task('clean:scripts', function (cb) {
 })
 
 gulp.task('clean:css', function (cb) {
-  del(paths.css, {cwd: base.public}).then(checkErr(cb))
+  del('css', {cwd: base.public}).then(checkErr(cb))
 })
 
 gulp.task('build', ['build:css', 'build:scripts'])
