@@ -73,10 +73,10 @@
   }
 
   // Mark slots inputs in red if invalid
-  $('#slots').on('blur, keyup', '.js-unit, .js-grp', function () {
+  $('#slots').on('change', '.js-unit, .js-grp', function () {
     var $this = $(this)
-    var val = $this.val()
-    if (val.length < SLOTS_INP.MIN || val.length > SLOTS_INP.MAX) {
+    var val = $this.val().trim()
+    if (!val || val.length < SLOTS_INP.MIN || val.length > SLOTS_INP.MAX) {
       $this.addClass('error')
     } else {
       $this.removeClass('error')

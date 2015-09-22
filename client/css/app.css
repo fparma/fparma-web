@@ -3,6 +3,14 @@
   height: 100%;
 }
 
+#news .date {
+  float: right;
+}
+
+#news .headline {
+  width: 85%;
+}
+
 #steam-img {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -30,6 +38,7 @@
 }
 #slots input.error {
   border-color: red;
+  background-color: antiquewhite;
 }
 
 #slots .grp-segment {
@@ -62,6 +71,13 @@ nav span.title {
   width: 100%;
 }
 
+.center-text {
+  text-align: center;
+}
+.right-text {
+  text-align: right;
+}
+
 .message p.small {
   margin-top: 0;
   margin-bottom: 0;
@@ -74,6 +90,14 @@ nav span.title {
 
 .top-space {
   padding-top: 2em;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.keep-format {
+  white-space: pre-line;
 }
 
 @media only screen and (max-width: 767px) {

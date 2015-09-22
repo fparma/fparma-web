@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import auth from './auth'
 import events from './events'
+import News from '../controllers/news'
 
 export const router = Router()
 
@@ -13,7 +14,10 @@ router.all('*', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-  res.render('index.jade', {page: 'home'})
+  News.list((err, data) => {
+    if (err) console.error(err)
+    res.render('index.jade', {page: 'home', news: data || []})
+  })
 })
 
 router.use(auth)

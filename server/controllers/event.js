@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import News from './news'
 import _ from 'lodash'
 
 const Event = mongoose.model('Event')
@@ -46,7 +47,15 @@ exports.create = (evt, user, cb) => {
         groups.forEach(grp => grp.save(err => {
           // TODO: just continue if a group failed to save?
           if (err) console.error(`Failed to save group ${grp.id}`, err)
-          if (++actual >= expectedGroups) cb(null, event)
+          if (++actual >= expectedGroups) {
+            News.create({
+              header: `New event: ${event.name}`,
+              text: event.description,
+              url: `/events/event/${event.permalink}`,
+              author: user.name
+            })
+            cb(null, event)
+          }
         }))
       })
     })

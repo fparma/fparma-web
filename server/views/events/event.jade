@@ -45,7 +45,7 @@ block content
       span.item Time: #{event.display_date + ' (UTC)'}
     .ui.raised.segment.mt-top2
       h4 Event description
-      span(style='white-space: pre-line')= event.description
+      span.keep-format=event.description
 
     h2 Slots
     p Please consider filling groups before taking a slot in an empty group.

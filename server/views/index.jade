@@ -3,4 +3,20 @@ extends layout
 block content
   .ui.segment.container
     img.ui.centered.image(src='/img/fparma.png')
-    h1 Welcome to FPARMA
+    h1.center-text Welcome to FPARMA
+
+  if (locals.news.length)
+    #news.ui.segment.container
+      h2 News
+      each item in locals.news
+        .ui.raised.segment.mt-top2
+          p.date=item.display_date
+          h3.headline.no-margin
+            if item.url
+              a(href=item.url)=item.header
+            else
+              span=item.header
+          p Posted by #{item.author}
+          .mt-top1
+            .ui.message
+              p.keep-format=item.text
