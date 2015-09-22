@@ -40,10 +40,7 @@ exports.create = (evt, user, cb) => {
       })
 
       event.save(err => {
-        if (err) {
-          groups.forEach(grp => grp.remove())
-          return cb(err)
-        }
+        if (err) return cb(err)
 
         actual = 0
         groups.forEach(grp => grp.save(err => {
