@@ -38,9 +38,10 @@ block content
   if (!event.completed)
     input#js-event-id(type='hidden', value=event.id)
   .ui.container.segment(id=event.completed ? '': 'js-event-slots')
-    .ui.list
+    #event-description.ui.list
       h1.item= event.name
-      span.item Type: #{event.type.toUpperCase()}
+      span.item by: #{event.authors}
+      span.item.mt-top1 Type: #{event.type.toUpperCase()}
       span.item Available slots: #{slots.total - slots.taken + ' / ' + slots.total}
       span.item Time: #{event.display_date + ' (UTC)'}
     .ui.raised.segment.mt-top2

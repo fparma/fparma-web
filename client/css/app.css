@@ -46,6 +46,12 @@
   padding-right: 6px;
 }
 
+#event-description h1 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  text-decoration: underline;
+}
+
 .invis {
   display: none !important;
 }

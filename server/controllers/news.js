@@ -9,7 +9,7 @@ exports.create = (data, cb) => {
     author: data.author
   })
   .save(e => {
-    if (cb) cb(e, true)
+    if (cb) cb(e, e ? null : true)
   })
 }
 
