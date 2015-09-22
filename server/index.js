@@ -50,10 +50,18 @@ let mOpt = {
   user: nconf.get('DB:USER'),
   pass: nconf.get('DB:PASSWORD')
 }
+
+let errCb = e => {
+  console.error('Failed to connect to DB', e)
+  process.exit(1)
+}
+
+mongoose.connection.once('error', errCb)
 mongoose.connect(nconf.get('DB:URI'), mOpt)
-mongoose.connection.on('error', console.error)
 
 mongoose.connection.once('connected', () => {
+  mongoose.connection.removeListener('error', errCb)
+  mongoose.connection.on('error', console.error)
   console.log(`Mongoose connected to ${nconf.get('DB:URI')}`)
   app.listen(nconf.get('PORT')).on('listening', () => {
     console.log(`Server listening on ${nconf.get('PORT')} (mode: ${nconf.get('NODE_ENV')})`)

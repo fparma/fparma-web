@@ -16,9 +16,9 @@
 You can change enviroment variables if you do not want to use config.json
 
 * PORT
-* SESSION_SECRET
-* DB_URI
-* DB_USER
-* DB_PASSWORD
-* STEAM_REALM
-* STEAM_KEY (api key)
+* SESSION:SECRET
+* DB:URI
+* DB:USER
+* DB:PASSWORD
+* STEAM:REALM
+* STEAM:KEY (api key)
