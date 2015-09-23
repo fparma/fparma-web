@@ -7,6 +7,7 @@ const Schema = mongoose.Schema
 let mkMsg = (str, i, isMin) => `${str} must have at ${isMin ? 'least' : 'most'} ${i} characters`
 
 const EventSchema = new Schema({
+  image_url: {type: String, trim: true},
   name: {
     type: String,
     required: true,

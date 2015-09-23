@@ -264,7 +264,8 @@
       name: $('.js-event-name').val(),
       type: $('.js-event-type input:checked').val().toLowerCase(),
       authors: $('.js-event-authors').val(),
-      description: $('#js-description').val()
+      description: $('#js-description').val(),
+      image_url: $('.js-event-image').val()
     }
 
     var d = dateInput.getUTCDate()
@@ -308,6 +309,10 @@
     $('#js-review-list .js-type').html(data.type.toUpperCase())
     $('#js-review-list .js-authors').html(data.authors || missingMsg + ' (default System)')
     $('#js-review-list .js-date').html(dateInput.getDisplayDate() || missingMsg)
+
+    $('#js-image').attr('src', data.image_url || '')
+    .addClass(data.image_url ? '' : 'invis')
+    .removeClass(data.image_url ? 'invis' : '')
 
     var grps = data.groups || []
     $('#js-review-list .js-groups').html(grps.length)

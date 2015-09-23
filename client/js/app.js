@@ -9,20 +9,16 @@
 
   $('.ui.dropdown').dropdown()
 
-  !(function () {
-    var $dateSelect = $('#js-date-select')
-    if (!$dateSelect.length) return
-    $dateSelect.on('change', function () {
-      var val = this.value
-      $('.js-event-date').each(function () {
-        var $date = $(this)
-        if (val === 'utc') return $date.html($date.attr('data-def'))
-        var time = window.moment($date.attr('data-date').replace(/"/g, ''))
-        if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
-        if (val === 'from_now') return $date.html(time.fromNow())
-      })
+  $('#js-date-select').on('change', function () {
+    var val = this.value
+    $('.js-event-date').each(function () {
+      var $date = $(this)
+      if (val === 'utc') return $date.html($date.attr('data-def'))
+      var time = window.moment($date.attr('data-date').replace(/"/g, ''))
+      if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
+      if (val === 'from_now') return $date.html(time.fromNow())
     })
-  })()
+  })
 
   !(function () {
     var $eventSlotsForm = $('#js-event-slots')

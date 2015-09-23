@@ -38,7 +38,9 @@ block content
   if (!event.completed)
     input#js-event-id(type='hidden', value=event.id)
   .ui.container.segment(id=event.completed ? '': 'js-event-slots')
-    #event-description.ui.list
+    if (event.image_url)
+      img.ui.massive.centered.rounded.image(src=event.image_url alt='Event image')
+    #event-description.ui.list.mt-top2
       h1.item= event.name
       span.item by: #{event.authors}
       span.item.mt-top1 Type: #{event.type.toUpperCase()}
