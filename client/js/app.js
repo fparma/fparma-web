@@ -21,6 +21,19 @@
   })
 
   !(function () {
+    if (!$('#event-description').length) return
+    var $date = $('#js-date')
+    var date = $date.attr('data-date').replace(/['"]+/g, '')
+    var local = window.moment(date).format('YYYY-MMM-DD: HH:mm')
+    var utc = window.moment.utc(date).format('YYYY-MMM-DD: HH:mm')
+    $date.html(local)
+
+    $('#js-date-checkbox').on('change', function (e) {
+      $date.html(e.target.checked ? utc : local)
+    })
+  }())
+
+  !(function () {
     var $eventSlotsForm = $('#js-event-slots')
     if (!$eventSlotsForm.length) return
 

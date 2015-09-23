@@ -40,12 +40,17 @@ block content
   .ui.container.segment(id=event.completed ? '': 'js-event-slots')
     if (event.image_url)
       img.ui.massive.centered.rounded.image(src=event.image_url alt='Event image')
-    #event-description.ui.list.mt-top2
+    #event-description.ui.list(class=event.image_url ? 'mt-top2' : '')
       h1.item= event.name
       span.item by: #{event.authors}
       span.item.mt-top1 Type: #{event.type.toUpperCase()}
       span.item Available slots: #{slots.total - slots.taken + ' / ' + slots.total}
-      span.item Time: #{event.display_date + ' (UTC)'}
+      span.item Time: 
+        span#js-date(data-date=event.date)
+      .ui.toggle.checkbox(style='padding-top:0.5em')
+        input.hidden#js-date-checkbox(type='checkbox')
+        label(for='js-date-checkbox') Show UTC date
+
     .ui.raised.segment.mt-top2
       h4 Event description
       span.keep-format=event.description
@@ -63,3 +68,6 @@ block content
         .mt-top1.ui.three.column.doubling.stackable.grid.container
           each grp in grps
             +makeGroup(grp, event.completed)
+          
+block tail
+  +script_link('/vendor/moment.min.js', true)
