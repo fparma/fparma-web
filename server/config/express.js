@@ -1,7 +1,6 @@
 import express from 'express'
 import nconf from 'nconf'
 import mongoose from 'mongoose'
-import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import logger from 'morgan'
 import favicon from 'serve-favicon'
@@ -25,8 +24,8 @@ export function init (app, root, IS_DEV) {
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
-  app.use(cookieParser())
   app.use(session({
+    name: 'connect.fparma',
     secret: nconf.get('SESSION:SECRET'),
     store: new SessionStore({
       mongooseConnection: mongoose.connection,
