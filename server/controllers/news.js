@@ -15,7 +15,7 @@ exports.create = (data, cb) => {
 
 exports.list = (cb) => {
   News.find({})
-  .sort({'created_at': 1})
+  .sort({'created_at': -1})
   .limit(10)
   .exec(cb)
 }
