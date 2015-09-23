@@ -1,6 +1,6 @@
 #wrapper {
-  margin-top: 5em;
-  height: 100%;
+  padding-top: 5em;
+  padding-bottom: 2em;
 }
 
 #news .date {
@@ -123,4 +123,21 @@ nav span.title {
   nav .desktop-only {
       display: inline-block; !important;
   }
+}
+
+#cookies {
+  z-index: 9001;
+  position: relative;
+}
+
+#cookies .segment {
+  font-size: 0.8em;
+  padding-bottom: 0.8em !important;
+  width: 20em;
+  position: fixed;
+  left: auto;
+  right: 10px;
+  bottom: 20px;
+  overflow: hidden;
+  padding: 10px 15px 50px
 }

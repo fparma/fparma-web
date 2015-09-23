@@ -13,7 +13,7 @@ router.all('*', (req, res, next) => {
   res.redirect('/profile')
 })
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   News.list((err, data) => {
     if (err) console.error(err)
     res.render('index.jade', {page: 'home', news: data || []})
@@ -23,6 +23,10 @@ router.get('/', (req, res, next) => {
 router.use(auth)
 router.use('/events', events)
 
-router.get('/about', (req, res, next) => {
+router.get('/about', (req, res) => {
   res.render('about.jade', {page: 'about'})
+})
+
+router.get('/policy', (req, res) => {
+  res.render('policy.jade', {tite: 'Policy'})
 })
