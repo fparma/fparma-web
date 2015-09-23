@@ -32,6 +32,7 @@ router.get('/login', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout()
+  if (req.sesssion) req.session.destroy()
   res.redirect('/')
 })
 
@@ -52,8 +53,6 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
 
 router.post('/profile', ensureAuthenticated, (req, res, next) => {
   User.saveUsername(req.user.steam_id, req.body.username, (err, user) => {
-    // In rare cases when user has been dropped from DB
-    if (err && err.name === 'NonExistingUserError') req.logout()
     if (err) return next(err)
     return res.redirect('/')
   })
