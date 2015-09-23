@@ -16,14 +16,12 @@ var BROWSER_SYNC_RELOAD_DELAY = 500
 
 var base = {
   client: 'client/',
-  dist: 'dist/',
   server: 'server/',
-  public: 'public/',
-  libs: 'public/vendor/**/*.js'
+  public: 'public/'
 }
 
 var paths = {
-  scripts: ['js/**/*.js'],
+  scripts: 'js/**/*.js',
   css: 'css/**/*.css',
   semantic: 'semantic/'
 }
@@ -37,10 +35,6 @@ function checkErr (cb) {
 gulp.task('post-install', ['build-semantic', 'build'])
 gulp.task('build-semantic', buildSemantic)
 gulp.task('watch-semantic', watchSemantic)
-
-gulp.task('clean:dist', function (cb) {
-  del(base.dist).then(checkErr(cb))
-})
 
 gulp.task('clean:scripts', function (cb) {
   del('js', {cwd: base.public}).then(checkErr(cb))
@@ -68,7 +62,7 @@ gulp.task('build:css', ['clean:css'], function () {
 })
 
 gulp.task('dev', ['build'], function (cb) {
-  gulp.watch(paths.scripts, {cwd: base.client} ['build:scripts'])
+  gulp.watch(paths.scripts, {cwd: base.client}, ['build:scripts'])
   gulp.watch(paths.css, {cwd: base.client}, ['build:css'])
   gulp.watch(['public/js/**/*.js', 'server/views/**/*'], browserSync.reload)
   gulp.start('watch-semantic')
