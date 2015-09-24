@@ -22,10 +22,13 @@ export function init (app, root, IS_DEV) {
   app.use(compression())
   app.use(favicon(join(root, '../public/img/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
+  app.use(express.static('public', {maxage: IS_DEV ? 0 : '1d'}))
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
   app.use(session({
     name: 'connect.fparma',
+    // trust reverse proxy from heroku
+    proxy: !IS_DEV,
     secret: nconf.get('SESSION:SECRET'),
     store: new SessionStore({
       mongooseConnection: mongoose.connection,
@@ -34,5 +37,4 @@ export function init (app, root, IS_DEV) {
     resave: false,
     saveUninitialized: false
   }))
-  app.use(express.static('public', {maxage: IS_DEV ? 0 : '1d'}))
 }
