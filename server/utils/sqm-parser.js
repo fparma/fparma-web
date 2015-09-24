@@ -77,8 +77,9 @@ export default function (sqmFileString, callback) {
             let orig = unit.description
             if (!orig.toLowerCase().indexOf(grp.name.toLowerCase())) {
               let desc = orig.replace(grpNameReg, '').trim()
-              // OR orig because we don't want to replace unit desc if it's only the grpname e.g actual
-              unit.description = desc || orig
+              // don't want to replace unit desc if it's only the grpname e.g actual
+              // and if it starts with parenthesis, keep the original
+              unit.description = desc.indexOf('(') === 0 ? orig : (desc || orig)
             }
           })
         }
