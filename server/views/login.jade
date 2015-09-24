@@ -7,6 +7,10 @@ block content
     p If this is your first time logging in,
       | you'll have to select a username which will be your displayname.
     p Click the steam button below to login.
-    .ui.grid.centered
-      a.pad(href='/auth/steam')
-        img#steam-img(src='/img/sign-in-steam.png' alt='Login')
+    form.ui.centered.grid.mt-top2(method='POST', action='/auth/steam')
+      .row
+        .ui.toggle.checkbox
+          input#remember-me.hidden(type='checkbox', name='remember', value='remember')
+          label(for='remember-me') Remember me
+      .row#steam-img
+        input(type='image', src='/img/sign-in-steam.png' alt='Login')

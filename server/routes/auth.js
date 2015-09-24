@@ -31,18 +31,23 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  req.session.cookie.maxAge = 0
+  req.session.destroy()
   req.logout()
-  if (req.sesssion) req.session.destroy()
   res.redirect('/')
+})
+
+router.post('/auth/steam', (req, res, next) => {
+  if (req.body && req.session) req.session.__remember__ = req.body.remember
+  next()
 })
 
 const authenticate = passport.authenticate('steam', { failureRedirect: '/login' })
-
-router.get('/auth/steam', authenticate, (req, res) => {
-  res.redirect('/')
-})
+router.post('/auth/steam', authenticate)
 
 router.get(STEAM_RETURN_URL, authenticate, (req, res) => {
+  if (req.session && req.session.__remember__) req.session.cookie.maxAge = 7 * (24 * 60 * 60 * 1000)
+  delete req.session.__remember__
   if (req.isAuthenticated() && !req.user.name) return res.redirect('/profile')
   res.redirect('/')
 })
