@@ -29,4 +29,9 @@ pm2.connect(function () {
   })
 })
 
-process.on('SIGINT', function () {pm2.stop('all')})
+var stop = function () {
+  pm2.stop('all')
+}
+
+process.on('SIGINT', stop)
+process.on('SIGTERM', stop)
