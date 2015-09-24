@@ -13,6 +13,7 @@ export default app
 expressConfig(app, __dirname, IS_DEV)
 passportConfig(app)
 
+// to handle cache bust
 app.locals.app = {
   version: require('../package.json').version
 }
