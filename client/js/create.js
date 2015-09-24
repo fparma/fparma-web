@@ -144,7 +144,7 @@
     }
 
     var title = capitalize(side) + ' group'
-    unitRoot.find('h4').first().html(title)
+    unitRoot.prev('h4').html(title)
     addGroupClickHandlers(grpContainer, side)
 
     grpContainer.appendTo(sideContainer.find('.js-group-container'))
