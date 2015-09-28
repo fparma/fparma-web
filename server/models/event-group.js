@@ -11,6 +11,7 @@ let msgMax = (str) => `${str} can have at most ${MAX} characters`
 const GroupSchema = new Schema({
   name: {type: String, trim: true, minlength: [MIN, msgMin('A group name')], maxlength: [MAX, msgMax('A group name')]},
   side: {type: String, trim: true, enum: {values: SIDES, message: 'Invalid side for group: `{VALUE}`'}},
+  description: {type: String, trim: true, maxlength: [99, msgMax("A group's description")]},
   event_id: {type: Schema.ObjectId, ref: 'Event'},
   units: [{
     description: {type: String, trim: true, minlength: [MIN, msgMin('A unit description')], maxlength: [MAX, msgMax('A unit description')]},

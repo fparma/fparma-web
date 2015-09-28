@@ -132,7 +132,7 @@
   }
 
   // Creates a new group and appends to container
-  function createNewGroup (side, amountUnits) {
+  function createNewGroup (side, amountUnits, skipTransition) {
     var sideContainer = getSideContainer(side)
     var grpContainer = GRP_TEMPLATE.clone()
     var unitRoot = grpContainer.children('.segment')
@@ -148,8 +148,10 @@
     addGroupClickHandlers(grpContainer, side)
 
     grpContainer.appendTo(sideContainer.find('.js-group-container'))
-    .hide()
-    .transition('scale')
+
+    if (!skipTransition) {
+      grpContainer.hide().transition('scale')
+    }
 
     updateUnitsInGroup(grpContainer, l)
     return grpContainer
@@ -178,6 +180,15 @@
 
   // Handlers for rem grp, add or remove unit
   function addGroupClickHandlers (groupEl, side) {
+    groupEl.find('.js-btn-description')
+    .popup({
+      popup: groupEl.find('.popup'),
+      transition: 'fade up',
+      exclusive: true,
+      position: 'bottom left',
+      on: 'click'
+    })
+
     groupEl.find('.js-btn-rmgrp').click(function () {
       removeGroup(groupEl, side)
     })
@@ -276,6 +287,7 @@
       getSideContainer(side)
       .find('.js-grp-root').each(function () {
         var name = $(this).find('input.js-grp').val()
+        var desc = $(this).find('textarea').val()
         var units = []
 
         $(this).find('input.js-unit').each(function () {
@@ -287,6 +299,7 @@
         grps.push({
           name: name,
           side: side,
+          description: desc,
           units: units
         })
       })
@@ -404,7 +417,7 @@
       var sides = []
       $.each(reply.data, function (i, grp) {
         if (!~sides.indexOf(grp.side)) sides.push(grp.side)
-        var grpCntr = createNewGroup(grp.side, grp.units.length)
+        var grpCntr = createNewGroup(grp.side, grp.units.length, true)
         var grpInp = grpCntr.find('.js-grp')
         grpInp.val(grp.name)
         if (grp.name.length < SLOTS_INP.MIN || grp.name.length > SLOTS_INP.MAX) {
