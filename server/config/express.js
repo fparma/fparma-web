@@ -30,6 +30,8 @@ export function init (app, root, IS_DEV) {
     name: 'connect.fparma',
     // trust reverse proxy from heroku
     proxy: !IS_DEV,
+    // enable rolling sessions
+    rolling: true,
     secret: nconf.get('SESSION:SECRET'),
     store: new SessionStore({
       mongooseConnection: mongoose.connection,
