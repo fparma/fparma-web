@@ -18,6 +18,9 @@
 
   $('.ui.dropdown').dropdown()
 
+  // Shows a group description
+  $('.event-group .grp-desc').popup()
+
   $('#js-date-select').on('change', function () {
     var val = this.value
     $('.js-event-date').each(function () {
