@@ -14,7 +14,8 @@ router.get('/', (req, res, next) => {
   Event.list((err, events) => {
     if (err) return next(err)
     let now = moment.utc()
-    let upc = events.filter(v => v.date > now)
+    // upcoming should be displayed in descending, so reverse it
+    let upc = events.filter(v => v.date > now).reverse()
     let cmp = events.filter(v => v.date < now)
     res.render('events/list.jade', {
       page: 'events',

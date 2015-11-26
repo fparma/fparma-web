@@ -65,7 +65,7 @@ exports.create = (evt, user, cb) => {
 // List events. No groups
 exports.list = cb => {
   Event.find({})
-  .sort({'date': 1})
+  .sort({'date': -1})
   .limit(20)
   .exec((err, res) => {
     if (err) return cb(err)
