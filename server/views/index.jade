@@ -10,13 +10,12 @@ block content
       h2 News
       each item in locals.news
         .ui.raised.segment.mt-top2
-          p.date=item.display_date
+          p.date Posted on #{item.display_date}
           h3.headline.no-margin
             if item.url
               a(href=item.url)=item.header
             else
               span=item.header
-          p Posted by #{item.author}
           .mt-top1
             .ui.message
               p.keep-format=item.text

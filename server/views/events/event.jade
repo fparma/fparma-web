@@ -1,3 +1,5 @@
+extends ../layout
+
 mixin makeGroup(grp, eventCompleted)
   .column
     .event-group.ui.raised.segment
@@ -32,9 +34,6 @@ mixin makeUnit(unit, eventCompleted)
       i.middle.aligned.user.icon
       .content
         .header=unit.description
-
-
-extends ../layout
 
 block content
   if (!event.completed)

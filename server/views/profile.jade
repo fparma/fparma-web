@@ -2,35 +2,79 @@ extends layout
 
 block content
   .ui.container.segment
-      if !user.name
-        form#form.ui.form(method='POST')
-          h1 Welcome!
-          .field
-            label Select a username
-            input(type='text', autocomplete='off', name='username', placeholder='Choose username')
-          .ui.error.message
-          p Consider using your ingame name for easier identification. 
-            | This name will be shown in events, comments etc.
-          p Your steam profile is not shown
-          .pad
-            button.ui.button.primary(type='submit') Submit
-            a.ui.button(href='/logout') Logout
-          script.
-            $(function () {
-              $('#form').form({
-                fields: {
-                  username: {
-                    identifier: 'username',
-                    rules: [
-                      {
-                        type: 'regExp[!{locals.validation.REG}]',
-                        prompt: '!{locals.validation.MSG}'
-                      }
-                    ]
-                  }
+    if !user.name
+      form#form.ui.form(method='POST')
+        h1 Welcome!
+        .field
+          label Select a username
+          input(type='text', autocomplete='off', name='username', placeholder='Choose username')
+        .ui.error.message
+        p Consider using your ingame name for easier identification. 
+          | This name will be shown in events, comments etc.
+        p Your steam profile is not shown
+        .pad
+          button.ui.button.primary(type='submit') Submit
+          a.ui.button(href='/logout') Logout
+        script.
+          $(function () {
+            $('#form').form({
+              fields: {
+                username: {
+                  identifier: 'username',
+                  rules: [
+                    {
+                      type: 'regExp[!{locals.validation.REG}]',
+                      prompt: '!{locals.validation.MSG}'
+                    }
+                  ]
                 }
-              })
+              }
             })
-      else
-        h1 Profile
-        h4 #{user.name}
+          })
+    else
+      h1.ui.dividing.header Profile
+      p Name: #{user.name}
+      form#form.ui.form.mt-top2(method='POST')
+        h2.ui.dividing.header Squad.xml settings
+        p Squad.xml in a way to show which group you belong to in Arma3.
+          | Note that when changing the settings below, updates will not be instant
+          | as A3 servers will cache the file for a while.
+        p To get the below info into the game, add  
+          b
+            script.
+              document.write(location.origin + '/squad.xml ')
+          a(target='_blank' href='https://community.bistudio.com/wiki/squad.xml#How_to_use_it_as_a_team-member')
+            | to your profile in Arma3
+        .ui.two.column.stackable.grid
+          .two.column.row
+            .field.column
+              .ui.toggle.checkbox
+                input#squad-xml-accept(type='checkbox', name='add')
+                label(for='squad-xml-accept') Add me to squad.xml    
+          .two.column.row
+            .field.column
+              label Nickname
+              input(type='text', name='nick', autocomplete='off', placeholder='Nickname')
+          .two.column.row
+            .field.column
+              label Remark
+              input(type='text', name='remark', autocomplete='off', placeholder='Something about me')
+          .row
+            .column
+              button(type='button').ui.primary.submit.button Save changes
+      script.
+        $(function () {
+          $('#form').form({
+            inline: true,
+            fields: {
+              nick: {
+                rules: [{
+                    type: 'regExp[/^[A-Z][0-9 ]{2,64}$/i]',
+                    prompt: '2-64 characters. Only A-Z, a-z, 0-9 and space'
+                  },
+                ],
+              },
+              remark: 'maxLength[128]',
+            }
+          })
+        })

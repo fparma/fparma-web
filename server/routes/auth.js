@@ -57,8 +57,12 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
 })
 
 router.post('/profile', ensureAuthenticated, (req, res, next) => {
-  User.saveUsername(req.user.steam_id, req.body.username, (err, user) => {
-    if (err) return next(err)
-    return res.redirect('/')
-  })
+  if (!req.user.name) {
+    User.saveUsername(req.user.steam_id, req.body.username, (err, user) => {
+      if (err) return next(err)
+      return res.redirect('/')
+    })
+  } else {
+
+  }
 })
