@@ -16,8 +16,8 @@ const UserSchema = new mongoose.Schema({
   admin: {type: Boolean, default: false},
   squad: {
     show: {type: Boolean, default: false},
-    nick: {type: String, default: '', maxlength: 64, trim: true, required: true},
-    remark: {type: String, default: 'N/A', maxlength: 128, trim: true},
+    nick: {type: String, default: 'N/A', maxlength: 64, trim: true},
+    remark: {type: String, default: 'N/A', maxlength: 128}
   }
 })
 

@@ -1,9 +1,6 @@
 import {Router} from 'express'
 import passport from 'passport'
-
 import {STEAM_RETURN_URL} from '../config/passport'
-import User from '../controllers/user'
-import {USR_REGEXP, USR_ERROR} from '../models/user'
 
 const router = Router()
 export default router
@@ -50,19 +47,4 @@ router.get(STEAM_RETURN_URL, authenticate, (req, res) => {
   delete req.session.__remember__
   if (req.isAuthenticated() && !req.user.name) return res.redirect('/profile')
   res.redirect('/')
-})
-
-router.get('/profile', ensureAuthenticated, (req, res) => {
-  res.render('profile.jade', {title: 'Profile', page: 'profile', validation: {REG: USR_REGEXP, MSG: USR_ERROR}})
-})
-
-router.post('/profile', ensureAuthenticated, (req, res, next) => {
-  if (!req.user.name) {
-    User.saveUsername(req.user.steam_id, req.body.username, (err, user) => {
-      if (err) return next(err)
-      return res.redirect('/')
-    })
-  } else {
-
-  }
 })

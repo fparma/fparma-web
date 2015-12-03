@@ -4,6 +4,7 @@ import _ from 'lodash'
 import builder from 'xmlbuilder'
 import auth from './auth'
 import events from './events'
+import profile from './profile'
 import News from '../controllers/news'
 
 export const router = Router()
@@ -12,7 +13,7 @@ export const router = Router()
 router.all('*', (req, res, next) => {
   if (!req.isAuthenticated()) return next()
   if (req.user.name) return next()
-  if (~['/profile', '/logout'].indexOf(req.url)) return next()
+  if (/^\/profile/.test(req.url) || req.url === '/logout') return next()
   res.redirect('/profile')
 })
 
@@ -24,6 +25,7 @@ router.get('/', (req, res) => {
 })
 
 router.use(auth)
+router.use('/profile', profile)
 router.use('/events', events)
 
 router.get('/about', (req, res) => {
@@ -39,7 +41,7 @@ router.get('/squad.xml', (req, res) => {
   root.dtd('squad.dtd')
 
   _.forOwn(nconf.get('SQUAD_XML'), (v, key) => {
-    if (/nick/.test(key)) return root.att(key, v)
+    if (key === 'nick') return root.att(key, v)
     root.ele(key, v)
   })
 

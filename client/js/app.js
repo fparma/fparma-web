@@ -33,6 +33,26 @@
   })
 
   !(function () {
+    console.log('hi');
+    if (!$('#squad-form').length) return
+    $('#squad-form').form({
+      inline: true,
+      fields: {
+        nick: {
+          rules: [{
+            type: 'regExp[/^[A-Z][0-9 ]{2,64}$/i]',
+            prompt: '2-64 characters. Only A-Z, a-z, 0-9 and space'
+          }]
+        },
+        remark: 'maxLength[128]'
+      }
+    })
+    $('#squad-xml-accept').on('click', function () {
+      $('#squad-form').find('.invis').removeClass('invis')
+    })
+  })()
+
+  !(function () {
     if (!$('#event-description').length) return
     var $date = $('#js-date')
     var date = $date.attr('data-date').replace(/['"]+/g, '')
