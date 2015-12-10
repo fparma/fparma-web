@@ -7,6 +7,9 @@
     "start": "node pm2",
     "postinstall": "gulp post-install"
   },
+  "engines": {
+    "node": "4.0.0"
+  },
   "author": "Cuel",
   "license": "MIT",
   "dependencies": {
