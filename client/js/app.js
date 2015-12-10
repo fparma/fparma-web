@@ -34,6 +34,9 @@
 
   !(function () {
     if (!($('#squad-form').length)) return
+    $('button[type="submit"]').click(function () {
+      $(this).addClass('disabled loading')
+    })
     $('#squad-form').form({
       inline: true,
       fields: {
