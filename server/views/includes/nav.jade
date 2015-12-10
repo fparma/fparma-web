@@ -6,24 +6,21 @@ mixin mklink(page, url, cl)
     class=cl
   )!=page
 
-mixin menu(isDesktop)
-  if (locals.user.steam_id)
-    .ui.item.selection.dropdown(class=isDesktop ? 'compact right': '', role='menuitem' aria-haspopup='true')
-      i.user.icon(class=user.name ? 'green': 'grey')
-      span=user.name || 'New user'
-      .menu
-        +mklink('Profile', '/profile')
-        +mklink('Logout', '/logout')
-  else 
-    +mklink('Login / Register', '/login', 'right')
-
 nav.ui.fixed.inverted.menu(role='menubar')
   .ui.container.desktop-only
     a.header.item(href='/', role='link' class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
     +mklink('Events', '/events')
     +mklink('About', '/about')
-    +menu(true)
+    if (locals.user && locals.user.steam_id)
+      .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
+        i.user.icon(class=user.name ? 'green': 'grey')
+        span=user.name || 'New user'
+        .menu
+          +mklink('Profile', '/profile')
+          +mklink('Logout', '/logout')
+    else 
+      +mklink('Login / Register', '/login', 'right')
 
   .ui.item.dropdown.mobile-only
     i.icon.content
@@ -31,6 +28,12 @@ nav.ui.fixed.inverted.menu(role='menubar')
     .menu
       +mklink('Events', '/events')
       +mklink('About', '/about')
-      +menu(false)
+      if locals.user && locals.user.steam_id
+        a.item(href='/profile')
+          i.user.icon(class=locals.user.name ? 'green': 'grey')
+          span=user.name || 'New user'
+        +mklink('Logout', '/logout')
+      else
+        +mklink('Login / Register', '/login', 'right')
   a.header.item.right.mobile-only(href='/', role='link', class=(locals.page == 'home' ? 'active' : ''))
     span.title FPARMA
