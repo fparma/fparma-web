@@ -12,5 +12,13 @@
   "STEAM": {
     "REALM": "http://localhost:8080",
     "KEY": ""
+  },
+  "SQUAD_XML": {
+    "nick": "FP",
+    "name": "Facepunch ARMA",
+    "email": "N/A",
+    "web": "fparma.herokuapp.com",
+    "picture": "fparma.png",
+    "title": "FPARMA"
   }
 }
