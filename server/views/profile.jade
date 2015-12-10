@@ -39,25 +39,27 @@ block content
         p Squad.xml in a way to show which group you belong to in Arma3.
           | Note that when changing the settings below, updates will not be instant
           | as A3 servers will cache the file for a while.
-        p To get the below info into the game, add  
-          b#js-url
-            script.
-              // document.write(location.origin + '/squad.xml ')
-              $(function() {$('#js-url').html(location.origin + '/squad.xml ')})
+        p To get the below info into the game, add the below URL 
           a(target='_blank' href='https://community.bistudio.com/wiki/squad.xml#How_to_use_it_as_a_team-member')
             | to your profile in Arma3
 
-        .ui.two.column.stackable.grid.mt-top2
+        .ui.two.column.stackable.grid
           .two.column.row
+            .field.column
+              input#js-url(type="text" readonly)
+              script.
+                // document.write(location.origin + '/squad.xml ')
+                $(function() {$('#js-url').val(location.origin + '/squad.xml ')})
+          .two.column.row.mt-top2
             .field.column
               .ui.toggle.checkbox
                 input#squad-xml-accept(type='checkbox', name='add', value="on", checked=(locals.squadSettings.show))
                 label(for='squad-xml-accept') Add me to squad.xml
           .two.column.row.js-squad(class=locals.squadSettings.show ? '' : 'invis')
             .field.column
-              label Nickname
+              label Nickname (<span style="color: red">MUST</span> match your in-game nick) 
               input(type='text', name='nick', autocomplete='off', 
-                placeholder='Insert a nick to display in A3',
+                placeholder='A3 nick',
                 value=(locals.squadSettings.nick && locals.squadSettings.nick !== 'N/A' ? locals.squadSettings.nick : false)
               )
           .two.column.row.js-squad(class=locals.squadSettings.show ? '' : 'invis')
