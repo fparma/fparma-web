@@ -1,13 +1,14 @@
 mixin mklink(page, url, cl)
   a.item(
     href!=url,
+    role='link',
     class=locals.page == url.substr(1).split('/')[0] ? 'active': '',
     class=cl
   )!=page
 
 mixin menu(isDesktop)
   if (locals.user.steam_id)
-    .ui.item.selection.dropdown(class=isDesktop ? 'compact right': '')
+    .ui.item.selection.dropdown(class=isDesktop ? 'compact right': '', role='menuitem' aria-haspopup='true')
       i.user.icon(class=user.name ? 'green': 'grey')
       span=user.name || 'New user'
       .menu
@@ -16,9 +17,9 @@ mixin menu(isDesktop)
   else 
     +mklink('Login / Register', '/login', 'right')
 
-nav.ui.fixed.inverted.menu
+nav.ui.fixed.inverted.menu(role='menubar')
   .ui.container.desktop-only
-    a.header.item(href='/', class = (locals.page === 'home' ? 'active': ''))
+    a.header.item(href='/', role='link' class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
     +mklink('Events', '/events')
     +mklink('About', '/about')
@@ -31,5 +32,5 @@ nav.ui.fixed.inverted.menu
       +mklink('Events', '/events')
       +mklink('About', '/about')
       +menu(false)
-  a.header.item.right.mobile-only(href='/', class=(locals.page == 'home' ? 'active' : ''))
+  a.header.item.right.mobile-only(href='/', role='link', class=(locals.page == 'home' ? 'active' : ''))
     span.title FPARMA
