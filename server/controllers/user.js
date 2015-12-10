@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-
 const User = mongoose.model('User')
 
 /**
@@ -60,4 +59,22 @@ exports.saveUsername = (id, name, cb) => {
       })
     })
   })
+}
+
+exports.getUnitsForXml = (cb) => {
+  User.find({'squad.show': true})
+  .exec(cb)
+}
+
+exports.getUserSquadSettings = (id, cb) => {
+  User.findOne({steam_id: id}, {squad: 1}).exec(cb)
+}
+
+/*
+* Updates preferences for squad.xml
+*/
+exports.updateSquadSettings = (id, settings, cb) => {
+  User.findOneAndUpdate({steam_id: id}, {
+    $set: {squad: settings}
+  }, cb)
 }

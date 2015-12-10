@@ -33,22 +33,32 @@
   })
 
   !(function () {
-    console.log('hi');
-    if (!$('#squad-form').length) return
+    if (!($('#squad-form').length)) return
     $('#squad-form').form({
       inline: true,
       fields: {
         nick: {
-          rules: [{
-            type: 'regExp[/^[A-Z][0-9 ]{2,64}$/i]',
-            prompt: '2-64 characters. Only A-Z, a-z, 0-9 and space'
-          }]
+          rules: [{type: 'maxLength[64]', prompt: 'Max 64 characters'}]
         },
-        remark: 'maxLength[128]'
+        remark: {
+          rules: [{type: 'maxLength[128]', prompt: 'Max 128 characters'}]
+        }
       }
     })
+
+    var squadSettings = $('.js-squad')
+    if (squadSettings.hasClass('invis')) {
+      squadSettings.hide().removeClass('invis').attr('disabled', true)
+    }
+
     $('#squad-xml-accept').on('click', function () {
-      $('#squad-form').find('.invis').removeClass('invis')
+      squadSettings.fadeToggle({
+        duration: 200,
+        complete: function () {
+          var $this = $(this)
+          $this.find('input').attr('disabled', $this.is(':hidden'))
+        }
+      })
     })
   })()
 

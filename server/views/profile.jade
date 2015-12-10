@@ -46,20 +46,27 @@ block content
               $(function() {$('#js-url').html(location.origin + '/squad.xml ')})
           a(target='_blank' href='https://community.bistudio.com/wiki/squad.xml#How_to_use_it_as_a_team-member')
             | to your profile in Arma3
+
         .ui.two.column.stackable.grid.mt-top2
           .two.column.row
             .field.column
               .ui.toggle.checkbox
-                input#squad-xml-accept(type='checkbox', name='add')
-                label(for='squad-xml-accept') Add me to squad.xml    
-          .two.column.row.invis
+                input#squad-xml-accept(type='checkbox', name='add', value="on", checked=(locals.squadSettings.show))
+                label(for='squad-xml-accept') Add me to squad.xml
+          .two.column.row.js-squad(class=locals.squadSettings.show ? '' : 'invis')
             .field.column
               label Nickname
-              input(type='text', name='nick', autocomplete='off', placeholder='Insert a nick to display in A3')
-          .two.column.row.invis
+              input(type='text', name='nick', autocomplete='off', 
+                placeholder='Insert a nick to display in A3',
+                value=(locals.squadSettings.nick && locals.squadSettings.nick !== 'N/A' ? locals.squadSettings.nick : false)
+              )
+          .two.column.row.js-squad(class=locals.squadSettings.show ? '' : 'invis')
             .field.column
               label Remark
-              input(type='text', name='remark', autocomplete='off', placeholder='Something about me')
+              input(type='text', name='remark', autocomplete='off',
+                placeholder='Something about me',
+                value=(locals.squadSettings.remark && locals.squadSettings.remark !== 'N/A' ? locals.squadSettings.remark : false)
+              )
           .row
             .column
-              button(type='button').ui.primary.submit.button Save changes
+              button(type='submit').ui.primary.submit.button Save changes

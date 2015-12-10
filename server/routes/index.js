@@ -6,6 +6,7 @@ import auth from './auth'
 import events from './events'
 import profile from './profile'
 import News from '../controllers/news'
+import User from '../controllers/user'
 
 export const router = Router()
 
@@ -36,28 +37,32 @@ router.get('/policy', (req, res) => {
   res.render('policy.jade', {tite: 'Policy'})
 })
 
-router.get('/squad.xml', (req, res) => {
-  var root = builder.create('squad')
-  root.dtd('squad.dtd')
+router.get('/squad.xml', (req, res, next) => {
+  User.getUnitsForXml((err, users) => {
+    if (err) return next(err)
+    var root = builder.create('squad')
+    root.dtd('squad.dtd')
 
-  _.forOwn(nconf.get('SQUAD_XML'), (v, key) => {
-    if (key === 'nick') return root.att(key, v)
-    root.ele(key, v)
-  })
-
-  /*
-  units.forEach((v) => {
-    root.ele({
-      member: {
-        '@id': v.id,
-        '@nick': v.name,
-        remark: v.remark
-      }
+    _.forOwn(nconf.get('SQUAD_XML'), (v, key) => {
+      if (key === 'nick') return root.att(key, v)
+      root.ele(key, v)
     })
-  })
-  */
 
-  var xmlString = root.end({pretty: true})
-  res.set('Content-Type', 'application/xml')
-  res.send(xmlString)
+    users.forEach((v) => {
+      root.ele({
+        member: {
+          '@id': v.steam_id,
+          '@nick': v.squad.nick,
+          name: 'N/A',
+          email: 'N/A',
+          icq: 'N/A',
+          remark: v.squad.remark
+        }
+      })
+    })
+
+    var xmlString = root.end({pretty: true})
+    res.set('Content-Type', 'application/xml')
+    res.send(xmlString)
+  })
 })
