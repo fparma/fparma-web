@@ -5,7 +5,7 @@ var nconf = require('nconf')
 nconf
 .env({
   match: /^DB:|STEAM:/,
-  whitelist: ['PORT', 'SESSION:SECRET', 'NODE_ENV']
+  whitelist: ['PORT', 'SESSION:SECRET', 'NODE_ENV', 'SQUAD_XML']
 })
 .file('config.json')
 .defaults({NODE_ENV: 'development'})

@@ -1,7 +1,12 @@
 import {Router} from 'express'
+import nconf from 'nconf'
+import _ from 'lodash'
+import builder from 'xmlbuilder'
 import auth from './auth'
 import events from './events'
+import profile from './profile'
 import News from '../controllers/news'
+import User from '../controllers/user'
 
 export const router = Router()
 
@@ -9,7 +14,7 @@ export const router = Router()
 router.all('*', (req, res, next) => {
   if (!req.isAuthenticated()) return next()
   if (req.user.name) return next()
-  if (~['/profile', '/logout'].indexOf(req.url)) return next()
+  if (/^\/profile/.test(req.url) || req.url === '/logout') return next()
   res.redirect('/profile')
 })
 
@@ -21,6 +26,7 @@ router.get('/', (req, res) => {
 })
 
 router.use(auth)
+router.use('/profile', profile)
 router.use('/events', events)
 
 router.get('/about', (req, res) => {
@@ -29,4 +35,34 @@ router.get('/about', (req, res) => {
 
 router.get('/policy', (req, res) => {
   res.render('policy.jade', {tite: 'Policy'})
+})
+
+router.get('/squad.xml', (req, res, next) => {
+  User.getUnitsForXml((err, users) => {
+    if (err) return next(err)
+    var root = builder.create('squad')
+    root.dtd('squad.dtd')
+
+    _.forOwn(nconf.get('SQUAD_XML'), (v, key) => {
+      if (key === 'nick') return root.att(key, v)
+      root.ele(key, v)
+    })
+
+    users.forEach((v) => {
+      root.ele({
+        member: {
+          '@id': v.steam_id,
+          '@nick': v.squad.nick,
+          name: 'N/A',
+          email: 'N/A',
+          icq: 'N/A',
+          remark: v.squad.remark
+        }
+      })
+    })
+
+    var xmlString = root.end({pretty: true})
+    res.set('Content-Type', 'application/xml')
+    res.send(xmlString)
+  })
 })

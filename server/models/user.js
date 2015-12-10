@@ -13,7 +13,12 @@ const UserSchema = new mongoose.Schema({
   created_at: {type: Date, default: Date.now},
   steam_id: {type: String, required: true, trim: true, index: {unique: true}},
   steam_info: {type: mongoose.Schema.Types.Mixed},
-  admin: {type: Boolean, default: false}
+  admin: {type: Boolean, default: false},
+  squad: {
+    show: {type: Boolean, default: false},
+    nick: {type: String, default: 'N/A', maxlength: 64, trim: true},
+    remark: {type: String, default: 'N/A', maxlength: 128}
+  }
 })
 
 mongoose.model('User', UserSchema)

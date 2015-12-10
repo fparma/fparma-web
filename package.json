@@ -29,7 +29,8 @@
     "passport-steam": "^0.1.6",
     "pm2": "^0.14.7",
     "serve-favicon": "^2.3.0",
-    "slug": "^0.9.1"
+    "slug": "^0.9.1",
+    "xmlbuilder": "^4.1.0"
   },
   "devDependencies": {
     "better-console": "^0.2.4",

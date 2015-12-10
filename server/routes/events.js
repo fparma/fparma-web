@@ -13,10 +13,12 @@ export default router
 router.get('/', (req, res, next) => {
   Event.list((err, events) => {
     if (err) return next(err)
+
     let now = moment.utc()
     // upcoming should be displayed in descending, so reverse it
     let upc = events.filter(v => v.date > now).reverse()
     let cmp = events.filter(v => v.date < now)
+
     res.render('events/list.jade', {
       page: 'events',
       title: 'Events',
@@ -34,6 +36,7 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
       total: event.groups.map(v => {
         return v.units.length
       }).reduce((a, b) => { return a + b }),
+
       taken: event.groups.map(v => {
         return v.units.filter(v => {
           if (v.user_name) return true

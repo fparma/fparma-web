@@ -33,6 +33,39 @@
   })
 
   !(function () {
+    if (!($('#squad-form').length)) return
+    $('button[type="submit"]').click(function () {
+      $(this).addClass('disabled loading')
+    })
+    $('#squad-form').form({
+      inline: true,
+      fields: {
+        nick: {
+          rules: [{type: 'maxLength[64]', prompt: 'Max 64 characters'}]
+        },
+        remark: {
+          rules: [{type: 'maxLength[128]', prompt: 'Max 128 characters'}]
+        }
+      }
+    })
+
+    var squadSettings = $('.js-squad')
+    if (squadSettings.hasClass('invis')) {
+      squadSettings.hide().removeClass('invis').attr('disabled', true)
+    }
+
+    $('#squad-xml-accept').on('click', function () {
+      squadSettings.fadeToggle({
+        duration: 200,
+        complete: function () {
+          var $this = $(this)
+          $this.find('input').attr('disabled', $this.is(':hidden'))
+        }
+      })
+    })
+  })()
+
+  !(function () {
     if (!$('#event-description').length) return
     var $date = $('#js-date')
     var date = $date.attr('data-date').replace(/['"]+/g, '')
