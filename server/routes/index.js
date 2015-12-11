@@ -32,7 +32,7 @@ router.use('/media', media)
 router.use('/events', events)
 
 router.get('/about', (req, res) => {
-  res.render('about.jade', {page: 'about'})
+  res.render('about.jade', {page: 'about', title: 'About'})
 })
 
 router.get('/policy', (req, res) => {
