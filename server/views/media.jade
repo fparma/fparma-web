@@ -4,9 +4,13 @@ extends layout
 
 block content
   .ui.segment.container
-    if (locals.user && locals.user.admin)
-      a.ui.primary.button(href='/media/approval') Approval
     h1.ui.dividing.header Media
+      if (locals.user && locals.user.admin)
+          a.ui.primary.button(style="float: right", href='/media/approval') Approval
+    .ui.centered.grid
+      .row
+        .ui.active.button Screenshots
+        .ui.disabled.button Videos
     .ui.centered.grid
       -var i = 0;
       while (images.length)
