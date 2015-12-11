@@ -11,6 +11,7 @@ nav.ui.fixed.inverted.menu(role='menubar')
     a.header.item(href='/', role='link' class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
     +mklink('Events', '/events')
+    +mklink('Media', '/media')
     +mklink('About', '/about')
     if (locals.user && locals.user.steam_id)
       .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
@@ -27,6 +28,7 @@ nav.ui.fixed.inverted.menu(role='menubar')
     span Menu
     .menu
       +mklink('Events', '/events')
+      +mklink('Media', '/media')
       +mklink('About', '/about')
       if locals.user && locals.user.steam_id
         a.item(href='/profile')

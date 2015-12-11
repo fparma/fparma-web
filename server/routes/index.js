@@ -5,6 +5,7 @@ import builder from 'xmlbuilder'
 import auth from './auth'
 import events from './events'
 import profile from './profile'
+import media from './media'
 import News from '../controllers/news'
 import User from '../controllers/user'
 
@@ -27,6 +28,7 @@ router.get('/', (req, res) => {
 
 router.use(auth)
 router.use('/profile', profile)
+router.use('/media', media)
 router.use('/events', events)
 
 router.get('/about', (req, res) => {

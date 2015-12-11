@@ -1,0 +1,18 @@
+extends layout
+
+//block head
+
+block content
+  .ui.segment.container
+    if (locals.user && locals.user.admin)
+      a.ui.primary.button(href='/media/approval') Approval
+    h1.ui.dividing.header Media
+    .ui.centered.grid
+      -var i = 0;
+      while (images.length)
+          if (i % 4 == 0)
+            .ui.divided.doubling.stackable.four.column.row
+              each n in [1, 2, 3, 4]
+                if (images.length)
+                  .column.middle.aligned
+                      img.ui.centered.rounded.image(src=images.pop().url)
