@@ -22,12 +22,12 @@ html(lang='en')
         #cookie-btn.ui.primary.tiny.button
           span Whatever!
     include includes/nav.jade
-    noscript
-      .ui.container(style="margin-top:4em")
-        .ui.small.error.icon.message
-          i.icon.warning
-          p This site requires JavaScript enabled to function properly
     #wrapper
+      noscript
+        .ui.container
+          .ui.small.error.icon.message
+            i.icon.warning
+            p This site requires JavaScript to function properly
       block content
       
       if (page == 'home')
