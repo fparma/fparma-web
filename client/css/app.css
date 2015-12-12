@@ -151,6 +151,22 @@ nav span.title {
   nav .desktop-only {
       display: inline-block; !important;
   }
+
+  #media-screenshots img:not(.first-row) {
+    max-height: 230px;
+  }
+}
+#media-screenshots .segment {
+  margin: 0 auto;
+}
+
+#media-screenshots img {
+  border-radius: 2px;
+}
+
+
+.float-r {
+  float: right;
 }
 
 #cookies {
