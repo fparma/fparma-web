@@ -38,7 +38,7 @@ block content
                 i.add.circle.icon
                 | Submit new
             if (locals.user.admin) 
-              a.item(href='/media/approval', class= unapprovedCount ? '' : 'disabled')
+              a.item(href=unapprovedCount ? '/media/approve' : '#', class=unapprovedCount ? '' : 'disabled')
                 i.check.circle.outline.icon
                 | Approval
                 if (unapprovedCount)
@@ -84,17 +84,6 @@ block content
       .row#loader.invis
         .column
           .ui.segment.loading
-
-
-
-//-
-                      input.js-video(type="hidden",
-                        data-caption=video.caption || null,
-                        data-youtube=video.youtube_id,
-                        data-url=video.url
-                        data-author=video.author.show ? video.author.name : null
-                      )
-//-
 
 block tail
   +script_link('/vendor/lightbox.js', true)
