@@ -1,7 +1,8 @@
 import {Router} from 'express'
-import Media from '../controllers/media'
-import fs from 'fs'
 import _ from 'lodash'
+
+import {ensureAuthenticated, ensureAdmin} from './auth'
+import Media from '../controllers/media'
 
 const router = Router()
 export default router
@@ -36,14 +37,14 @@ router.get('/', (req, res, next) => {
   })
 })
 
-router.get('/submit', (req, res, next) => {
+router.get('/submit', ensureAuthenticated, (req, res, next) => {
   res.render('media/submit.jade', {
     page: 'media',
     title: 'Submit new media'
   })
 })
 
-router.post('/submit', (req, res, next) => {
+router.post('/submit', ensureAuthenticated, (req, res, next) => {
   let media = req.body || {}
 
   Media.create({
@@ -61,7 +62,7 @@ router.post('/submit', (req, res, next) => {
   })
 })
 
-router.get('/approval', (req, res, next) => {
+router.get('/approval', ensureAdmin, (req, res, next) => {
   Media.getOneForApproval((err, data) => {
     if (err) return next(err)
     if (!data) return res.redirect('/media')
@@ -74,7 +75,7 @@ router.get('/approval', (req, res, next) => {
   })
 })
 
-router.post('/approval', (req, res, next) => {
+router.post('/approval', ensureAdmin, (req, res, next) => {
   let cb = err => {
     if (err) return next(err)
     res.redirect('/media/approval')
