@@ -1,3 +1,22 @@
+video {
+  width: 98%;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+#media-videos .video-caption {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+#media-videos .video {
+  margin-top: 1em !important;
+  margin-bottom: 1em;
+}
+
 #wrapper {
   padding-top: 5em;
   padding-bottom: 2em;
@@ -141,6 +160,10 @@ nav span.title {
   nav .mobile-only {
     display: inline-block; !important;
   }
+
+  #media-screenshots img:hover {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (min-width : 768px) {
@@ -155,15 +178,35 @@ nav span.title {
   #media-screenshots img:not(.first-row) {
     max-height: 230px;
   }
-}
-#media-screenshots .segment {
-  margin: 0 auto;
+
+  #media-screenshots img:hover {
+    cursor: zoom-in;
+  }
 }
 
 #media-screenshots img {
-  border-radius: 2px;
+  border: 2px solid grey;
+  -moz-transition:-moz-transform 0.2s ease-in;
+  -webkit-transition:-webkit-transform 0.2s ease-in;
+  -o-transition:-o-transform 0.2s ease-in;
+  -webkit-box-shadow: 0 8px 6px -8px black;
+     -moz-box-shadow: 0 8px 6px -8px black;
+          box-shadow: 0 8px 6px -8px black;
 }
 
+#media-screenshots {
+  padding-bottom: 1em;
+}
+
+#loader .segment.loading {
+  height: 5em;
+}
+
+#media-screenshots img.zoom-effect:hover {
+  -moz-transform:scale(1.05);
+  -webkit-transform:scale(1.05);
+  -o-transform:scale(1.05);
+}
 
 .float-r {
   float: right;

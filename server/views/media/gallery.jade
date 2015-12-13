@@ -1,0 +1,100 @@
+extends ../layout
+
+block head
+  +style_link('/vendor/lightbox.css', true)
+
+block content
+  noscript
+    style.
+      #media-screenshots img:hover {
+        cursor: pointer;
+      }
+
+  mixin makeImage(img, first)
+    input.js-img(type='hidden',
+      data-url=img.url,
+      data-caption=img.caption,
+      data-author=img.author.show ? img.author.name : '',
+      data-first=first ? 'true' : 'false'
+    )
+    noscript
+      a(target="_blank", href=img.url)
+        img.ui.centered.rounded.image(src=img.url)
+
+  .ui.segment.container
+    h1.ui.dividing.header Media
+    .ui.centered.grid
+      .row
+        .ui.compact.stackable.menu
+          a.item.active.js-media-menu-btn
+            i.file.image.outline.tiny.icon
+            | Screenshots
+          a.item.js-media-menu-btn
+            i.video.play.tiny.icon
+            | Videos
+          if (locals.user)
+            if (locals.user.name)
+              a.item(href='/media/submit')
+                i.add.circle.icon
+                | Submit new
+            if (locals.user.admin) 
+              a.item(href='/media/approval', class= unapprovedCount ? '' : 'disabled')
+                i.check.circle.outline.icon
+                | Approval
+                if (unapprovedCount)
+                  .ui.floating.red.label=unapprovedCount
+      .row#media-screenshots
+        .column
+          if (!images.length)
+            h2 Nothing to show here :(
+          else 
+            .js-images.ui.centered.equal.width.stackable.grid
+                - var first = true
+                while (images.length)
+                  .row
+                    - var i = first ? 2 : 3
+                    while (i--)
+                      if (images.length)
+                        .ui.middle.aligned.column
+                            +makeImage(images.pop(), first)
+                    - first = false
+
+      .row#media-videos.invis
+        .column
+          .js-videos.ui.centered.equal.width.equal.height.stackable.grid
+            while (videos.length)
+              .row
+                each i in [1,2]
+                  if (videos.length)
+                    -var video = videos.pop()
+                    .column
+                      .ui.inverted.segment.invis
+                        script.js-video(type='text/template')
+                          if (video.caption)
+                            p.ui.black.top.attached.label.video-caption=video.caption
+                          if (video.is_webm)
+                            video.video(controls, allowFullScreen, mozallowfullscreen, webkitAllowFullScreen)
+                              source(src=video.url, type="video/webm")
+                          if (video.is_youtube)
+                              .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='http://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
+                          if (video.author.show)
+                            p.ui.black.bottom.attached.label Submitted by #{video.author.name}
+            .row
+              #js-load-more-videos.ui.primary.button Load more
+      .row#loader.invis
+        .column
+          .ui.segment.loading
+
+
+
+//-
+                      input.js-video(type="hidden",
+                        data-caption=video.caption || null,
+                        data-youtube=video.youtube_id,
+                        data-url=video.url
+                        data-author=video.author.show ? video.author.name : null
+                      )
+//-
+
+block tail
+  +script_link('/vendor/lightbox.js', true)

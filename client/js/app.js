@@ -1,6 +1,10 @@
 (function ($) {
+  function isMobile () {
+    return $('nav .mobile-only').is(':visible')
+  }
+
   $(window).load(function () {
-    window.FastClick(window.document.body)
+    window.FastClick.attach(window.document.body)
     if (!window.Cookies.get('cookies_consent')) {
       $('#cookies').removeClass('invis')
       .hide()
@@ -17,6 +21,8 @@
   })
 
   $('.ui.dropdown').dropdown()
+
+  $('.ui.embed').embed()
 
   // Shows a group description
   $('.event-group .grp-desc').popup()
@@ -77,6 +83,169 @@
       $date.html(e.target.checked ? utc : local)
     })
   }())
+
+  var imagesFinished = false
+  !(function () {
+    if (!$('#media-screenshots').length) return
+    var loader = $('#loader').removeClass('invis')
+
+    var replaceAndLoad = function (inputEl) {
+      var dfd = $.Deferred()
+      var url = inputEl.attr('data-url')
+      var first = inputEl.attr('data-first')
+      var caption = inputEl.attr('data-caption')
+      var author = inputEl.attr('data-author')
+
+      var image = $('<img>', {
+        src: url,
+        'class': 'ui rounded centered image'
+      })
+
+      image.load(function () {
+        if (first === 'true') image.addClass('first-row')
+        if (!isMobile()) image.addClass('zoom-effect')
+        image.data('caption', caption)
+        image.data('author', author)
+        if (dfd.state() === 'pending') dfd.resolve(image)
+      })
+
+      image.on('error', function () {
+        dfd.resolve(null)
+        image.parentsUntil('.row').remove()
+      })
+
+      window.setTimeout(function () {
+        if (dfd.state() === 'pending') dfd.resolve(image)
+      }, 5000)
+
+      inputEl.replaceWith(image)
+      return dfd.promise()
+    }
+
+    var lightbox
+    var root = $('#media-screenshots')
+    var rows = $('.js-images .row').hide()
+
+    var images = root.find('.js-images').hide().find('.js-img')
+    var imagesNeeded = images.length > 8 ? 8 : Math.min(2, images.length)
+
+    $(window).on('resize', function () {
+      root.find('img').toggleClass('zoom-effect', !isMobile())
+    })
+
+    var loaded = 0
+    var done = false
+    images.each(function (i) {
+      replaceAndLoad($(this)).then(function (img) {
+        if (img) {
+          if (!lightbox) lightbox = $(img).lightbox({ nav: true })
+          else {
+            lightbox.add(img)
+            lightbox.sort()
+          }
+        }
+        if (i < imagesNeeded) loaded++
+        if (loaded < imagesNeeded && !done) return
+
+        if (done) return
+        done = true
+
+        loader.fadeOut({
+          complete: fadeInRows
+        })
+
+        function fadeInRows () {
+          root.find('.js-images').show()
+          imagesFinished = true
+          if (isMobile()) return rows.fadeIn()
+
+          var rowIdx = 0
+          var amountRows = imagesNeeded > 3 ? 3 : imagesNeeded
+          var next = function () {
+            if (rowIdx >= amountRows) return rows.fadeIn()
+            $(rows.get(rowIdx)).transition('slide down', {
+              duration: 200 + (Math.random() * 200),
+              onComplete: next
+            })
+            rowIdx++
+          }
+          return next()
+        }
+      })
+    })
+  })()
+
+  !(function () {
+    var rootVideos = $('#media-videos')
+    if (!rootVideos.length) return
+    var rootScreenshots = $('#media-screenshots')
+    var loader = $('#loader')
+
+    rootVideos.hide().removeClass('invis')
+
+    var showingScreenshots = true
+    var videosLoaded = false
+    var videosLoading = false
+
+    $('#js-load-more-videos').on('click', function () {
+      if (videosLoading) return
+      loadVideos()
+    })
+
+    var convertInput = function (el) {
+      return el.parent().html(el.text()).find('.ui.embed').embed({autoplay: true})
+    }
+
+    var LOAD_MORE_AMOUNT = 8
+    var loadVideos = function () {
+      var amount = rootVideos.find('.js-video').slice(0, LOAD_MORE_AMOUNT)
+      if (!amount.length) {
+        $('#js-load-more-videos').attr('disabled', true).addClass('disabled')
+        return
+      }
+      videosLoading = true
+
+      amount.removeClass('.js-video')
+      .each(function () {
+        convertInput($(this))
+
+        loader.fadeOut({
+          complete: function () {
+            rootVideos.fadeIn()
+            videosLoading = false
+            videosLoaded = true
+          }
+        })
+      })
+
+      rootVideos.find(':not(.js-video)').parentsUntil('.column')
+      .removeClass('invis')
+    }
+
+    $('.js-media-menu-btn').on('click', function () {
+      var $this = $(this)
+      if (!imagesFinished || videosLoading || $this.hasClass('active')) return
+
+      $this.addClass('active')
+      .siblings()
+      .removeClass('active')
+      if (videosLoaded) {
+        if (showingScreenshots) {
+          rootScreenshots.fadeOut({complete: function () {rootVideos.fadeIn('fast')}})
+        }else {
+          rootVideos.fadeOut({complete: function () {rootScreenshots.fadeIn('fast')}})
+        }
+      } else {
+        rootScreenshots.fadeOut({
+          complete: function () {
+            loader.fadeIn()
+            loadVideos()
+          }
+        })
+      }
+      showingScreenshots = !showingScreenshots
+    })
+  })()
 
   !(function () {
     var $eventSlotsForm = $('#js-event-slots')
