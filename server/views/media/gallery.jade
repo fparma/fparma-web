@@ -38,7 +38,7 @@ block content
                 i.add.circle.icon
                 | Submit new
             if (locals.user.admin) 
-              a.item(href=unapprovedCount ? '/media/approve' : '#', class=unapprovedCount ? '' : 'disabled')
+              a.item(href=unapprovedCount ? '/media/approval' : '#', class=unapprovedCount ? '' : 'disabled')
                 i.check.circle.outline.icon
                 | Approval
                 if (unapprovedCount)
