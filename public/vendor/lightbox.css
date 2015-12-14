@@ -1,105 +1,175 @@
-.lightbox {
-    cursor: pointer;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: black;
-    /* IE Fallback (Solid Colour) */
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIElEQVQ4T2NkYGDYDMRkA8ZRAxhGw4BhNAyA+WAYpAMAIFgLQfO9BoEAAAAASUVORK5CYII=);
-    background: rgba(0, 0, 0, 0.7);
-    -webkit-filter: none !important;
-    z-index: 9997;
-}
 
-.lightbox img {
-    display: block;
-    position: absolute;
-    border: 5px solid #fff;
-    box-shadow: 0 0 20px #000;
-    border-radius: 1px;
-}
+/**
+ * Featherlight – ultra slim jQuery lightbox
+ * Version 1.3.5 - http://noelboss.github.io/featherlight/
+ *
+ * Copyright 2015, Noël Raoul Bossart (http://www.noelboss.com)
+ * MIT Licensed.
+**/
+@media all {
+  .featherlight {
+    display: none;
 
-.lightbox:hover {
-  cursor: zoom-out;
-}
+    /* dimensions: spanning the background from edge to edge */
+    position:fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 2147483647; /* z-index needs to be >= elements on the site. */
 
-body.blurred > * {
-    -webkit-filter: blur(2px);
-    -webkit-transform: translate3d(0, 0, 0);
-}
+    /* position: centering content */
+    text-align: center;
 
-.lightbox__loading {
-    background: url(loading.gif) center center no-repeat;
-    width: 32px;
-    height: 32px;
-    margin: -16px 0 0 -16px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-}
+    /* insures that the ::before pseudo element doesn't force wrap with fixed width content; */
+    white-space: nowrap;
 
-.lightbox__caption, .lightbox__author {
+    /* styling */
+    cursor: zoom-out;
+    background: #333;
+    /* IE8 "hack" for nested featherlights */
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .featherlight .text-container {
     display: none;
     position: absolute;
-    left: 0;
+    bottom: 0;
+    padding: 2px 0px 0px 0px;
     width: 100%;
+    left: 0;
     text-align: center;
-    z-index: 9998;
-    background: #000;
-    background: rgba(0, 0, 0, 0.7);
-}
+    background: rgb(0, 0, 0) transparent;
+    background: rgba(0, 0, 0, 0.6);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+  }
 
-.lightbox__caption {
-  bottom: 0;
-}
+  .featherlight .text-container span {
+    color: white;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    word-wrap: break-word;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.8em;
+  }
 
-.lightbox__caption p, .lightbox__author p  {
-    margin: 0 auto;
-    max-width: 70%;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    padding: 10px;
-    color: #fff;
-    font-size: 12px;
-    line-height: 18px;
-}
+  .featherlight .text-container span.author {
+    font-size: 0.7em;
+  }
 
-.lightbox__button {
-    position: absolute;
-    z-index: 9999;
-    opacity: 0.4;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -ms-transition: all 0.3s;
-    transition: all 0.3s;
-}
 
-.lightbox__button:hover,
-.lightbox__button:focus {
-    opacity: 1;
-    -webkit-transform: scale(1.4);
-    -moz-transform: scale(1.4);
-    -ms-transform: scale(1.4);
-    transform: scale(1.4);
-}
+  .featherlight-content .ui.chevron.icon {
+    position: fixed;
+    z-index: 99;
+    cursor: pointer;
+  }
 
-.lightbox__close {
-    right: 10px;
-    top: 10px;
-}
+  .featherlight-content .ui.icon {
+    -moz-transition:-moz-transform 0.1s ease-in;
+    -webkit-transition:-webkit-transform 0.1s ease-in;
+    -o-transition:-o-transform 0.1s ease-in;
+  }
+  .featherlight-content .ui.icon:hover {
+    -moz-transform:scale(1.1);
+    -webkit-transform:scale(1.1);
+    -o-transform:scale(1.1);
+  }
 
-.lightbox__nav {
+  .featherlight-content .left.icon {
     top: 50%;
-    margin-top: -16px;
+    left: 1%;
+  }
+
+  .featherlight-content .right.icon {
+    top: 50%;
+    right: 1%;
+  }
+
+  /* support for nested featherlights. Does not work in IE8 (use JS to fix) */
+  .featherlight:last-of-type {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .featherlight:before {
+    /* position: trick to center content vertically */
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+  }
+
+  .featherlight .featherlight-content {
+    /* make content container for positioned elements (close button) */
+    position: relative;
+
+    /* position: centering vertical and horizontal */
+    text-align: left;
+    vertical-align: middle;
+    display: inline-block;
+
+    /* dimensions: cut off images */
+    overflow: auto;
+    padding: 0;
+    border-radius: 4px;
+
+    /* dimensions: handling large content */
+    margin-left: 5%;
+    margin-right: 5%;
+    max-height: 95%;
+
+    /* styling */
+    background: #fff;
+    cursor: auto;
+
+    /* reset white-space wrapping */
+    white-space: normal;
+  }
+
+  /* contains the content */
+  .featherlight .featherlight-inner {
+    /* make sure its visible */
+    display: block;
+  }
+
+  .featherlight .featherlight-close-icon {
+    /* position: centering vertical and horizontal */
+    position: fixed;
+    z-index: 9999;
+    top: 2%;
+    right: 1%;
+    font-size: 2em;
+    /* styling */
+    cursor: pointer;
+  }
+
+
+  .featherlight .featherlight-image {
+    /* styling */
+    width: 100%;
+    border: 4px solid white;
+    border-radius: 8px;
+  }
+
+
+  .featherlight-iframe .featherlight-content {
+    /* removed the border for image croping since iframe is edge to edge */
+    border-bottom: 0;
+    padding: 0;
+  }
+
+  .featherlight iframe {
+    /* styling */
+    border: none;
+  }
 }
 
-.lightbox__nav--next {
-    right: 10px;
-}
-
-.lightbox__nav--prev {
-    left: 10px;
+/* handling phones and small screens */
+@media only screen and (max-width: 1024px) {
+  .featherlight .featherlight-content {
+    /* dimensions: maximize lightbox with for small screens */
+    margin-left: 10px;
+    margin-right: 10px;
+    max-height: 98%;
+  }
 }

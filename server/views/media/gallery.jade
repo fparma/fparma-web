@@ -23,9 +23,9 @@ block content
 
   .ui.segment.container
     h1.ui.dividing.header Media
-    .ui.centered.grid
+    .ui.one.column.centered.grid
       .row
-        .ui.compact.stackable.menu
+        .ui.compact.stackable.menu#media-menu
           a.item.active.js-media-menu-btn
             i.file.image.outline.tiny.icon
             | Screenshots
@@ -43,44 +43,43 @@ block content
                 | Approval
                 if (unapprovedCount)
                   .ui.floating.red.label=unapprovedCount
-      .row#media-screenshots
-        .column
-          if (!images.length)
-            h2 Nothing to show here :(
-          else 
-            .js-images.ui.centered.equal.width.stackable.grid
-                - var first = true
-                while (images.length)
-                  .row
-                    - var i = first ? 2 : 3
-                    while (i--)
-                      if (images.length)
-                        .ui.middle.aligned.column
-                            +makeImage(images.pop(), first)
-                    - first = false
+      .column#media-screenshots(data-featherlight-filter='img')
+        if (!images.length)
+          h2 Nothing to show here :(
+        else 
+          .js-images.ui.centered.equal.width.stackable.grid
+              - var first = true
+              while (images.length)
+                .row
+                  - var i = first ? 2 : 4
+                  while (i--)
+                    if (images.length)
+                      .ui.middle.aligned.column
+                          +makeImage(images.pop(), first)
+                  - first = false
 
-      .row#media-videos.invis
-        .column
-          .js-videos.ui.centered.equal.width.equal.height.stackable.grid
-            while (videos.length)
-              .row
-                each i in [1,2]
-                  if (videos.length)
-                    -var video = videos.pop()
-                    .column
-                      .ui.inverted.segment.invis
-                        script.js-video(type='text/template')
-                          if (video.caption)
-                            p.ui.black.top.attached.label.video-caption=video.caption
-                          if (video.is_webm)
-                            video.video(controls, allowFullScreen, mozallowfullscreen, webkitAllowFullScreen)
-                              source(src=video.url, type="video/webm")
-                          if (video.is_youtube)
-                              .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='http://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
-                          if (video.author.show)
-                            p.ui.black.bottom.attached.label Submitted by #{video.author.name}
+    
+      .column#media-videos.invis
+        .js-videos.ui.centered.equal.width.equal.height.stackable.grid
+          while (videos.length)
             .row
-              #js-load-more-videos.ui.primary.button Load more
+              each i in [1,2]
+                if (videos.length)
+                  -var video = videos.pop()
+                  .column
+                    .ui.inverted.segment.invis
+                      script.js-video(type='text/template')
+                        if (video.caption)
+                          p.ui.black.top.attached.label.video-caption=video.caption
+                        if (video.is_webm)
+                          video.video(controls, allowFullScreen, mozallowfullscreen, webkitAllowFullScreen)
+                            source(src=video.url, type="video/webm")
+                        if (video.is_youtube)
+                            .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='http://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
+                        if (video.author.show)
+                          p.ui.black.bottom.attached.label Submitted by #{video.author.name}
+          .row
+            #js-load-more-videos.ui.primary.button Load more
       .row#loader.invis
         .column
           .ui.segment.loading

@@ -1,3 +1,4 @@
+
 (function ($) {
   function isMobile () {
     return $('nav .mobile-only').is(':visible')
@@ -21,8 +22,6 @@
   })
 
   $('.ui.dropdown').dropdown()
-
-  $('.ui.embed').embed()
 
   // Shows a group description
   $('.event-group .grp-desc').popup()
@@ -98,6 +97,7 @@
 
       var image = $('<img>', {
         src: url,
+        href: url, // needed for gallery
         'class': 'ui rounded centered image'
       })
 
@@ -110,8 +110,9 @@
       })
 
       image.on('error', function () {
-        dfd.resolve(null)
         image.parentsUntil('.row').remove()
+        image.remove()
+        dfd.resolve(null)
       })
 
       window.setTimeout(function () {
@@ -122,7 +123,6 @@
       return dfd.promise()
     }
 
-    var lightbox
     var root = $('#media-screenshots')
     var rows = $('.js-images .row').hide()
 
@@ -133,17 +133,32 @@
       root.find('img').toggleClass('zoom-effect', !isMobile())
     })
 
+    root.featherlightGallery({
+      beforeOpen: function (e) {
+        if (isMobile() && e.target) {
+          e.stopPropagation()
+          window.open(e.target.src)
+          return false
+        }
+      },
+      afterContent: function () {
+        var $this = this.$currentTarget
+        var $container = this.$instance.find('.text-container')
+        var caption = $this.data('caption')
+        var author = $this.data('author')
+
+        $container.find('.caption').html(document.createTextNode(caption ? '"' + caption + '"' : ''))
+        $container.find('.author').html(document.createTextNode(author ? 'Submitted by ' + author : ''))
+        if (!caption && !author) $container.fadeOut('fast')
+        else $container.fadeIn('fast')
+      }
+    })
+
     var loaded = 0
     var done = false
     images.each(function (i) {
       replaceAndLoad($(this)).then(function (img) {
-        if (img) {
-          if (!lightbox) lightbox = $(img).lightbox({ nav: true })
-          else {
-            lightbox.add(img)
-            lightbox.sort()
-          }
-        }
+
         if (i < imagesNeeded) loaded++
         if (loaded < imagesNeeded && !done) return
 
@@ -157,7 +172,11 @@
         function fadeInRows () {
           root.find('.js-images').show()
           imagesFinished = true
-          if (isMobile()) return rows.fadeIn()
+          if (isMobile()) {
+            rows.slice(0, 2).transition('slide down')
+            rows.slice(2).show()
+            return
+          }
 
           var rowIdx = 0
           var amountRows = imagesNeeded > 3 ? 3 : imagesNeeded
@@ -177,6 +196,7 @@
 
   !(function () {
     var rootVideos = $('#media-videos')
+debugger
     if (!rootVideos.length) return
     var rootScreenshots = $('#media-screenshots')
     var loader = $('#loader')
@@ -189,7 +209,11 @@
 
     $('#js-load-more-videos').on('click', function () {
       if (videosLoading) return
-      loadVideos()
+      var $this = $(this).addClass('disabled loading')
+      window.setTimeout(function () {
+        if (!loadVideos()) return $this.removeClass('loading')
+        $this.removeClass('disabled loading')
+      }, 1500)
     })
 
     var convertInput = function (el) {
@@ -199,10 +223,7 @@
     var LOAD_MORE_AMOUNT = 8
     var loadVideos = function () {
       var amount = rootVideos.find('.js-video').slice(0, LOAD_MORE_AMOUNT)
-      if (!amount.length) {
-        $('#js-load-more-videos').attr('disabled', true).addClass('disabled')
-        return
-      }
+      if (!amount.length) return
       videosLoading = true
 
       amount.removeClass('.js-video')
@@ -218,17 +239,20 @@
         })
       })
 
-      rootVideos.find(':not(.js-video)').parentsUntil('.column')
+      rootVideos.find(':not(.js-video)')
+      .parentsUntil('.column')
       .removeClass('invis')
+      return rootVideos.find('.js-video').length > 0
     }
 
     $('.js-media-menu-btn').on('click', function () {
       var $this = $(this)
-      if (!imagesFinished || videosLoading || $this.hasClass('active')) return
+      if (!imagesFinished || videosLoading || $this.hasClass('active')) return
 
       $this.addClass('active')
       .siblings()
       .removeClass('active')
+
       if (videosLoaded) {
         if (showingScreenshots) {
           rootScreenshots.fadeOut({complete: function () {rootVideos.fadeIn('fast')}})
