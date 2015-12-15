@@ -5,7 +5,7 @@
   }
 
   $(window).load(function () {
-    window.FastClick.attach(window.document.body)
+    window.FastClick(window.document.body)
     if (!window.Cookies.get('cookies_consent')) {
       $('#cookies').removeClass('invis')
       .hide()

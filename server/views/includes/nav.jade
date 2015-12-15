@@ -6,7 +6,7 @@ mixin mklink(page, url, cl)
     class=cl
   )!=page
 
-nav.ui.fixed.inverted.menu(role='menubar')
+nav.ui.fixed.large.inverted.menu(role='menubar')
   .ui.container.desktop-only
     a.header.item(href='/', role='link' class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
@@ -23,7 +23,7 @@ nav.ui.fixed.inverted.menu(role='menubar')
     else 
       +mklink('Login / Register', '/login', 'right')
 
-  .ui.item.dropdown.mobile-only
+  .ui.fluid.item.dropdown.mobile-only
     i.icon.content
     span Menu
     .menu
