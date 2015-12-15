@@ -77,12 +77,12 @@
 
   .featherlight-content .left.icon {
     top: 50%;
-    left: 1%;
+    left: 0;
   }
 
   .featherlight-content .right.icon {
     top: 50%;
-    right: 1%;
+    right: 0
   }
 
   /* support for nested featherlights. Does not work in IE8 (use JS to fix) */

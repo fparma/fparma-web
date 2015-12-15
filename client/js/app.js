@@ -85,6 +85,156 @@
 
   var imagesFinished = false
   !(function () {
+    var root = $('#media-screenshots')
+    if (!root.length) return
+
+    root.find('.row').addClass('invis').hide()
+    var loader = $('#loader').parent().removeClass('invis').hide()
+
+    var prepareAndLoadImage = function (imgEl) {
+      var dfd = $.Deferred()
+      imgEl.data('caption', imgEl.attr('data-caption'))
+      imgEl.attr('author', imgEl.attr('data-author'))
+
+      imgEl.load(function () {
+        if (dfd.state() === 'pending') dfd.resolve(imgEl.addClass('loaded'))
+      })
+
+      imgEl.on('error', function () {
+        if (dfd.state() === 'pending') dfd.resolve(null)
+      })
+
+      window.setTimeout(function () {
+        if (dfd.state() === 'pending') dfd.resolve(imgEl)
+      }, 5000)
+
+      imgEl.attr('src', imgEl.attr('href'))
+      if (imgEl.get(0).complete === true) dfd.resolve(imgEl)
+      return dfd.promise()
+    }
+
+    var prepareRows = function (amountRows) {
+      var dfds = []
+      root.find('.row.invis').each(function (i) {
+        var $row = $(this)
+        var rowImages = $row.find('img')
+        if (!rowImages.length) return false
+
+        var loaded = 0
+        var dfd = $.Deferred()
+        dfds.push(dfd.promise())
+        $row.removeClass('invis')
+
+        rowImages.each(function () {
+          prepareAndLoadImage($(this)).then(function (img) {
+            loaded++
+
+            if (!img) {
+              img.parentsUntil('.row').remove()
+              img.remove()
+            }
+            if (loaded >= rowImages.length) {
+              dfd.resolve($row)
+            }
+
+          })
+        })
+        if (i >= (amountRows - 1)) return false
+      })
+
+      return $.when.apply($, dfds)
+    }
+
+    var loadMore = function (amountRows, isFirstLoad) {
+      var dfd = $.Deferred()
+      loader.fadeToggle()
+
+      prepareRows(amountRows).then(function () {
+        var args = [].slice.call(arguments)
+        if (!args.length) {
+          loader.fadeToggle()
+          return dfd.resolve(0)
+        }
+        var remainingRows = root.find('.row.invis').length
+
+        loader.fadeToggle({
+          complete: function () {
+            var i = 0
+            var enough = (isMobile() || !isFirstLoad) ? 1 : 3
+
+            var next = function () {
+              if (i++ >= enough) {
+                args.forEach(function (v) {$(v).show()})
+                return dfd.resolve(remainingRows)
+              }
+args.shift().show({complete: next})
+            }
+/*
+              $(args.shift()).transition('slide down', {
+                duration: 150 + (Math.random() * 200),
+                onComplete: next
+              }).length ? '' : dfd.resolve(remainingRows)
+*/
+            next()
+          }
+        })
+      })
+      return dfd.promise()
+    }
+/*
+    $(window).on('resize', function () {
+
+      root.find('.row:not(.invis)').each(function () {
+        var img = $(this).find('img')
+        var max = 0
+        img.each(function () {max = Math.max(max, $(this).height())})
+        img.css({height: max})
+      })
+    })
+*/
+    var LOAD_MORE_AMOUNT = isMobile() ? 2 : 6
+    loadMore(LOAD_MORE_AMOUNT, true).then(function () {
+
+      root.waypoint(function (direction) {
+        if (direction === 'down') {
+          var self = this
+          self.disable()
+
+          loadMore(LOAD_MORE_AMOUNT, false).then(function (remainingRows) {
+            if (!remainingRows) return
+            window.Waypoint.refreshAll()
+            self.enable()
+          })
+        }
+      }, {
+        offset: 'bottom-in-view'
+      })
+
+      root.featherlightGallery({
+        beforeOpen: function (e) {
+          if (isMobile() && e.target) {
+            e.stopPropagation()
+            window.open(e.target.src)
+            return false
+          }
+        },
+        beforeContent: function () {
+          this.$instance.find('.text-container').fadeOut('fast')
+        },
+        afterContent: function () {
+          var $this = this.$currentTarget
+          var $container = this.$instance.find('.text-container')
+          var caption = $this.data('caption')
+          var author = $this.data('author')
+
+          $container.find('.caption').html(document.createTextNode(caption ? '"' + caption + '"' : ''))
+          $container.find('.author').html(document.createTextNode(author ? 'Submitted by ' + author : ''))
+          if (caption || author) $container.fadeIn('fast')
+        }
+      })
+    })
+
+  /*
     if (!$('#media-screenshots').length) return
     var loader = $('#loader').removeClass('invis')
 
@@ -192,11 +342,11 @@
         }
       })
     })
+  */
   })()
 
   !(function () {
     var rootVideos = $('#media-videos')
-debugger
     if (!rootVideos.length) return
     var rootScreenshots = $('#media-screenshots')
     var loader = $('#loader')
