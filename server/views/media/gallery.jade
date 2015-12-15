@@ -37,6 +37,7 @@ block content
         else
           #media-screenshots.column.ui.centered.equal.width.stackable.grid(data-featherlight-filter='img')
             - var first = true
+            - var y = 0
             while (images.length)
               .row
                 - var i = first ? 2 : 4
@@ -44,11 +45,10 @@ block content
                   if (images.length)
                     .ui.middle.aligned.column
                         -var img = images.pop()
-                        img.ui.centered.rounded.fluid.image(
+                        img.ui.centered.rounded.image(
                           href=img.url
                           data-caption=img.caption,
-                          data-author= img.author && img.author.show ? img.author.name : '',
-                          class= first ? 'first-row' : ''
+                          data-author= img.author && img.author.show ? img.author.name : ''
                         )
                         noscript
                           a(target="_blank", href=img.url)

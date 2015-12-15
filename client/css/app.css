@@ -188,15 +188,7 @@ nav span.title {
     -webkit-transform:scale(1.03);
     -o-transform:scale(1.03);
   }
-/*
-  #media-screenshots img:not(.first-row) {
-    max-height: 130px;
-  }
 
-  #media-screenshots img.first-row {
-    max-height: 250px;
-  }
-*/
   #media-screenshots img.loaded:hover {
     cursor: zoom-in;
   }
@@ -208,12 +200,12 @@ nav span.title {
   -moz-border-radius: 2px 2px 2px 2px;
   -webkit-border-radius: 2px 2px 2px 2px;
 
-  -moz-transition:-moz-transform 0.2s ease-in;
-  -webkit-transition:-webkit-transform 0.2s ease-in;
-  -o-transition:-o-transform 0.2s ease-in;
+  -moz-transition:-moz-transform 0.1s ease-in;
+  -webkit-transition:-webkit-transform 0.1s ease-in;
+  -o-transition:-o-transform 0.1s ease-in;
   -webkit-box-shadow: 0 8px 6px -8px black;
-     -moz-box-shadow: 0 8px 6px -8px black;
-          box-shadow: 0 8px 6px -8px black;
+  -moz-box-shadow: 0 8px 6px -8px black;
+  box-shadow: 0 8px 6px -8px black;
 }
 
 #media-screenshots {
