@@ -102,6 +102,7 @@
   .featherlight .featherlight-content {
     /* make content container for positioned elements (close button) */
     position: relative;
+    overflow: hidden;
 
     /* position: centering vertical and horizontal */
     text-align: left;

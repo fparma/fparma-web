@@ -35,7 +35,7 @@ block content
         if (!images || !images.length)
           h2 No screenshots :(
         else
-          #media-screenshots.column.ui.centered.equal.width.stackable.grid(data-featherlight-filter='img')
+          #media-screenshots.column.ui.equal.width.stackable.grid(data-featherlight-filter='img')
             - var first = true
             - var y = 0
             while (images.length)
@@ -45,14 +45,15 @@ block content
                   if (images.length)
                     .ui.middle.aligned.column
                         -var img = images.pop()
-                        img.ui.centered.rounded.image(
-                          href=img.url
-                          data-caption=img.caption,
-                          data-author= img.author && img.author.show ? img.author.name : ''
-                        )
-                        noscript
-                          a(target="_blank", href=img.url)
-                            img.loaded.ui.centered.rounded.image(src=img.url)
+                        .gallery-image
+                          img(
+                            href=img.url
+                            data-caption=img.caption,
+                            data-author= img.author && img.author.show ? img.author.name : ''
+                          )
+                          noscript
+                            a(target="_blank", href=img.url)
+                              img.loaded.ui.centered.image(src=img.url)
                 - first = false
         .column.invis
           #loader
@@ -136,5 +137,4 @@ block content
 
 block tail
   +script_link('/vendor/lightbox.js', true)
-  +script_link('/vendor/equal-height.js', true)
   +script_link('/vendor/jquery.waypoints.min.js', true)
