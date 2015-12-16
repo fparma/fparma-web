@@ -194,24 +194,6 @@
     var LOAD_MORE_AMOUNT = isMobile() ? 2 : 5
     loadMoreRows(LOAD_MORE_AMOUNT, true).then(function () {
 
-      // Scroll down - load more.
-      // waypoint doesn't like divs that can can be hidden, use parent
-      root.parent().waypoint(function (direction) {
-        if (root.is(':animated') || !root.is(':visible')) return
-        if (direction === 'down') {
-          var self = this
-          self.disable()
-
-          loadMoreRows(LOAD_MORE_AMOUNT, false).then(function (remainingRows) {
-            if (!remainingRows) return
-            window.Waypoint.refreshAll()
-            self.enable()
-          })
-        }
-      }, {
-        offset: 'bottom-in-view'
-      })
-
       root.featherlightGallery({
         beforeOpen: function (e) {
           if (isMobile() && e.target) {
@@ -234,6 +216,26 @@
           if (caption || author) $container.fadeIn('fast')
         }
       })
+
+
+      // Scroll down - load more.
+      // waypoint doesn't like divs that can can be hidden, use parent
+      if (!root.find('.row.invis').length) return
+      root.parent().waypoint(function (direction) {
+        if (root.is(':animated') || !root.is(':visible')) return
+        if (direction === 'down') {
+          var self = this
+          self.disable()
+
+          loadMoreRows(LOAD_MORE_AMOUNT, false).then(function (remainingRows) {
+            if (!remainingRows) return
+            window.Waypoint.refreshAll()
+            self.enable()
+          })
+        }
+      }, {
+        offset: 'bottom-in-view'
+      })
     })
   })()
 
@@ -250,6 +252,7 @@
 
     var switchDone = function () {
       blocked = false
+      window.Waypoint.refreshAll()
       showingScreenshots = !showingScreenshots
     }
 
