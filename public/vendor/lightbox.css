@@ -110,7 +110,6 @@
     display: inline-block;
 
     /* dimensions: cut off images */
-    overflow: auto;
     padding: 0;
     border-radius: 4px;
 
