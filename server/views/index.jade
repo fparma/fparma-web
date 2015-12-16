@@ -10,7 +10,7 @@ block content
       h2 News
       each item in locals.news
         .ui.raised.segment.mt-top2
-          p.date Posted on #{item.display_date}
+          span.ui.top.attached.label Posted on #{item.display_date}
           h3.headline.no-margin
             if item.url
               a(href=item.url)=item.header
