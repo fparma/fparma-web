@@ -1,7 +1,7 @@
 extends ../layout
 
 block head
-  +style_link('/vendor/lightbox.css', true)
+  +style_link('/vendor/lightbox.min.css', true)
 
 block content
   noscript
@@ -9,17 +9,16 @@ block content
       #media-screenshots img:hover {
         cursor: pointer;
       }
-
   .ui.segment.container
     h1.ui.dividing.header Media
     .ui.one.column.grid
       .centered.row
         .ui.compact.stackable.menu
-          a.item.active
+          a.item.active.js-media-nav
             i.file.image.outline.tiny.icon
             | Screenshots
           if (videos.length)
-            a.item
+            a.item.js-media-nav
               i.video.play.tiny.icon
               | Videos
           a.item(href='/media/submit')
@@ -37,10 +36,10 @@ block content
         else
           #media-screenshots.column.ui.equal.width.stackable.grid(data-featherlight-filter='img')
             - var first = true
-            - var y = 0
             while (images.length)
               .row
                 - var i = first ? 2 : 4
+                - first = false
                 while (i--)
                   if (images.length)
                     .ui.middle.aligned.column
@@ -54,10 +53,9 @@ block content
                           noscript
                             a(target="_blank", href=img.url)
                               img.loaded.ui.centered.image(src=img.url)
-                - first = false
         .column.invis
           #loader
-            .ui.loading.segment
+            .ui.inverted.loading.segment
 
 
 //-
@@ -136,5 +134,5 @@ block content
           .ui.segment.loading
 
 block tail
-  +script_link('/vendor/lightbox.js', true)
+  +script_link('/vendor/lightbox.min.js', true)
   +script_link('/vendor/jquery.waypoints.min.js', true)
