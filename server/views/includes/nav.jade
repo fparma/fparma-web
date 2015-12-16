@@ -23,9 +23,9 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
     else 
       +mklink('Login / Register', '/login', 'right')
 
-  .ui.dropdown.item.mobile-only
-    i.icon.content
-    span Menu
+  .ui.dropdown.item.mobile-only.needsclick
+    i.icon.content.needsclick
+    span.needsclick Menu
     .menu
       +mklink('Events', '/events')
       +mklink('Media', '/media')
