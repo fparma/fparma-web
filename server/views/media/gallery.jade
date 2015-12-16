@@ -9,7 +9,7 @@ block content
       #media-screenshots img:hover {
         cursor: pointer;
       }
-  .ui.segment.container
+  #media.ui.segment.container
     h1.ui.dividing.header Media
     .ui.one.column.grid
       .centered.row
@@ -53,9 +53,30 @@ block content
                           noscript
                             a(target="_blank", href=img.url)
                               img.loaded.ui.centered.image(src=img.url)
-        .column.invis
-          #loader
-            .ui.inverted.loading.segment
+            .ui.inverted.segment.loading
+      if (videos.length)
+        #media-videos.centered.row
+          .column.js-videos.ui.centered.equal.width.stackable.grid
+            while (videos.length)
+              .row.invis
+                each i in [1,2]
+                  if (videos.length)
+                    -var video = videos.pop()
+                    .middle.aligned.column
+                      .ui.inverted.segment.video-container
+                        script.js-video(type='text/template')
+                          if (video.caption)
+                            p.ui.black.top.attached.label.video-caption=video.caption
+                          if (video.is_webm)
+                            video.video(controls, allowFullScreen, mozallowfullscreen, webkitAllowFullScreen)
+                              source(src=video.url, type="video/webm")
+                              span Your browser does not support the video tag.
+                          if (video.is_youtube)
+                              .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='http://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
+                          if (video.author.show)
+                            p.ui.black.bottom.attached.label Submitted by #{video.author.name}
+          .centered.row
+            buttton#js-load-more-videos.ui.primary.button(type='button') Load more
 
 
 //-

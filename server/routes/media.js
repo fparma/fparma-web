@@ -30,7 +30,7 @@ router.get('/', (req, res, next) => {
     res.render('media/gallery.jade', {
       page: 'media',
       title: 'Media',
-      images: data.media.filter(v => v.is_image),
+      images: _.shuffle(data.media.filter(v => v.is_image)),
       videos: data.media.filter(v => !v.is_image),
       unapprovedCount: data.count
     })

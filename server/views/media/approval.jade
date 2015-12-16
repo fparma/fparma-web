@@ -11,7 +11,7 @@ block content
       .ui.two.column.stackable.grid.mt-top1
         .two.column.row
           .field.column
-            label Media URL (should be .png, .jpg, .webm, youtube links)
+            label Media URL (should be .png, .jpg, .webm/.mp4, youtube links)
             input(type='url', name='url', autocomplete='off' readonly value=data.url)
         .two.column.row
           .field.column
@@ -40,7 +40,7 @@ block tail
       $('#form').form({
         on: 'blur',
         fields: {
-          url: 'empty'
+          url: 'empty',
           caption: 'maxLength[128]'
         }
       })

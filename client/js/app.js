@@ -21,8 +21,7 @@
     $(this).closest('.message').transition('fade')
   })
 
-  // hover seems to fix the issue with fastclick (it double clicks without it)
-  $('.ui.dropdown').dropdown({on: 'hover'})
+  $('.ui.dropdown').dropdown()
 
   // Shows a group description
   $('.event-group .grp-desc').popup()
@@ -84,13 +83,12 @@
     })
   }())
 
-  var imagesFinished = false
   !(function () {
     var root = $('#media-screenshots')
     if (!root.length) return
 
     root.find('.row').addClass('invis').hide()
-    var loader = $('#loader').parent().removeClass('invis').hide()
+    var loader = root.find('.segment.loading').removeClass('invis').hide()
 
     var prepareAndLoadImage = function (imgEl) {
       var dfd = $.Deferred()
@@ -197,7 +195,7 @@
     loadMoreRows(LOAD_MORE_AMOUNT, true).then(function () {
 
       // Scroll down - load more.
-      // waypoint doesn't like divs that can can be hidden
+      // waypoint doesn't like divs that can can be hidden, use parent
       root.parent().waypoint(function (direction) {
         if (root.is(':animated') || !root.is(':visible')) return
         if (direction === 'down') {
@@ -245,72 +243,74 @@
     var rootScreenshots = $('#media-screenshots')
     rootVideos.hide().removeClass('invis')
 
+    var blocked = false
+    var firstVideosLoaded = false
     var showingScreenshots = true
-    var videosLoaded = false
-    var videosLoading = false
-/*
-    $('#js-load-more-videos').on('click', function () {
-      if (videosLoading) return
-      var $this = $(this).addClass('disabled loading')
-      window.setTimeout(function () {
-        if (!loadVideos()) return $this.removeClass('loading')
-        $this.removeClass('disabled loading')
-      }, 1500)
-    })
-*/
-    var convertInput = function (el) {
-      return el.parent().html(el.text()).find('.ui.embed').embed({autoplay: true})
+    var LOAD_MORE_AMOUNT = 2
+
+    var switchDone = function () {
+      blocked = false
+      showingScreenshots = !showingScreenshots
     }
 
-    var LOAD_MORE_AMOUNT = 8
-    var loadVideos = function () {
-      var amount = rootVideos.find('.js-video').slice(0, LOAD_MORE_AMOUNT)
-      if (!amount.length) return
-      videosLoading = true
+    var loadFirstVideos = function () {
+      loadVideos()
+      firstVideosLoaded = true
+    }
 
-      amount.removeClass('.js-video')
-      .each(function () {
-        convertInput($(this))
+    $('#js-load-more-videos').on('click', function () {
+      loadVideos()
+    })
 
-        loader.fadeOut({
+    $('.js-media-nav').on('click', function () {
+      var $this = $(this)
+      if (blocked || $this.hasClass('active')) return
+
+      blocked = true
+      $this.addClass('active').siblings().removeClass('active')
+      if (!firstVideosLoaded) loadFirstVideos()
+      var param = {duration: 100, complete: switchDone}
+
+      if (showingScreenshots) {
+        rootScreenshots.fadeOut({
+          duration: 100,
           complete: function () {
-            rootVideos.fadeIn()
-            videosLoading = false
-            videosLoaded = true
+            rootVideos.fadeIn(param)
           }
         })
-      })
-
-      rootVideos.find(':not(.js-video)')
-      .parentsUntil('.column')
-      .removeClass('invis')
-      return rootVideos.find('.js-video').length > 0
-    }
-
-    $('.js-media-menu-btn').on('click', function () {
-      var $this = $(this)
-      if (videosLoading || $this.hasClass('active')) return
-
-      $this.addClass('active')
-      .siblings()
-      .removeClass('active')
-
-      if (videosLoaded) {
-        if (showingScreenshots) {
-          rootScreenshots.fadeOut({complete: function () {rootVideos.fadeIn('fast')}})
-        }else {
-          rootVideos.fadeOut({complete: function () {rootScreenshots.fadeIn('fast')}})
-        }
       } else {
-        rootScreenshots.fadeOut({
+        rootVideos.fadeOut({
+          duration: 100,
           complete: function () {
-            loader.fadeIn()
-            loadVideos()
+            rootScreenshots.fadeIn(param)
           }
         })
       }
-      showingScreenshots = !showingScreenshots
     })
+
+    var convertInput = function (el) {
+      return $(el).parent().html(el.text()).find('.ui.embed').embed({
+        autoplay: true
+      })
+    }
+
+    var loadVideos = function () {
+      var amount = rootVideos.find('.js-video').slice(0, LOAD_MORE_AMOUNT)
+      if (!amount.length) return
+      blocked = true
+
+      amount.removeClass('.js-video')
+      .each(function () {
+        var $this = $(this)
+        var $row = $this.parentsUntil('.row').parent().removeClass('invis').hide()
+        convertInput($this)
+        $row.fadeIn('fast')
+      })
+
+      if (!rootVideos.find('.js-video').length) {
+        $('#js-load-more-videos').addClass('disabled')
+      }
+    }
   })()
 
   !(function () {
