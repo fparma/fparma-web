@@ -6,11 +6,12 @@ mixin mklink(page, url, cl)
     class=cl
   )!=page
 
-nav.ui.fixed.inverted.menu(role='menubar')
+nav.ui.fixed.large.inverted.menu(role='menubar')
   .ui.container.desktop-only
     a.header.item(href='/', role='link' class = (locals.page === 'home' ? 'active': ''))
       span.title FPARMA
     +mklink('Events', '/events')
+    +mklink('Media', '/media')
     +mklink('About', '/about')
     if (locals.user && locals.user.steam_id)
       .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
@@ -22,11 +23,12 @@ nav.ui.fixed.inverted.menu(role='menubar')
     else 
       +mklink('Login / Register', '/login', 'right')
 
-  .ui.item.dropdown.mobile-only
-    i.icon.content
-    span Menu
+  .ui.dropdown.item.mobile-only.needsclick
+    i.icon.content.needsclick
+    span.needsclick Menu
     .menu
       +mklink('Events', '/events')
+      +mklink('Media', '/media')
       +mklink('About', '/about')
       if locals.user && locals.user.steam_id
         a.item(href='/profile')

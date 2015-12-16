@@ -9,8 +9,10 @@ mixin mkevent(evt)
 
 block content
   .ui.container.segment
-    if (locals.user.admin)
-      a.ui.primary.button(href='/events/create') Create new event
+    h1.ui.dividing.header Events
+      if (locals.user.admin)
+        a.ui.primary.button.float-r(href='/events/create') Create new event
+    
     if (events.upcoming.length || events.completed.length)
       .full-w.mt-top1
         p
@@ -20,15 +22,15 @@ block content
           option(value='local') Local
           option(value='from_now') From now
     if events.upcoming.length
-      h1 Upcoming events
+      h2.ui.dividing.header Upcoming events
       each event in events.upcoming
         .ui.relaxed.divided.list.segment.small
           +mkevent(event)
     else
-      h1 No upcoming events
+      h2.ui.dividing.header No upcoming events
     
     if events.completed.length
-      h1.mt-top2 Previous events
+      h2.ui.dividing.header.mt-top2 Previous events
       each event in events.completed
         .ui.relaxed.divided.list.segment.small
           +mkevent(event)

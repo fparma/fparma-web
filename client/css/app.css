@@ -7,6 +7,10 @@
   float: right;
 }
 
+.float-r {
+  float: right;
+}
+
 #news .headline {
   width: 85%;
 }
@@ -132,6 +136,7 @@ nav span.title {
 
 .keep-format {
   white-space: pre-line;
+  word-wrap: break-word;
 }
 
 @media only screen and (max-width: 767px) {
@@ -139,7 +144,23 @@ nav span.title {
       display: none !important;
   }
   nav .mobile-only {
-    display: inline-block; !important;
+    display: flex !important;
+  }
+
+  #media-screenshots img {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #media-screenshots img:hover {
+    cursor: pointer;
+  }
+
+  #media-screenshots img.loaded {
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px solid black;
   }
 }
 
@@ -149,8 +170,100 @@ nav span.title {
   }
 
   nav .desktop-only {
-      display: inline-block; !important;
+    display: flex !important;
   }
+
+  #media-screenshots img.loaded:hover {
+    cursor: zoom-in;
+  }
+  #media-screenshots .gallery-image {
+    position:relative;
+    overflow:hidden;
+    padding-bottom: 100%;
+    transition: all .2s ease-in-out;
+  }
+  #media-screenshots .gallery-image:hover {
+    transform: scale(1.04);
+    z-index: 50;
+  }
+
+  #media-screenshots .row:first-child img.loaded {
+    padding: 0.5%;
+  }
+
+  #media-screenshots img {
+    margin-left: auto;
+    margin-right: auto;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    max-width: none;
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #media-screenshots img.loaded {
+    border-radius: 4px;
+    padding: 1%;
+    background-color: black;
+  }
+
+  #media-screenshots .row {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  #media-screenshots .row .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  #media-screenshots .column:only-child .gallery-image {
+    padding: 10rem !important;
+    margin: 0 auto;
+  }
+
+  #media-screenshots .column:only-child img.loaded  {
+    padding: 0.4%;
+  }
+}
+
+#media {
+  padding-bottom: 2em;
+}
+
+
+#media .segment.loading {
+  height: 5em;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 2em !important;
+}
+
+video {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+#media-videos .video-caption {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+#media-videos .video-container {
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+#media-videos .video {
+  margin-top: 1em !important;
+  margin-bottom: 1em;
 }
 
 #cookies {
