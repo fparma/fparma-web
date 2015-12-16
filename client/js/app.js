@@ -108,6 +108,8 @@
       window.setTimeout(done, 5000)
 
       imgEl.on('error', function () {
+        imgEl.parentsUntil('.row').remove()
+        imgEl.remove()
         if (dfd.state() === 'pending') dfd.resolve(null)
       })
 
@@ -130,11 +132,6 @@
         rowImages.each(function () {
           prepareAndLoadImage($(this)).then(function (img) {
             loaded++
-            if (!img) {
-              img.parentsUntil('.row').remove()
-              img.remove()
-            }
-
             if (loaded >= rowImages.length) {
               dfd.resolve($row)
             }
@@ -158,6 +155,14 @@
         }
 
         var remainingRows = root.find('.row.invis').length
+        if (!root.is(':visible')) {
+          $.each(args, function () {
+            $(this).show()
+          })
+          loader.hide()
+          return dfd.resolve(remainingRows)
+        }
+
         var run = function () {
           var i = 0
           var enough = (!isFirstLoad || isMobile()) ? 1 : 3
@@ -191,8 +196,10 @@
     var LOAD_MORE_AMOUNT = isMobile() ? 2 : 5
     loadMoreRows(LOAD_MORE_AMOUNT, true).then(function () {
 
-      // Scrol down - load more
-      root.waypoint(function (direction) {
+      // Scroll down - load more.
+      // waypoint doesn't like divs that can can be hidden
+      root.parent().waypoint(function (direction) {
+        if (root.is(':animated') || !root.is(':visible')) return
         if (direction === 'down') {
           var self = this
           self.disable()
@@ -236,14 +243,12 @@
     var rootVideos = $('#media-videos')
     if (!rootVideos.length) return
     var rootScreenshots = $('#media-screenshots')
-    var loader = $('#loader')
-
     rootVideos.hide().removeClass('invis')
 
     var showingScreenshots = true
     var videosLoaded = false
     var videosLoading = false
-
+/*
     $('#js-load-more-videos').on('click', function () {
       if (videosLoading) return
       var $this = $(this).addClass('disabled loading')
@@ -252,7 +257,7 @@
         $this.removeClass('disabled loading')
       }, 1500)
     })
-
+*/
     var convertInput = function (el) {
       return el.parent().html(el.text()).find('.ui.embed').embed({autoplay: true})
     }
@@ -284,7 +289,7 @@
 
     $('.js-media-menu-btn').on('click', function () {
       var $this = $(this)
-      if (!imagesFinished || videosLoading || $this.hasClass('active')) return
+      if (videosLoading || $this.hasClass('active')) return
 
       $this.addClass('active')
       .siblings()
