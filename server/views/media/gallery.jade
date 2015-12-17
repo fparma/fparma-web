@@ -46,7 +46,8 @@ block content
                         -var img = images.pop()
                         .gallery-image
                           img(
-                            href=img.url
+                            href=img.url,
+                            data-featherlight="image",
                             data-caption=img.caption,
                             data-author= img.author && img.author.show ? img.author.name : ''
                           )
@@ -72,7 +73,7 @@ block content
                               source(src=video.url, type="video/webm")
                               span Your browser does not support the video tag.
                           if (video.is_youtube)
-                              .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='http://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
+                              .ui.embed.video(data-source='youtube', data-id=video.youtube_id, data-placeholder='https://img.youtube.com/vi/' + video.youtube_id + '/mqdefault.jpg')
                           if (video.author.show)
                             p.ui.black.bottom.attached.label Submitted by #{video.author.name}
           .centered.row
