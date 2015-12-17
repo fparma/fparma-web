@@ -65,6 +65,9 @@ router.get('/squad.xml', (req, res, next) => {
 
     var xmlString = root.end({pretty: true})
     res.set('Content-Type', 'application/xml')
+    res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+    res.set('Expires', '-1')
+    res.set('Pragma', 'no-cache')
     res.send(xmlString)
   })
 })
