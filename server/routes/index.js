@@ -6,6 +6,7 @@ import auth from './auth'
 import events from './events'
 import profile from './profile'
 import media from './media'
+import admin from './admin'
 import News from '../controllers/news'
 import User from '../controllers/user'
 
@@ -30,6 +31,7 @@ router.use(auth)
 router.use('/profile', profile)
 router.use('/media', media)
 router.use('/events', events)
+router.use('/admin', admin)
 
 router.get('/about', (req, res) => {
   res.render('about.jade', {page: 'about', title: 'About'})

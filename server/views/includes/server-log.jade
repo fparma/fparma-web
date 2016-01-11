@@ -1,0 +1,11 @@
+- var log = locals.log
+#js-log.mt-top2
+  h3 #{log.world} - #{log.name}
+  p
+    b Created at: #{locals.date} (UTC)
+  .ui.relaxed.divided.list.mt-top2
+    each l in log.logs
+      .item
+        .content
+          span.header #{convertSeconds(l.time)}
+          span.description=l.text

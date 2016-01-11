@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  - var logs = locals.logs
+  .ui.segment.container
+    h1.ui.dividing.header Server mission logs
+    if (!logs.length)
+      h4 No logs yet
+    else
+    
+      if (logs.length > 1)
+        .ui.two.column.stackable.grid.mt-top1
+          .two.column.row
+            .field.column
+              select#log-search.ui.fluid.search.dropdown
+                option(value="") Search missions
+                each l, i in logs
+                  option(value=l.mission_id, data-id=l.mission_id) #{l.name} (#{l.world})
+      include ../includes/server-log.jade
