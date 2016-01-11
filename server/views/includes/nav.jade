@@ -13,6 +13,11 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
     +mklink('Events', '/events')
     +mklink('Media', '/media')
     +mklink('About', '/about')
+    if (locals.user && locals.user.admin)
+      .ui.compact.dropdown.item
+        a Admin
+        .menu
+          +mklink('Server logs', '/admin/logs')
     if (locals.user && locals.user.steam_id)
       .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
         i.user.icon(class=user.name ? 'green': 'grey')
@@ -23,19 +28,25 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
     else 
       +mklink('Login / Register', '/login', 'right')
 
-  .ui.dropdown.item.mobile-only.needsclick
-    i.icon.content.needsclick
-    span.needsclick Menu
-    .menu
-      +mklink('Events', '/events')
-      +mklink('Media', '/media')
-      +mklink('About', '/about')
-      if locals.user && locals.user.steam_id
-        a.item(href='/profile')
-          i.user.icon(class=locals.user.name ? 'green': 'grey')
-          span=user.name || 'New user'
-        +mklink('Logout', '/logout')
-      else
-        +mklink('Login / Register', '/login', 'right')
+  .item.mobile-only
+    .ui.dropdown.needsclick
+      i.icon.content.needsclick
+      span.needsclick Menu
+      .menu
+        +mklink('Events', '/events')
+        +mklink('Media', '/media')
+        +mklink('About', '/about')
+        if (locals.user && locals.user.admin)
+          .item
+            span.needsclick Admin
+            .menu
+              +mklink('Server logs', '/admin/logs')
+        if locals.user && locals.user.steam_id
+          a.item(href='/profile')
+            i.user.icon(class=locals.user.name ? 'green': 'grey')
+            span=user.name || 'New user'
+          +mklink('Logout', '/logout')
+        else
+          +mklink('Login / Register', '/login', 'right')
   a.header.item.right.mobile-only(href='/', role='link', class=(locals.page == 'home' ? 'active' : ''))
     span.title FPARMA

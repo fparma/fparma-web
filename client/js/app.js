@@ -21,7 +21,7 @@
     $(this).closest('.message').transition('fade')
   })
 
-  $('.ui.dropdown').dropdown()
+  $('.ui.dropdown:not("#log-search")').dropdown()
 
   // Shows a group description
   $('.event-group .grp-desc').popup()
@@ -217,7 +217,6 @@
         }
       })
 
-
       // Scroll down - load more.
       // waypoint doesn't like divs that can can be hidden, use parent
       if (!root.find('.row.invis').length) return
@@ -314,6 +313,33 @@
         $('#js-load-more-videos').addClass('disabled')
       }
     }
+  })()
+
+  !(function () {
+    $('#log-search').dropdown({
+      fullTextSearch: true,
+      onChange: function (value) {
+        var q = $.Deferred()
+        $('.search.dropdown').addClass('disabled loading')
+        var $log = $('#js-log')
+        $log.fadeOut(q.resolve)
+
+        $.ajax({
+          url: window.location.pathname + '/search',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({id: value})
+        })
+        .success(function (html) {
+          q.then(function () {
+            $log.replaceWith(html)
+          })
+        })
+        .always(function () {
+          $('.search.dropdown').removeClass('disabled loading')
+        })
+      }
+    })
   })()
 
   !(function () {
