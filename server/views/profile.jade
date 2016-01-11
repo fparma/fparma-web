@@ -49,7 +49,12 @@ block content
               input#js-url(type="text" readonly)
               script.
                 // document.write(location.origin + '/squad.xml ')
-                $(function() {$('#js-url').val(location.origin + '/squad.xml ')})
+                $(function() {
+                  var inp = $('#js-url').val(location.origin + '/squad.xml')
+                  inp.on('mouseup', function () {
+                    inp.get(0).setSelectionRange(0, inp.val().length)
+                  })
+                })
           .two.column.row.mt-top2
             .field.column
               .ui.toggle.checkbox
