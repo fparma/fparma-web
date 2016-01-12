@@ -19,4 +19,4 @@ LogSchema.virtual('name').get(function () {
   return this.mission_id.split('///')[1]
 })
 
-mongoose.model('LogSchema', LogSchema)
+exports.schema = LogSchema

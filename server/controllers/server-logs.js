@@ -1,6 +1,22 @@
 import mongoose from 'mongoose'
+import nconf from 'nconf'
+import LogsModel from '../models/server-logs'
 
-const Logs = mongoose.model('LogSchema')
+// Logs uses a different database
+let connection
+let uri = nconf.get('DB:LOGS_URI')
+
+if (!uri) {
+  console.warn('Missing server logs database? Using standard connection.')
+  connection = mongoose
+} else {
+  connection = mongoose.createConnection(uri)
+  connection.once('connected', () => {
+    console.info('Server logs DB connected.')
+  })
+}
+
+const Logs = connection.model('LogSchema', LogsModel.schema)
 
 /*
  Returns all logs, latest log have text filled

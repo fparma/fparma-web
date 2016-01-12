@@ -5,6 +5,7 @@
     "SECRET": "keyboard cat"
   },
   "DB": {
+    "LOGS_URI": "",
     "URI": "localhost:27017/fparma",
     "USER": "",
     "PASSWORD": ""
