@@ -247,7 +247,7 @@
     var blocked = false
     var firstVideosLoaded = false
     var showingScreenshots = true
-    var LOAD_MORE_AMOUNT = 2
+    var LOAD_MORE_AMOUNT = 12
 
     var switchDone = function () {
       blocked = false
