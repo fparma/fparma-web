@@ -213,7 +213,7 @@
 
           $container.find('.caption').text(caption ? '"' + caption + '"' : '')
           $container.find('.author').text(author ? 'Submitted by ' + author : '')
-          if (caption || author) $container.fadeIn('fast')
+          if (caption || author) $container.fadeIn('fast')
         }
       })
 
@@ -221,7 +221,7 @@
       // waypoint doesn't like divs that can can be hidden, use parent
       if (!root.find('.row.invis').length) return
       root.parent().waypoint(function (direction) {
-        if (root.is(':animated') || !root.is(':visible')) return
+        if (root.is(':animated') || !root.is(':visible')) return
         if (direction === 'down') {
           var self = this
           self.disable()
@@ -316,30 +316,106 @@
   })()
 
   !(function () {
-    $('#log-search').dropdown({
+    var searchSelect = $('#log-search')
+    if (!searchSelect.length) return
+
+    var updatePath = function updatePath (id) {
+      if (!id) id = $('#js-log').attr('data-log-id')
+      if (window.history) {
+        window.history.replaceState(null, null, '/admin/logs/' + id)
+      }
+    }
+    updatePath()
+
+    searchSelect.dropdown({
       fullTextSearch: true,
       onChange: function (value) {
+
+        searchSelect.dropdown('refresh')
         var q = $.Deferred()
-        $('.search.dropdown').addClass('disabled loading')
+        searchSelect.addClass('disabled loading')
         var $log = $('#js-log')
-        $log.fadeOut(q.resolve)
+
+        $log.fadeOut(function () {
+          q.resolve()
+        })
 
         $.ajax({
-          url: window.location.pathname + '/search',
+          url: '/admin/logs/search',
           type: 'POST',
           contentType: 'application/json',
-          data: JSON.stringify({id: value})
+          data: JSON.stringify({id: value}),
+          error: function () {
+            q.then(function () {
+              updatePath(value)
+              searchSelect.removeClass('disabled loading')
+              $log.show().html('<span style="color: red">Failed to load log (' + value + ')</span>')
+            })
+          }
         })
-        .success(function (html) {
+        .done(function (html) {
+          var $html = $(html)
           q.then(function () {
-            $log.replaceWith(html)
+            updatePath($html.attr('data-log-id'))
+            $log.replaceWith(function () {
+              return $html.hide().fadeIn(function () {
+                searchSelect.removeClass('disabled loading')
+              })
+            })
           })
-        })
-        .always(function () {
-          $('.search.dropdown').removeClass('disabled loading')
         })
       }
     })
+
+    /*
+    // add polling later maybe
+    var getScrollPercent = function getScrollPercent () {
+      var h = document.documentElement
+      var b = document.body
+      var st = 'scrollTop'
+      var sh = 'scrollHeight'
+      return Math.round(h[st]||b[st] / ((h[sh]||b[sh]) - h.clientHeight) * 100)
+    }
+    var logPoller = {
+      _updating: false,
+      _items: [],
+      _tick: function (logId) {
+        var self = this
+        if (self._updating || self._items.length) return
+
+        self._updating = true
+        $.ajax({
+          url: '/admin/logs/poll',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            id: logId,
+            listAmount: $('#js-log .list > .item').length
+          })
+        })
+        .done(function (res) {
+          self._items = res.data
+        })
+        .always(function () {
+          self._updating = false
+        })
+      },
+      _render: function () {
+        var self = this;
+      },
+      trackLog: function (logId) {
+        var self = this
+        self.stop()
+        self._id = setInterval(function () {
+          self._tick(logId)
+        }, 10000)
+      },
+      stop: function () {
+        clearInterval(this._id)
+        this._items = []
+      }
+    }
+    */
   })()
 
   !(function () {

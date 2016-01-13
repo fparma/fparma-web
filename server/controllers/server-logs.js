@@ -19,16 +19,32 @@ if (!uri) {
 const Logs = connection.model('LogSchema', LogsModel.schema)
 
 /*
- Returns all logs, latest log have text filled
+  Returns all logs, the latest log have text filled
+  Filters out logs with < 3 entries
 */
-exports.list = (cb) => {
-  Logs.findOne()
+exports.list = (id, cb) => {
+  let q = {'logs.3': {$exists: true}}
+
+  if (typeof id === 'function') {
+    // Just get the latest
+    cb = id
+  } else {
+    // Requested specific log
+    try {
+      q._id = mongoose.Types.ObjectId.createFromHexString(id)
+    } catch (e) {
+      return cb(new Error('Invalid log ID'))
+    }
+  }
+
+  Logs.findOne(q)
   .sort({created_at: -1})
   .exec((err, log) => {
     if (err) return cb(err)
     if (!log) return cb(null, [])
 
-    let q = {mission_id: {$ne: log.mission_id}}
+    // Remove the first log we've found
+    let q = {mission_id: {$ne: log.mission_id}, 'logs.3': {$exists: true}}
     let logs = [log]
 
     Logs.find(q, {logs: 0})
@@ -45,7 +61,15 @@ exports.list = (cb) => {
 /*
   Find one log + text
 */
-exports.findOne = (mission_id, cb) => {
-  Logs.findOne({mission_id: mission_id}, {_id: 0})
+exports.findOne = (hexId, cb) => {
+  try {
+    var id = mongoose.Types.ObjectId.createFromHexString(hexId)
+  } catch (e) {
+    return cb(new Error('Invalid log ID'))
+  }
+
+  Logs.findOne({
+    _id: id
+  })
   .exec(cb)
 }
