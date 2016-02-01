@@ -12,12 +12,21 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
       span.title FPARMA
     +mklink('Events', '/events')
     +mklink('Media', '/media')
+    if (locals.app.userGuides)
+      .ui.compact.dropdown.item(class=locals.topMenu==='guides' ? 'force selected': '')
+        a Guides
+        .menu
+          each guide in locals.app.userGuides
+            +mklink(guide.title, guide.url, (guide.title === locals.title ? 'active': ''))
+
     +mklink('About', '/about')
+
     if (locals.user && locals.user.admin)
       .ui.compact.dropdown.item
         a Admin
         .menu
           +mklink('Server logs', '/admin/logs')
+
     if (locals.user && locals.user.steam_id)
       .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
         i.user.icon(class=user.name ? 'green': 'grey')
@@ -35,12 +44,22 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
       .menu
         +mklink('Events', '/events')
         +mklink('Media', '/media')
+
+        if (locals.app.userGuides)
+          .item(class=locals.topMenu==='guides' ?'force selected': '')  
+            span.needsclick Guides
+            .menu
+              each guide in locals.app.userGuides
+                +mklink(guide.title, guide.url, (guide.title === locals.title ? 'active': ''))
+
         +mklink('About', '/about')
+
         if (locals.user && locals.user.admin)
           .item
             span.needsclick Admin
             .menu
               +mklink('Server logs', '/admin/logs')
+
         if locals.user && locals.user.steam_id
           a.item(href='/profile')
             i.user.icon(class=locals.user.name ? 'green': 'grey')

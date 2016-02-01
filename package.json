@@ -21,8 +21,10 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "extend": "^3.0.0",
+    "highlight.js": "^9.1.0",
     "jade": "^1.11.0",
     "lodash": "^3.10.1",
+    "markdown-it": "^5.1.0",
     "moment": "^2.10.6",
     "mongoose": "^4.1.2",
     "morgan": "^1.6.1",
@@ -33,13 +35,12 @@
     "pm2": "^0.14.7",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1",
+    "del": "^2.0.2",
     "xmlbuilder": "^4.1.0"
   },
   "devDependencies": {
     "better-console": "^0.2.4",
     "browser-sync": "^2.8.2",
-    "del": "^2.0.2",
-    "require-dot-file": "^0.4.0",
     "eslint": "^1.1.0",
     "eslint-config-standard": "^4.0.0",
     "eslint-plugin-standard": "^1.2.0",
@@ -68,6 +69,7 @@
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.4",
     "map-stream": "0.0.6",
+    "require-dot-file": "^0.4.0",
     "yamljs": "^0.2.3"
   }
 }
