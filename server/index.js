@@ -5,6 +5,7 @@ import nconf from 'nconf'
 import {init as expressConfig} from './config/express'
 import {init as passportConfig} from './config/passport'
 import {router} from './routes'
+import {files} from './utils/generate-contrib-markdown'
 
 const IS_DEV = nconf.get('NODE_ENV') === 'development'
 const app = express()
@@ -15,7 +16,8 @@ passportConfig(app)
 
 // to handle cache bust
 app.locals.app = {
-  version: require('../package.json').version
+  version: require('../package.json').version,
+  userGuides: files
 }
 
 // Make user available to Jade templates

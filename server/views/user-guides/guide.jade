@@ -1,0 +1,7 @@
+extends ../layout
+
+block head
+  +style_link('/css/md.css', true)
+
+block content
+  .ui.segment.container.markdown-body!=locals.guide

@@ -1,7 +1,9 @@
+import fs from 'fs'
 import {Router} from 'express'
 import nconf from 'nconf'
 import _ from 'lodash'
 import builder from 'xmlbuilder'
+
 import auth from './auth'
 import events from './events'
 import profile from './profile'
@@ -9,6 +11,7 @@ import media from './media'
 import admin from './admin'
 import News from '../controllers/news'
 import User from '../controllers/user'
+import {files as userGuides} from '../utils/generate-contrib-markdown'
 
 export const router = Router()
 
@@ -39,6 +42,23 @@ router.get('/about', (req, res) => {
 
 router.get('/policy', (req, res) => {
   res.render('policy.jade', {tite: 'Policy'})
+})
+
+router.get('/guides/:id', (req, res, next) => {
+  let id = req.url
+  let guide = userGuides.find(v => v.url === id)
+  if (!guide) return next()
+
+  // TODO: makes this better. use cache
+  fs.readFile(guide.file, 'utf8', (err, data) => {
+    if (err) return next() // 404
+
+    res.render('user-guides/guide.jade', {
+      title: guide.title,
+      topMenu: 'guides',
+      guide: data
+    })
+  })
 })
 
 router.get('/squad.xml', (req, res, next) => {

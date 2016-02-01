@@ -140,6 +140,9 @@ nav span.title {
 }
 
 @media only screen and (max-width: 767px) {
+  nav .item.force.selected {
+    font-weight: 400 !important;
+  }
   nav .desktop-only {
       display: none !important;
   }
@@ -165,6 +168,11 @@ nav span.title {
 }
 
 @media only screen and (min-width : 768px) {
+  nav .item.force.selected {
+    background: rgba(255,255,255,.15) !important;
+    color: #fff!important !important;
+  }
+
   nav .mobile-only {
       display: none !important;
   }

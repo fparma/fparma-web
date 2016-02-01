@@ -6,6 +6,7 @@ public/js
 public/css
 tmp
 dist
+server/views/user-guides/_generated
 
 # Logs
 logs
