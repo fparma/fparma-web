@@ -1,0 +1,9 @@
+{
+  "guides": [
+    {
+      "file": "repo.md",
+      "menuTitle": "Installing our modpack",
+      "menuPriority": 100
+    }
+  ]
+}
