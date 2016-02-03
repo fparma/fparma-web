@@ -18,9 +18,11 @@
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "connect-mongo": "^0.8.2",
+    "del": "^2.0.2",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "extend": "^3.0.0",
+    "gulp-dedupe": "0.0.2",
     "highlight.js": "^9.1.0",
     "jade": "^1.11.0",
     "lodash": "^3.10.1",
@@ -33,9 +35,9 @@
     "passport": "^0.2.2",
     "passport-steam": "^0.1.6",
     "pm2": "^0.14.7",
+    "run-sequence": "^1.1.5",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1",
-    "del": "^2.0.2",
     "xmlbuilder": "^4.1.0"
   },
   "devDependencies": {
