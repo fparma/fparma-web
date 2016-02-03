@@ -74,5 +74,6 @@ mongoose.connection.once('connected', () => {
   console.log(`Mongoose connected to ${nconf.get('DB:URI')}`)
   app.listen(nconf.get('PORT')).on('listening', () => {
     console.log(`Server listening on ${nconf.get('PORT')} (mode: ${nconf.get('NODE_ENV')})`)
+    process.send('server:started')
   })
 })

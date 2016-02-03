@@ -5,14 +5,14 @@ var sourcemaps = require('gulp-sourcemaps')
 var uglify = require('gulp-uglify')
 var plumber = require('gulp-plumber')
 var browserSync = require('browser-sync')
-var nodemon = require('gulp-nodemon')
+var child_process = require('child_process')
 var nconf = require('nconf')
 
 var buildSemantic = require('./client/semantic/tasks/build')
 var watchSemantic = require('./client/semantic/tasks/watch')
 
 nconf.env({whitelist: ['PORT']}).file('config.json')
-var BROWSER_SYNC_RELOAD_DELAY = 500
+var BROWSER_SYNC_RELOAD_DELAY = 1000
 
 var base = {
   client: 'client/',
@@ -64,41 +64,81 @@ gulp.task('build:css', ['clean:css'], function () {
 gulp.task('dev', ['build'], function (cb) {
   gulp.watch(paths.scripts, {cwd: base.client}, ['build:scripts'])
   gulp.watch(paths.css, {cwd: base.client}, ['build:css'])
-  gulp.watch(['public/js/**/*.js', 'server/views/**/*'], browserSync.reload)
+
+  var reloading = false
+  gulp.watch(['public/js/**/*.js', 'server/views/**/*.jade'], function () {
+    if (reloading) return
+    console.log('ey')
+    reloading = true
+    setTimeout(function () {
+      browserSync.reload()
+      reloading = false
+    }, BROWSER_SYNC_RELOAD_DELAY)
+  })
+
   gulp.start('watch-semantic')
   gulp.start('browsersync')
-  cb()
+
+  gulp.watch(
+    [
+      'index.js',
+      'gulpfile.js',
+      'config.json',
+      'server/**/*',
+      '!server/views/**/*.jade'
+    ],
+    ['server'], {cwd: __dirname})
 })
 
 // browsersync - watches client files and reloads browser
-gulp.task('browsersync', ['nodemon'], function (cb) {
+gulp.task('browsersync', ['server'], function (cb) {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
     proxy: 'http://localhost:' + nconf.get('PORT'),
     port: 3000,
-    notify: false
+    notify: false,
+    logFileChanges: true
   })
   cb()
 })
 
-// nodemon - watches server files and restart server on change
-gulp.task('nodemon', function (cb) {
-  return nodemon({
-    script: 'index.js',
-    ignore: ['server/views/**/*'],
-    // watch core server file(s) that require server restart on change
-    watch: ['index.js', 'config.json', 'server/**/*']
-  })
-  .once('start', function onStart () {
-    setTimeout(function () {
-      cb()
-    }, 5000)
-  })
-  .on('restart', function onRestart () {
-    setTimeout(function reload () {
-      browserSync.reload({
-        stream: false
-      })
-    }, BROWSER_SYNC_RELOAD_DELAY)
-  })
+// Live restart on file change
+var serverProcess
+var starting = false
+gulp.task('server', function (cb) {
+  if (starting) return
+
+  function fork () {
+    console.info('Server %s', serverProcess ? 'restarting' : 'starting...')
+    serverProcess = child_process.fork('.')
+
+    serverProcess.once('exit', function (code) {
+      if (cb) {
+        starting = false
+        serverProcess = null
+        console.error('\nStart failed with code %d, waiting for file changes', code)
+        cb()
+        cb = null
+      }
+    })
+
+    var onRunning = function () {
+      serverProcess.removeListener('message', onRunning)
+      if (cb) {
+        starting = false
+        browserSync.reload()
+        cb()
+        cb = null
+      }
+    }
+
+    serverProcess.on('message', function (msg) {
+      if (msg === 'server:started') onRunning()
+    })
+  }
+
+  if (!serverProcess) return fork()
+  starting = true
+  serverProcess.once('exit', fork)
+  serverProcess.kill()
 })
