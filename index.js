@@ -2,6 +2,10 @@ var join = require('path').join
 var fs = require('fs')
 var nconf = require('nconf')
 
+if (!fs.existsSync(__dirname + '/config.json')) {
+  throw new Error('Missing config.json')
+}
+
 nconf
 .env({
   match: /^DB:|STEAM:/,
