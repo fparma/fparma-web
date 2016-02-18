@@ -1,28 +1,25 @@
-/* Parses uploaded sqm files for units. Returns JSON*/
-
 import armaClassParser from 'arma-class-parser'
 import _ from 'lodash'
 
-const SIDE_TRANSLATE_MAP = {
+const SIDES_MAP = {
   WEST: 'blufor',
   EAST: 'opfor',
-  GUER: 'greenfor',
-  CIV: 'civilian'
+  INDEPENDENT: 'greenfor',
+  CIVILIAN: 'civilian'
 }
-const ALLOWED_SIDES = _.keys(SIDE_TRANSLATE_MAP)
-const PLAYABLE_TYPES = ['PLAY CDG', 'PLAYER COMMANDER']
+const sides = Object.keys(SIDES_MAP)
 
-let isAllowedSide = str => _.includes(ALLOWED_SIDES, (str + '').toUpperCase())
-let isPlayerSlot = str => _.includes(PLAYABLE_TYPES, (str + '').toUpperCase())
-let translateSide = str => SIDE_TRANSLATE_MAP[(str + '').toUpperCase()] || null
-let parseGroupName = str => {
+const translateSide = side => { return SIDES_MAP[side.toUpperCase()] || null }
+const isOkSide = unit => { return (unit.side && sides.indexOf(unit.side.toUpperCase()) !== -1) || false }
+const isPlayable = unit => { return (unit.dataType === 'Object' && unit.Attributes && unit.Attributes.isPlayable === 1 || unit.Attributes.isPlayer === 1) || false }
+const parseGroupName = str => {
   str = str + ''
   let ret = ''
   // might be better with a regexp here
   let match = str.substr(str.toLowerCase().lastIndexOf('setgroupid'))
   if (match) {
-    // semicolon could be missing if last command
     let semi = match.indexOf(';')
+    // semicolon could be missing if last command
     match = match.substr(match.indexOf('[') + 1, (semi !== -1 ? semi : match.length))
     match = match.substr(0, match.lastIndexOf(']'))
     ret = match.replace(/['"]+/g, '')
@@ -31,51 +28,46 @@ let parseGroupName = str => {
   return _.capitalize(ret.toLowerCase().trim())
 }
 
-export default function (sqmFileString, callback) {
-  if (!_.isString(sqmFileString)) {
-    return callback(new Error('Expected SQM in string format'))
-  }
-  callback = callback || function () {}
+export default function parseSqmString (str, callback) {
+  if (!_.isString(str)) return callback(new Error('Expected SQM as string'))
+  callback = callback || _.noop
+
   let ret = []
-  let parsed
-
   try {
-    parsed = armaClassParser(sqmFileString)
+    var parsed = armaClassParser(str)
   } catch (e) {
-    return callback(new Error('SQM file could not be parsed'))
+    console.error(e)
+    return callback(new Error('Failed to parse SQM. Make sure it is not binarized'))
   }
 
-  // empty sqm?
-  if (!parsed.Mission || !parsed.Mission.Groups) {
-    return callback(new Error('Could not find any groups'))
-  }
+  let entities = parsed.Mission ? parsed.Mission.Entities : null
+  if (!entities) return callback(new Error('Could not find any groups'))
 
   process.nextTick(() => {
-    _.forOwn(parsed.Mission.Groups, val => {
-      if (_.isEmpty(val.Vehicles) || !isAllowedSide(val.side)) return
+    _.forOwn(entities, grp => {
+      if (!_.isObject(grp)) return
+      let group = {units: []}
 
-      let grp = {units: []}
-      _.forOwn(val.Vehicles, unit => {
-        if (_.isEmpty(unit) || !isAllowedSide(unit.side)) return
+      _.forOwn(grp.Entities, unit => {
+        if (!_.isObject(unit) || !isOkSide(unit) || !isPlayable(unit)) return
 
-        if (unit.leader) {
-          grp.side = translateSide(unit.side)
-          grp.name = _.escape(parseGroupName(unit.init) || '')
+        // the first unit seems to always be the leader in Eden
+        if (!group.units.length) {
+          group.side = translateSide(unit.side)
+          group.name = parseGroupName(unit.Attributes.init)
         }
 
-        if (!isPlayerSlot(unit.player)) return
-
-        grp.units.push({
-          description: _.escape(unit.description).trim()
+        group.units.push({
+          description: _.escape(unit.Attributes.description || '').trim()
         })
       })
 
-      if (grp.units.length) {
-        if (grp.name) {
-          let grpNameReg = new RegExp(grp.name, 'i')
-          grp.units.forEach(unit => {
+      if (group.units.length) {
+        if (group.name) {
+          let grpNameReg = new RegExp(group.name, 'i')
+          group.units.forEach(unit => {
             let orig = unit.description
-            if (!orig.toLowerCase().indexOf(grp.name.toLowerCase())) {
+            if (!orig.toLowerCase().indexOf(group.name.toLowerCase())) {
               let desc = orig.replace(grpNameReg, '').trim()
               // don't want to replace unit desc if it's only the grpname e.g actual
               // and if it starts with parenthesis, keep the original
@@ -83,10 +75,9 @@ export default function (sqmFileString, callback) {
             }
           })
         }
-        ret.push(grp)
+        ret.push(group)
       }
     })
-
     callback(null, ret)
   })
 }
