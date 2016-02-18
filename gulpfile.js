@@ -68,7 +68,6 @@ gulp.task('dev', ['build'], function (cb) {
   var reloading = false
   gulp.watch(['public/js/**/*.js', 'server/views/**/*.jade'], function () {
     if (reloading) return
-    console.log('ey')
     reloading = true
     setTimeout(function () {
       browserSync.reload()
