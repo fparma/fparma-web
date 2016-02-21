@@ -15,7 +15,7 @@ nconf
 .defaults({NODE_ENV: 'development'})
 
 // Let babel register from here on
-require('babel/register', {
+require('babel-register', {
   sourceMaps: 'inline'
 })
 
