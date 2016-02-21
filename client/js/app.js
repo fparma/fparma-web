@@ -312,6 +312,7 @@
       if (!rootVideos.find('.js-video').length) {
         $('#js-load-more-videos').addClass('disabled')
       }
+      blocked = false
     }
   })()
 
