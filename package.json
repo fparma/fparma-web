@@ -1,6 +1,6 @@
 {
   "name": "fparma-web",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "FPARMA web",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "postinstall": "gulp post-install"
   },
   "engines": {
-    "node": "4.0.0"
+    "node": "5.5.0"
   },
   "author": "Cuel",
   "license": "MIT",
