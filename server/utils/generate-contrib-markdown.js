@@ -21,7 +21,7 @@ const dir = path.join(__dirname, '../views/user-guides/')
 const generatedDir = path.join(dir, '_generated')
 const guides = require(path.join(dir, 'config.json')).guides
 
-del.sync(generatedDir + '/**')
+del.sync(generatedDir)
 fs.mkdirSync(generatedDir)
 
 const okFiles = []
