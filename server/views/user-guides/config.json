@@ -4,6 +4,11 @@
       "file": "repo.md",
       "menuTitle": "Installing our modpack",
       "menuPriority": 100
+    },
+    {
+      "file": "medical.md",
+      "menuTitle": "ACE3 Adv. medical",
+      "menuPriority": 90
     }
   ]
 }
