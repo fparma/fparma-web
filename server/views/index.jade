@@ -8,14 +8,14 @@ block content
         h1.center-text Welcome to FPARMA
       .stretched.column
         #server-info.ui.inverted.loading.segment
-          .ui.top.attached.large.red.label Server info
+          .ui.top.attached.large.label Server info
 
   if (locals.news.length)
     #news.ui.segment.container
       h2.ui.header News
       each item in locals.news
-        .ui.raised.inverted.attached.segment.mt-top2
-          span.ui.top.attached.red.label Posted on #{item.display_date}
+        .ui.raised.red.segment.mt-top2
+          span.ui.top.attached.label Posted on #{item.display_date}
           h3.headline
             if item.url
               a(href=item.url)=item.header
