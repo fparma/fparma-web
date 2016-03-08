@@ -21,7 +21,7 @@ export default function (req, res, next) {
       ret.name = d.name
       ret.adress = `${d.host}:${d.port}`
       ret.players = d.players
-      ret.state = d.state
+      ret.state = typeof d.state === 'string' ? d.state : 'unknown'
       ret.mission = d.mission
       ret.island = d.island
       ret.maxPlayers = d.game ? d.game.max_players : 99
