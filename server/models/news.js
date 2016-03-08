@@ -13,6 +13,14 @@ const NewsSchema = new mongoose.Schema({
   }
 })
 
+NewsSchema.path('text').get(v => {
+  if (v.length < 256) return v
+  let str = v.substring(0, 256)
+  let idx = str.lastIndexOf(' ')
+  str = str.substring(0, idx !== -1 ? idx : 255) + ` ${String.fromCharCode(8230)}`
+  return str
+})
+
 NewsSchema.virtual('display_date').get(function () {
   return moment.utc(this.created_at).format('YYYY-MMM-DD')
 })
