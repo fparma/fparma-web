@@ -7,11 +7,11 @@ block content
 
   if (locals.news.length)
     #news.ui.segment.container
-      h2 News
+      h2.ui.header News
       each item in locals.news
-        .ui.raised.segment.mt-top2
+        .ui.raised.attached.segment.mt-top2
           span.ui.top.attached.label Posted on #{item.display_date}
-          h3.headline.no-margin
+          h3.headline
             if item.url
               a(href=item.url)=item.header
             else
