@@ -6,16 +6,16 @@ block content
     h1.center-text Welcome to FPARMA
 
   if (locals.news.length)
-    #news.ui.segment.container
+    #news.ui.inverted.segment.container
       h2.ui.header News
       each item in locals.news
-        .ui.raised.attached.segment.mt-top2
-          span.ui.top.attached.label Posted on #{item.display_date}
+        .ui.raised.inverted.attached.segment.mt-top2
+          span.ui.top.attached.red.label Posted on #{item.display_date}
           h3.headline
             if item.url
               a(href=item.url)=item.header
             else
               span=item.header
           .mt-top1
-            .ui.message
+            .ui.floating.message
               p.keep-format=item.text
