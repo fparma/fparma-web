@@ -68,7 +68,7 @@ exports.getUnitsForXml = (cb) => {
   .exec(cb)
 }
 
-exports.getUserSquadSettings = (id, cb) => {
+exports.getProfileData = (id, cb) => {
   Promise.all([
     User.findOne({steam_id: id}, {squad: 1}).exec(),
     Group.count({'units.user_id': {$in: [id]}}).exec()

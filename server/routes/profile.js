@@ -8,10 +8,9 @@ const router = Router()
 export default router
 
 router.get('/', ensureAuthenticated, (req, res, next) => {
-  User.getUserSquadSettings(req.user.steam_id, (err, data) => {
+  User.getProfileData(req.user.steam_id, (err, data) => {
     if (err) return next(err)
     let {squadSettings, attendedEvents} = data
-  console.log(squadSettings);
 
     res.render('profile.jade', {
       title: 'Profile',
