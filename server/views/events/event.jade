@@ -7,7 +7,7 @@ mixin makeGroup(grp, eventCompleted)
         i.icon(class=grp.units.length > 1 ? 'users': 'user', class='#{sideColor[grp.side]}')
         .content #{grp.name}
           if (grp.description)
-            a.grp-desc(data-content=grp.description)[?]
+            a.grp-desc(data-content=grp.description) [?]
       .ui.divided.list
         each unit in grp.units
           +makeUnit(unit, eventCompleted)
