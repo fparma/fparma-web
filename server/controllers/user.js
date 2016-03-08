@@ -89,3 +89,10 @@ exports.updateSquadSettings = (id, settings, cb) => {
     $set: {squad: settings}
   }, cb)
 }
+
+/*
+ *  stats for admin page. Returns promise
+*/
+exports.countUsers = () => {
+  return User.count().exec()
+}

@@ -22,10 +22,11 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
     +mklink('About', '/about')
 
     if (locals.user && locals.user.admin)
-      .ui.compact.dropdown.item
+      .ui.compact.dropdown.item(class=locals.topMenu==='admin' ? 'force selected': '')
         a Admin
         .menu
           +mklink('Server logs', '/admin/logs')
+          +mklink('Stats', '/admin/stats')
 
     if (locals.user && locals.user.steam_id)
       .ui.item.selection.dropdown.compact.right(role='menuitem' aria-haspopup='true')
@@ -46,7 +47,7 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
         +mklink('Media', '/media')
 
         if (locals.app.userGuides)
-          .item(class=locals.topMenu==='guides' ?'force selected': '')  
+          .item(class=locals.topMenu==='guides' ? 'force selected': '')  
             span.needsclick Guides
             .menu
               each guide in locals.app.userGuides
@@ -55,10 +56,11 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
         +mklink('About', '/about')
 
         if (locals.user && locals.user.admin)
-          .item
+          .item(class=locals.topMenu==='admin' ? 'force selected': '') 
             span.needsclick Admin
             .menu
               +mklink('Server logs', '/admin/logs')
+              +mklink('Stats', '/admin/stats')
 
         if locals.user && locals.user.steam_id
           a.item(href='/profile')

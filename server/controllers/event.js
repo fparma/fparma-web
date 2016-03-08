@@ -128,3 +128,22 @@ exports.kickSlot = (eventId, unitId, cb) => {
   let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
   Group.findOneAndUpdate(cond, upd, cb)
 }
+
+/*
+ * Stats for admin page. returns promise
+*/
+
+exports.countEvents = () => {
+  return Event.count().exec()
+}
+
+exports.getEventAttendence = () => {
+  return Group.aggregate([
+    { $unwind: '$units' },
+    { $project: { _id: 0, id: '$units.user_id', name: '$units.user_name' } },
+    { $match: { id: { '$ne': null }, name: { '$ne': null } } },
+    { $group: { _id: { id: '$id', name: '$name' }, count: { $sum: 1 } } },
+    { $project: { _id: 0, name: '$_id.name', attended: '$count' } },
+    { $sort: { attended: -1 } }
+  ]).exec()
+}
