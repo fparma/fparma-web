@@ -14,10 +14,10 @@ const NewsSchema = new mongoose.Schema({
 })
 
 NewsSchema.path('text').get(v => {
-  if (v.length < 256) return v
-  let str = v.substring(0, 256)
+  if (v.length < 512) return v
+  let str = v.substring(0, 512)
   let idx = str.lastIndexOf(' ')
-  str = str.substring(0, idx !== -1 ? idx : 255) + ` ${String.fromCharCode(8230)}`
+  str = str.substring(0, idx !== -1 ? idx : 511) + ` ${String.fromCharCode(8230)}`
   return str
 })
 
