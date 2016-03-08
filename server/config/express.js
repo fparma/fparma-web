@@ -11,7 +11,7 @@ import {join} from 'path'
 
 const SessionStore = MongoStore(session)
 
-export function init (app, root, IS_DEV) {
+export default function (app, root, IS_DEV) {
   app.set('x-powered-by', false)
 
   // View engine
@@ -22,7 +22,7 @@ export function init (app, root, IS_DEV) {
   app.use(compression())
   app.use(favicon(join(root, '../public/img/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
-  app.use(express.static('public', {maxage: IS_DEV ? 0 : '1d'}))
+  app.use(express.static('public', {maxage: IS_DEV ? 0 : '7d'}))
 
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())

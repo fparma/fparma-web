@@ -22,7 +22,7 @@ passport.deserializeUser(function (id, done) {
   })
 })
 
-export function init (app) {
+export default function (app) {
   app.use(passport.initialize())
   app.use(passport.session())
 
