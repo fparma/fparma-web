@@ -1,6 +1,6 @@
 {
   "name": "fparma-web",
-  "version": "0.0.23",
+  "version": "0.0.25",
   "description": "FPARMA web",
   "main": "index.js",
   "scripts": {
