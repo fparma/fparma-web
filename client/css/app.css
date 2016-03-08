@@ -290,3 +290,7 @@ video {
   overflow: hidden;
   padding: 10px 15px 50px
 }
+
+#server-info p {
+  margin-bottom: 0.5em;
+}

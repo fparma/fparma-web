@@ -2,8 +2,13 @@ extends layout
 
 block content
   .ui.segment.raised.container
-    img.ui.centered.image(src='/img/fparma.png')
-    h1.center-text Welcome to FPARMA
+    .ui.equal.width.stackable.grid
+      .ten.wide.column
+        img.ui.centered.image(src='/img/fparma.png')
+        h1.center-text Welcome to FPARMA
+      .stretched.column
+        #server-info.ui.inverted.loading.segment
+          .ui.top.attached.large.red.label Server info
 
   if (locals.news.length)
     #news.ui.segment.container

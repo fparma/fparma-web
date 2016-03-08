@@ -420,6 +420,41 @@
   })()
 
   !(function () {
+    var $info = $('#server-info')
+    if (!$info.length) return
+    var onFail = function () {
+      var d = $('<h4>Failed to get server info</h4>')
+      $info.removeClass('loading')
+      .append(d.hide().fadeIn('slow'))
+    }
+
+    $.ajax('/a3-server-data')
+    .fail(onFail)
+    .done(function (response) {
+      if (!response.ok || !response.data) return onFail()
+
+      var data = response.data
+      var clr = {playing: 'green', waiting: 'yellow', down: 'red'}
+
+      var $div = $('<div />')
+      .append('<p>Name: ' + data.name + '</p>')
+      .append('<br />')
+      .append('<p>Adress: ' + data.adress + '</p>')
+      .append('<p>State: ' +
+      '<span style="color: ' + clr[data.state] + '"> ' + data.state + '</span>' +
+      '</p>')
+
+      if (data.state === 'playing') {
+        $div.append('<p>Island: ' + data.island + '</p>')
+        .append('<p>Mission: ' + data.mission + '</p>')
+        .append('<p>Players: ' + data.players + '/' + data.maxPlayers + '</p>')
+      }
+      $info.removeClass('loading')
+      .append($div.hide().fadeIn('slow'))
+    })
+  })()
+
+  !(function () {
     var $eventSlotsForm = $('#js-event-slots')
     if (!$eventSlotsForm.length) return
 

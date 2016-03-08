@@ -35,8 +35,10 @@
     "passport": "^0.3.2",
     "passport-steam": "^1.0.1",
     "pm2": "^1.0.1",
+    "request": "^2.69.0",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1",
+    "xml2json": "^0.9.0",
     "xmlbuilder": "^4.2.1"
   },
   "devDependencies": {

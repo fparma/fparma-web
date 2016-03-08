@@ -6,6 +6,7 @@ import profile from './profile'
 import media from './media'
 import admin from './admin'
 import squadXml from './squad-xml'
+import a3ServerInfo from './a3-server-info'
 import guides from './guides'
 import News from '../controllers/news'
 
@@ -34,6 +35,7 @@ router.use('/admin', admin)
 
 router.get('/guides/:id', guides)
 router.get('/squad.xml', squadXml)
+router.get('/a3-server-data', a3ServerInfo)
 
 router.get('/about', (req, res) => {
   res.render('about.jade', {page: 'about', title: 'About'})
