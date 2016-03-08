@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
+import _ from 'lodash'
 const User = mongoose.model('User')
+const Group = mongoose.model('Group')
 
 /**
 * Finds or creates a new user.
@@ -67,7 +69,16 @@ exports.getUnitsForXml = (cb) => {
 }
 
 exports.getUserSquadSettings = (id, cb) => {
-  User.findOne({steam_id: id}, {squad: 1}).exec(cb)
+  Promise.all([
+    User.findOne({steam_id: id}, {squad: 1}).exec(),
+    Group.count({'units.user_id': {$in: [id]}}).exec()
+  ])
+  .then((data) => {
+    let squadSettings = _.isObject(data[0]) ? data[0].squad : {}
+    let attendedEvents = _.isNumber(data[1]) ? data[1] : 0
+    cb(null, {squadSettings, attendedEvents})
+  })
+  .catch(cb)
 }
 
 /*

@@ -34,6 +34,9 @@ block content
     else
       h1.ui.dividing.header Profile
       p Name: #{user.name}
+      p You have signed up for 
+        b #{locals.attendedEvents || 0} 
+        | events.
       form#squad-form.ui.form.mt-top2(method='POST', action='/profile/squad')
         h2.ui.dividing.header Squad.xml settings
         p Squad.xml in a way to show which group you belong to in Arma3.
