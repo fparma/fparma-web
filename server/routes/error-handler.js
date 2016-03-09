@@ -5,7 +5,7 @@ export function handle404 (req, res, next) {
   next(err)
 }
 
-export function handleError(IS_DEV) {
+export function handleError (IS_DEV) {
   return function (err, req, res, next) {
     // In rare cases when user has been dropped from DB
     if (err && err.name === 'NonExistingUserError') {
