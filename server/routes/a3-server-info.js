@@ -1,41 +1,52 @@
-import request from 'request'
-import parser from 'xml2json'
+import gameQuery from 'game-server-query'
+import {secondsToHHMMSS} from '../utils/date-util'
+
+const ISLANDS = {
+  anim_helvantis_v2: 'Helvantis',
+  reshmaan: 'Reshmaan',
+  vr: 'Virtual Reality'
+}
+
+// Use a small cache for 2 min in case of failure
+let ttl = 120 * 1000 // sec
+let cached = null
+let lastUpdated = 0
+function getCached () {
+  console.info('Game query failed, using cache')
+  if ((Date.now() - lastUpdated) > ttl) cached = null
+  if (cached) return cached
+  return {
+    name: '[EU] Facepunch OP Server [Hosted by Profan]',
+    state: 'unknown'
+  }
+}
 
 export default function (req, res, next) {
-  request({
-    url: 'http://arma3.swec.se/server/xml/79571',
-    headers: {'User-Agent': 'request'}
-  }, (err, response, body) => {
-    if (err || response.statusCode !== 200) {
-      if (err) console.error(err)
-      return res.json({ok: false, message: 'Could not query server'})
-    }
-
-    let data = JSON.parse(parser.toJson(body))
-    let ret = null
-
-    if (data && data.server) {
-      ret = {}
-      let d = data.server
-
+  let ret = {}
+  gameQuery({
+    type: 'arma3',
+    host: 'prfn.se'
+  }, d => {
+    if (d.error) {
+      console.error(d.error)
+      ret = getCached()
+    } else {
       ret.name = d.name
-      ret.adress = `${d.host}:${d.port}`
-      ret.players = d.players
-      ret.state = typeof d.state === 'string' ? d.state : 'unknown'
-      ret.mission = d.mission
-      ret.island = d.island
-      ret.maxPlayers = 99
-      ret.playersList = []
-      if (d.game) {
-        ret.maxPlayers = d.game.max_players || 99
-
-        if (d.game.players && d.game.players.player) {
-          ret.playersList = d.game.players.player
-          .filter(v => typeof v.disconnect_time !== 'string')
-          .map(v => v.name)
+      ret.adress = `${d.query ? d.query.address : 'prfn.se'}:${d.query ? d.query.port : '2302'}`
+      ret.players = d.players.map(v => {
+        return {
+          name: v.name || 'unknown',
+          time: v.time ? secondsToHHMMSS(v.time).substring(0, 5) : 0
         }
-      }
+      })
+      ret.state = ret.players.length ? 'playing' : 'waiting'
+      ret.mission = d.raw ? d.raw.game : 'Unknown'
+      let island = ISLANDS[(d.map || '').toLowerCase()]
+      ret.island = island ? island : d.map
+      ret.maxPlayers = ret.players.length ? d.maxplayers : 99
     }
-    res.json({ ok: true, data: ret })
+    lastUpdated = Date.now()
+    cached = ret
+    res.json({ok: true, data: ret})
   })
 }

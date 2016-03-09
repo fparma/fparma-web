@@ -444,22 +444,25 @@
       var $div = $('<div />')
       .append('<p>Name: ' + data.name + '</p>')
       .append('<br />')
-      .append('<p>Adress: ' + data.adress + '</p>')
-      .append('<p>State: ' + states[data.state] + '</p>')
+      if (data.state !== 'unknown') {
+        $div.append('<p>Adress: ' + data.adress + '</p>')
+      }
+      $div.append('<p>State: ' + states[data.state] + '</p>')
 
       if (data.state === 'playing') {
         $div.append('<p>Island: ' + data.island + '</p>')
         .append('<p>Mission: ' + data.mission + '</p>')
-        if (!data.playersList.length) $div.append('<p>Players: ' + data.players + '/' + data.maxPlayers + '</p>')
+        if (!data.players.length) $div.append('<p>Players: ' + (data.players.length) + '/' + data.maxPlayers + '</p>')
         else {
-          var list = '<a style="cursor: pointer">Players: ' + data.players + '/' + data.maxPlayers + '</a>' +
+          var list = '<a style="cursor: pointer">Players: ' + data.players.length + '/' + data.maxPlayers + '</a>' +
           '<div class="ui flowing popup transition hidden">' +
-          '<div class="ui small divided ordered list">'
-          data.playersList.forEach(function (v) { list += '<span class="item"> ' + v + '</span>' })
+          '<div class="ui small relaxed list">'
+          data.players.forEach(function (v) { list += '<span class="item">' + v.time + 'h&nbsp;|&nbsp;' + v.name + '</span>' })
           list += '</div></div>'
-          $div.append($(list).popup({on: 'click', position: 'bottom center'}))
+          $div.append($(list).popup({on: 'click', position: 'bottom right'}))
         }
       }
+
       $info.removeClass('loading')
       .append($div.hide().fadeIn('slow'))
     })
