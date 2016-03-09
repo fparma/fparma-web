@@ -29,6 +29,8 @@ export default function (req, res, next) {
   .then(data => {
     let ret = data[0]
     ret.ts3 = data[1]
+    lastUpdated = Date.now()
+    cached = ret
     res.json({ok: true, data: ret})
   })
   .catch(() => res.status(500).end())
@@ -40,7 +42,7 @@ function getA3ServerInfo () {
       type: 'arma3',
       host: 'prfn.se'
     }, d => {
-        let ret = {}
+      let ret = {}
       if (d.error) {
         console.error(d.error)
         ret = getCached()
@@ -59,8 +61,6 @@ function getA3ServerInfo () {
         ret.island = island ? island : d.map
         ret.maxPlayers = ret.players.length ? d.maxplayers : 99
       }
-      lastUpdated = Date.now()
-      cached = ret
       resolve(ret)
     })
   })
@@ -73,7 +73,7 @@ function getTS3Info () {
       host: '144.76.223.6'
     }, function (d) {
       if (d.error || !d.raw){
-        if (d.error) console.log(d.error);
+        if (d.error) console.warn(d.error)
         return resolve([])
       }
 
