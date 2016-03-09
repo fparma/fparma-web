@@ -38,36 +38,36 @@ nav.ui.fixed.large.inverted.menu(role='menubar')
     else 
       +mklink('Login / Register', '/login', 'right')
 
-  .item.mobile-only
-    .ui.dropdown.needsclick
-      i.icon.content.needsclick
-      span.needsclick Menu
-      .menu
-        +mklink('Events', '/events')
-        +mklink('Media', '/media')
+  
+  .ui.mobile-only.item.dropdown.needsclick
+    i.icon.content.needsclick
+    span.needsclick Menu
+    .menu
+      +mklink('Events', '/events')
+      +mklink('Media', '/media')
 
-        if (locals.app.userGuides)
-          .item(class=locals.topMenu==='guides' ? 'force selected': '')  
-            span.needsclick Guides
-            .menu
-              each guide in locals.app.userGuides
-                +mklink(guide.title, guide.url, (guide.title === locals.title ? 'active': ''))
+      if (locals.app.userGuides)
+        .item(class=locals.topMenu==='guides' ? 'force selected': '')  
+          span.needsclick Guides
+          .menu
+            each guide in locals.app.userGuides
+              +mklink(guide.title, guide.url, (guide.title === locals.title ? 'active': ''))
 
-        +mklink('About', '/about')
+      +mklink('About', '/about')
 
-        if (locals.user && locals.user.admin)
-          .item(class=locals.topMenu==='admin' ? 'force selected': '') 
-            span.needsclick Admin
-            .menu
-              +mklink('Server logs', '/admin/logs')
-              +mklink('Stats', '/admin/stats')
+      if (locals.user && locals.user.admin)
+        .item(class=locals.topMenu==='admin' ? 'force selected': '') 
+          span.needsclick Admin
+          .menu
+            +mklink('Server logs', '/admin/logs')
+            +mklink('Stats', '/admin/stats')
 
-        if locals.user && locals.user.steam_id
-          a.item(href='/profile')
-            i.user.icon(class=locals.user.name ? 'green': 'grey')
-            span=user.name || 'New user'
-          +mklink('Logout', '/logout')
-        else
-          +mklink('Login / Register', '/login', 'right')
+      if locals.user && locals.user.steam_id
+        a.item(href='/profile')
+          i.user.icon(class=locals.user.name ? 'green': 'grey')
+          span=user.name || 'New user'
+        +mklink('Logout', '/logout')
+      else
+        +mklink('Login / Register', '/login', 'right')
   a.header.item.right.mobile-only(href='/', role='link', class=(locals.page == 'home' ? 'active' : ''))
     span.title FPARMA
