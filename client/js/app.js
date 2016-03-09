@@ -450,7 +450,15 @@
       if (data.state === 'playing') {
         $div.append('<p>Island: ' + data.island + '</p>')
         .append('<p>Mission: ' + data.mission + '</p>')
-        .append('<p>Players: ' + data.players + '/' + data.maxPlayers + '</p>')
+        if (!data.playersList.length) $div.append('<p>Players: ' + data.players + '/' + data.maxPlayers + '</p>')
+        else {
+          var list = '<a style="cursor: pointer">Players: ' + data.players + '/' + data.maxPlayers + '</a>' +
+          '<div class="ui flowing popup transition hidden">' +
+          '<div class="ui small divided ordered list">'
+          data.playersList.forEach(function (v) { list += '<span class="item"> ' + v + '</span>' })
+          list += '</div></div>'
+          $div.append($(list).popup({on: 'click', position: 'bottom center'}))
+        }
       }
       $info.removeClass('loading')
       .append($div.hide().fadeIn('slow'))

@@ -24,7 +24,17 @@ export default function (req, res, next) {
       ret.state = typeof d.state === 'string' ? d.state : 'unknown'
       ret.mission = d.mission
       ret.island = d.island
-      ret.maxPlayers = d.game ? d.game.max_players : 99
+      ret.maxPlayers = 99
+      ret.playersList = []
+      if (d.game) {
+        ret.maxPlayers = d.game.max_players || 99
+
+        if (d.game.players && d.game.players.player) {
+          ret.playersList = d.game.players.player
+          .filter(v => typeof v.disconnect_time !== 'string')
+          .map(v => v.name)
+        }
+      }
     }
     res.json({ ok: true, data: ret })
   })
