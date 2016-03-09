@@ -9,9 +9,16 @@ const SIDES_MAP = {
 }
 const sides = Object.keys(SIDES_MAP)
 
-const translateSide = side => { return SIDES_MAP[side.toUpperCase()] || null }
-const isOkSide = unit => { return (unit.side && sides.indexOf(unit.side.toUpperCase()) !== -1) || false }
-const isPlayable = unit => { return (unit.dataType === 'Object' && unit.Attributes && unit.Attributes.isPlayable === 1 || unit.Attributes.isPlayer === 1) || false }
+const translateSide = side => { return SIDES_MAP[side.toUpperCase()] || null }
+const isOkSide = unit => { return (unit.side && sides.indexOf(unit.side.toUpperCase()) !== -1) || false }
+const isPlayable = unit => {
+  return (unit.dataType === 'Object' &&
+    unit.Attributes &&
+    unit.Attributes.isPlayer === 1 ||
+    unit.Attributes.isPlayable === 1) ||
+    false
+}
+
 const parseGroupName = str => {
   str = str + ''
   let ret = ''
@@ -30,7 +37,7 @@ const parseGroupName = str => {
 
 export default function parseSqmString (str, callback) {
   if (!_.isString(str)) return callback(new Error('Expected SQM as string'))
-  callback = callback || _.noop
+  callback = callback || _.noop
 
   let ret = []
   try {
@@ -58,7 +65,7 @@ export default function parseSqmString (str, callback) {
         }
 
         group.units.push({
-          description: _.escape(unit.Attributes.description || '').trim()
+          description: _.escape(unit.Attributes.description || '').trim()
         })
       })
 
