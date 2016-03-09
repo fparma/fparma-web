@@ -169,8 +169,8 @@ nav span.title {
 
 @media only screen and (min-width : 768px) {
   nav .item.force.selected {
-    background: rgba(255,255,255,.15) !important;
-    color: #fff!important !important;
+    background: rgba(255,255,255, .15) !important;
+    color: #fff !important;
   }
 
   nav .mobile-only {
