@@ -441,8 +441,7 @@
       }
 
       var $div = $('<div />')
-      .append('<p>Name: ' + data.name + '</p>')
-      .append('<br />')
+      .append('<p style="margin-bottom: 1em">Name: ' + data.name + '</p>')
       if (data.state !== 'unknown') {
         $div.append('<p>Adress: ' + data.adress + '</p>')
       }
@@ -462,8 +461,18 @@
         }
       }
 
+      $div.append('<p class="mt-top1">TS3: prfn.se</p>')
+      if (data.ts3.length) {
+        var l = '<a style="cursor: pointer">Users: ' + data.ts3.length + '</a>' +
+        '<div class="ui flowing popup transition hidden">' +
+        '<div class="ui small ordered relaxed list">'
+        data.ts3.forEach(function (v) { l += '<span class="item">' + v + '</span>' })
+        l += '</div></div>'
+        $div.append($(l).popup({on: 'click', position: 'bottom right'}))
+      }
+
       $info.removeClass('loading')
-      .append($div.hide().fadeIn('slow'))
+      .append($div.hide().fadeIn(800))
     })
   })()
 
