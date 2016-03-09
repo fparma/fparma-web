@@ -435,10 +435,9 @@
 
       var data = response.data
       var states = {
-        unknown: '&nbsp;<i class="yellow help icon">&nbsp;unknown</i>',
-        down: '&nbsp;<i class="red first aid icon">&nbsp;down</i>',
-        waiting: '&nbsp;<i class="yellow wait icon">&nbsp;waiting</i>',
-        playing: '&nbsp;<i class="green play icon">&nbsp;playing</i>'
+        unknown: '<i class="yellow help icon"></i><span>unknown</span>',
+        waiting: '<i class="yellow wait icon"></i><span>waiting</span>',
+        playing: '<i class="green play icon"></i><span>playing</span>'
       }
 
       var $div = $('<div />')

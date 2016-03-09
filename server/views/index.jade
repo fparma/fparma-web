@@ -1,13 +1,14 @@
 extends layout
 
 block content
-  .ui.segment.raised.container
+  .ui.container
     .ui.equal.width.stackable.grid
       .ten.wide.column
-        img.ui.centered.image(src='/img/fparma.png')
-        h1.center-text Welcome to FPARMA
+        .ui.raised.segment
+          img.ui.centered.image(src='/img/fparma.png')
+          h1.center-text Welcome to FPARMA
       .stretched.column
-        #server-info.ui.inverted.loading.segment
+        #server-info.ui.raised.loading.segment
           .ui.top.attached.large.label
             i.black.linux.icon
             span Server info
