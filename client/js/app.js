@@ -1,4 +1,3 @@
-
 (function ($) {
   function isMobile () {
     return $('nav .mobile-only').is(':visible')
@@ -193,7 +192,6 @@
 
     var LOAD_MORE_AMOUNT = isMobile() ? 2 : 5
     loadMoreRows(LOAD_MORE_AMOUNT, true).then(function () {
-
       root.featherlightGallery({
         beforeOpen: function (e) {
           if (isMobile() && e.target) {
@@ -331,7 +329,6 @@
     searchSelect.dropdown({
       fullTextSearch: true,
       onChange: function (value) {
-
         searchSelect.dropdown('refresh')
         var q = $.Deferred()
         searchSelect.addClass('disabled loading')
@@ -367,56 +364,6 @@
         })
       }
     })
-
-    /*
-    // add polling later maybe
-    var getScrollPercent = function getScrollPercent () {
-      var h = document.documentElement
-      var b = document.body
-      var st = 'scrollTop'
-      var sh = 'scrollHeight'
-      return Math.round(h[st]||b[st] / ((h[sh]||b[sh]) - h.clientHeight) * 100)
-    }
-    var logPoller = {
-      _updating: false,
-      _items: [],
-      _tick: function (logId) {
-        var self = this
-        if (self._updating || self._items.length) return
-
-        self._updating = true
-        $.ajax({
-          url: '/admin/logs/poll',
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({
-            id: logId,
-            listAmount: $('#js-log .list > .item').length
-          })
-        })
-        .done(function (res) {
-          self._items = res.data
-        })
-        .always(function () {
-          self._updating = false
-        })
-      },
-      _render: function () {
-        var self = this;
-      },
-      trackLog: function (logId) {
-        var self = this
-        self.stop()
-        self._id = setInterval(function () {
-          self._tick(logId)
-        }, 10000)
-      },
-      stop: function () {
-        clearInterval(this._id)
-        this._items = []
-      }
-    }
-    */
   })()
 
   !(function () {
@@ -450,6 +397,7 @@
       if (data.state === 'playing') {
         $div.append('<p>Island: ' + data.island + '</p>')
         .append('<p>Mission: ' + data.mission + '</p>')
+
         if (!data.players.length) $div.append('<p>Players: ' + (data.players.length) + '/' + data.maxPlayers + '</p>')
         else {
           var list = '<a style="cursor: pointer">Players: ' + data.players.length + '/' + data.maxPlayers + '</a>' +
@@ -462,6 +410,7 @@
       }
 
       $div.append('<p class="mt-top1">TS3: prfn.se</p>')
+
       if (data.ts3.length) {
         var l = '<a style="cursor: pointer">Users: ' + data.ts3.length + '</a>' +
         '<div class="ui flowing popup transition hidden">' +
@@ -472,7 +421,7 @@
       }
 
       $info.removeClass('loading')
-      .append($div.hide().fadeIn(800))
+      .find('.content').append($div.hide().fadeIn(800))
     })
   })()
 
