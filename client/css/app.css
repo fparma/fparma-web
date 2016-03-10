@@ -299,6 +299,10 @@ video {
   margin-bottom: 0.2em;
 }
 
+#events-list .text.menu .item.active {
+  text-decoration: underline;;
+}
+
 
 #events-list .vertical.menu a.item h4 {
   color: #4183C4;
