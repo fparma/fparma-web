@@ -291,6 +291,10 @@ video {
   padding: 10px 15px 50px
 }
 
+#server-info .content {
+  min-height: 5em;
+}
+
 #server-info p {
   margin-bottom: 0.2em;
 }
