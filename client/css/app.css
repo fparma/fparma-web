@@ -298,3 +298,20 @@ video {
 #server-info p {
   margin-bottom: 0.2em;
 }
+
+
+#events-list .vertical.menu a.item h4 {
+  color: #4183C4;
+  margin-bottom: 0.2em;
+  transition: all 0.2s linear;
+}
+
+#events-list .vertical.menu a.item:hover {
+  border-radius: 6px;
+  box-shadow: -4px 0 2px -2px rgba(0,0,0,0.4);
+}
+
+#events-list .vertical.menu a.item:hover h4 {
+  color: #1e70bf;
+  text-decoration: underline;
+}
