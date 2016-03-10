@@ -38,6 +38,10 @@ const EventSchema = new Schema({
     trim: true,
     maxlength: [24, mkMsg('Authors', 24, false)]
   },
+  user_ratings: [{
+    user_id: {type: String, required: true},
+    rating: {type: Number, min: 0, max: 5}
+  }],
   permalink: String,
   date: {type: Date, required: true},
   created_at: {type: Date, default: Date.now},
@@ -94,6 +98,12 @@ EventSchema.virtual('completed').get(function () {
 
 EventSchema.virtual('display_date').get(function () {
   return moment.utc(this.date).format('YYYY-MMM-DD, HH:mm')
+})
+
+EventSchema.virtual('rating').get(function () {
+  if (!this.user_ratings.length) return 0
+  let nr = this.user_ratings.map(v => v.rating).reduce((a, b) => a + b)
+  return Math.round(nr / (this.user_ratings.length))
 })
 
 mongoose.model('Event', EventSchema)

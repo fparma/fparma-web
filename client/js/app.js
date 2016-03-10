@@ -29,16 +29,66 @@
   // Shows a group description
   $('.event-group .grp-desc').popup()
 
-  $('#js-date-select').on('change', function () {
-    var val = this.value
-    $('.js-event-date').each(function () {
-      var $date = $(this)
-      if (val === 'utc') return $date.html($date.attr('data-def'))
-      var time = window.moment($date.attr('data-date').replace(/"/g, ''))
-      if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
-      if (val === 'from_now') return $date.html(time.fromNow())
+  !(function () {
+    var events = $('#events-list')
+    if (!events.length) return
+    $('#js-date-select').on('click', '.item:not(.header, .active)', function () {
+      var $this = $(this)
+      var val = $this.data('time')
+      $this.siblings().removeClass('active')
+      $this.addClass('active')
+      $('.js-event-date').each(function () {
+        var $date = $(this)
+        if (val === 'utc') return $date.html($date.attr('data-def'))
+        var time = window.moment($date.attr('data-date').replace(/"/g, ''))
+        if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
+        if (val === 'from') return $date.html(time.fromNow())
+      })
     })
-  })
+
+    // Disable ratings from bubbling to enter the event
+    events.find('.compact.segment').on('click', function (e) {
+      e.preventDefault()
+    })
+
+    var ratings = $('.ui.rating')
+    var disabled = $(ratings).data('disabled')
+    if (disabled) return ratings.rating({interactive: false})
+
+    // for whatever reason semantic UI calls onRate when
+    // the rating is initialized... ?
+    var active = false
+    var handleClick = function (rating) {
+      if (!active) return
+      var $this = $(this)
+      if ($this.attr('fp-disabled')) return
+      $this.rating('disable', true)
+      $this.attr('fp-disabled', true)
+
+      $.ajax({
+        url: '/events/rate-event',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          eventId: $this.attr('data-event-id'),
+          rating: rating
+        })
+      })
+      .success(function (response) {
+        if (!response || !response.ok) return
+        $this.fadeOut(function () {
+          $this.rating('set rating', response.data.rating)
+          $this.siblings('.label').text(response.data.amount)
+          $this.fadeIn()
+        })
+      })
+    }
+
+    ratings.rating({
+      onRate: handleClick
+    })
+    active = true
+  })()
 
   !(function () {
     if (!($('#squad-form').length)) return

@@ -129,6 +129,28 @@ exports.kickSlot = (eventId, unitId, cb) => {
   Group.findOneAndUpdate(cond, upd, cb)
 }
 
+exports.rate = (eventId, userId, rating, cb) => {
+  Event.findOne({_id: eventId})
+  .exec((err, doc) => {
+    if (err) return cb(err)
+    if (!doc) return cb(new Error('No such event'))
+    if (!doc.completed) return cb(new Error('Cannot rate non-completed events'))
+    let cond
+    let upd
+
+    if (doc.user_ratings.find(v => v.user_id === userId)) {
+      cond = {_id: eventId, 'user_ratings.user_id': userId}
+      upd = {'$set': {'user_ratings.$.rating': rating}}
+    } else {
+      cond = {_id: eventId}
+      upd = {'$addToSet': {user_ratings: {user_id: userId, rating}}}
+    }
+
+    Event.findOneAndUpdate(cond, upd, {new: true})
+    .exec(cb)
+  })
+}
+
 /*
  * Stats for admin page. returns promise
 */

@@ -53,6 +53,20 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
   })
 })
 
+router.post('/rate-event', ensureAuthenticated, (req, res, next) => {
+  let body = req.body || {}
+  Event.rate(body.eventId, req.user.steam_id, body.rating, (err, doc) => {
+    if (err) return next(err)
+    res.json({
+      ok: true,
+      data: {
+        amount: doc.user_ratings.length,
+        rating: doc.rating
+      }
+    })
+  })
+})
+
 router.post('/slot-*', (req, res, next) => {
   let body = req.body || {}
   Event.findOneById(body.eventId, (err, data) => {

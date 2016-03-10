@@ -1,14 +1,25 @@
 extends ../layout
 
-mixin mkevent(evt)
-  .item
-    .content
-      a.header(href='/events/event/' + evt.permalink) #{evt.type.toUpperCase()} - #{evt.name}
-      p by: #{evt.authors}
-      span.js-event-date(data-date=evt.date, data-def=evt.display_date)=evt.display_date
+mixin createEvent(evt, showRating)
+  a.item(href='/events/event/' + evt.permalink)
+    .ui.equal.width.stackable.grid
+      .column
+          h4.header #{evt.type.toUpperCase()} - #{evt.name}
+          p by: #{evt.authors}
+          span.js-event-date(data-date=evt.date, data-def=evt.display_date)=evt.display_date
+      if (showRating)
+        .middle.aligned.column
+          .ui.compact.segment
+            .ui.massive.heart.rating(
+              data-disabled=(locals.user && locals.user.name ? "false": "true"),
+              data-event-id=evt.id,
+              data-rating=evt.rating,
+              data-max-rating="5"
+            )
+            .ui.mini.floating.black.label=evt.user_ratings.length
 
 block content
-  .ui.container.segment
+  #events-list.ui.container.segment
     h1.ui.dividing.header Events
       if (locals.user.admin)
         a.ui.primary.button.float-r(href='/events/create') Create new event
@@ -16,24 +27,26 @@ block content
     if (events.upcoming.length || events.completed.length)
       .full-w.mt-top1
         p
-          b Show dates as
-        select#js-date-select.ui.drop.dropdown
-          option(value='utc' selected='') UTC
-          option(value='local') Local
-          option(value='from_now') From now
+          #js-date-select.ui.text.menu
+            .header.item Show dates in
+            a.active.item(data-time="utc") UTC
+            a.item(data-time="local") Local time
+            a.item(data-time="from") From now
+
     if events.upcoming.length
-      h2.ui.dividing.header Upcoming events
-      each event in events.upcoming
-        .ui.relaxed.divided.list.segment.small
-          +mkevent(event)
+      h2.ui.dividingg.header Upcoming events
+      .ui.fluid.very.relaxed.vertical.menu
+        each event in events.upcoming
+          +createEvent(event)
     else
       h2.ui.dividing.header No upcoming events
     
     if events.completed.length
       h2.ui.dividing.header.mt-top2 Previous events
-      each event in events.completed
-        .ui.relaxed.divided.list.segment.small
-          +mkevent(event)
-          
+      .ui.fluid.very.relaxed.vertical.menu
+        each event in events.completed
+          +createEvent(event, true)
+    else
+      h2.ui.dividing.header No previous events
 block tail
   +script_link('/vendor/moment.min.js', true)
