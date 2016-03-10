@@ -32,11 +32,9 @@
   !(function () {
     var events = $('#events-list')
     if (!events.length) return
-    $('#js-date-select').on('click', '.item:not(.header, .active)', function () {
-      var $this = $(this)
-      var val = $this.data('time')
-      $this.siblings().removeClass('active')
-      $this.addClass('active')
+    var DATE_PREFERENCE = window.localStorage ? window.localStorage.getItem('date-preference') : null
+
+    var update = function (val) {
       $('.js-event-date').each(function () {
         var $date = $(this)
         if (val === 'utc') return $date.html($date.attr('data-def'))
@@ -44,6 +42,23 @@
         if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
         if (val === 'from') return $date.html(time.fromNow())
       })
+    }
+
+    if (DATE_PREFERENCE && DATE_PREFERENCE !== 'utc') {
+      update(DATE_PREFERENCE)
+      $('#js-date-select .item').removeClass('active')
+      $('#js-date-select .item[data-time="' + DATE_PREFERENCE + '"]').addClass('active')
+    }
+
+    $('#js-date-select').on('click', '.item:not(.header, .active)', function () {
+      var $this = $(this)
+      var val = $this.data('time')
+      $this.siblings().removeClass('active')
+      $this.addClass('active')
+      if (window.localStorage) {
+        window.localStorage.setItem('date-preference', val)
+      }
+      update(val)
     })
   })()
 
