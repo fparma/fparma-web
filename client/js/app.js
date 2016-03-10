@@ -3,6 +3,10 @@
     return $('nav .mobile-only').is(':visible')
   }
 
+  function escapeHTML (text) {
+    return $('<span />').text(text).html()
+  }
+
   $(window).load(function () {
     window.FastClick.attach(window.document.body)
     if (!window.Cookies.get('cookies_consent')) {
@@ -403,19 +407,18 @@
           var list = '<a style="cursor: pointer">Players: ' + data.players.length + '/' + data.maxPlayers + '</a>' +
           '<div class="ui flowing popup transition hidden">' +
           '<div class="ui small relaxed list">'
-          data.players.forEach(function (v) { list += '<span class="item">' + v.time + 'h&nbsp;|&nbsp;' + v.name + '</span>' })
+          data.players.forEach(function (v) { list += '<span class="item">' + v.time + 'h&nbsp;|&nbsp;' + escapeHTML(v.name) + '</span>' })
           list += '</div></div>'
           $div.append($(list).popup({on: 'click', position: 'bottom right'}))
         }
       }
 
       $div.append('<p class="mt-top1">TS3: prfn.se</p>')
-
       if (data.ts3.length) {
         var l = '<a style="cursor: pointer">Users: ' + data.ts3.length + '</a>' +
         '<div class="ui flowing popup transition hidden">' +
         '<div class="ui small ordered relaxed list">'
-        data.ts3.forEach(function (v) { l += '<span class="item">' + v + '</span>' })
+        data.ts3.forEach(function (v) { l += '<span class="item">' + escapeHTML(v) + '</span>' })
         l += '</div></div>'
         $div.append($(l).popup({on: 'click', position: 'bottom right'}))
       }
