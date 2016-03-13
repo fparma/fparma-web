@@ -1,6 +1,7 @@
 (function ($) {
+  var $navMobile = $('nav .mobile-only')
   function isMobile () {
-    return $('nav .mobile-only').is(':visible')
+    return $navMobile.is(':visible')
   }
 
   function escapeHTML (text) {
@@ -431,7 +432,7 @@
           '<div class="ui small relaxed list">'
           data.players.forEach(function (v) { list += '<span class="item">' + v.time + 'h&nbsp;|&nbsp;' + escapeHTML(v.name) + '</span>' })
           list += '</div></div>'
-          $div.append($(list).popup({on: 'click', position: 'bottom right'}))
+          $div.append($(list).popup({on: 'click', position: 'bottom right', lastResort: 'bottom center'}))
         }
       }
 
@@ -442,7 +443,7 @@
         '<div class="ui small ordered relaxed list">'
         data.ts3.forEach(function (v) { l += '<span class="item">' + escapeHTML(v) + '</span>' })
         l += '</div></div>'
-        $div.append($(l).popup({on: 'click', position: 'bottom right'}))
+        $div.append($(l).popup({on: 'click', position: 'bottom right', lastResort: 'bottom center'}))
       }
 
       $info.removeClass('loading')
