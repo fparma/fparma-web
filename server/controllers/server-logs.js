@@ -51,9 +51,7 @@ exports.list = (id, cb) => {
     .sort({created_at: -1})
     .exec((err, data) => {
       if (err || !data.length) return cb(null, logs)
-      data.forEach(v => logs.push(v))
-
-      cb(null, logs)
+      cb(null, logs.concat(data))
     })
   })
 }
