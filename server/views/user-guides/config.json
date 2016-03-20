@@ -9,6 +9,11 @@
       "file": "medical.md",
       "menuTitle": "ACE3 Adv. medical",
       "menuPriority": 90
+    },
+    {
+      "file": "acre.md",
+      "menuTitle": "Installing and configuring ACRE2",
+      "menuPriority": 80
     }
   ]
 }
