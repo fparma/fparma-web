@@ -72,7 +72,7 @@ function getTS3Info () {
       type: 'ts3',
       host: '144.76.223.6'
     }, function (d) {
-      if (d.error || !d.raw){
+      if (d.error || !d.raw) {
         if (d.error) console.warn(d.error)
         return resolve([])
       }
