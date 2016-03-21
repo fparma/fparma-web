@@ -17,16 +17,15 @@
 * Customizable sound configs that allow traditional patching of sounds played in ACRE via Arma addons.
 * Customizable radio presets, allowing groups to define radio presets in additional addons for mission makers to take advantage of (also see the F3 framework).
 Enhanced and easily configurable vehicle sound occlusion and intercoms.
-***
 ## How to install ACRE2:
+* Normally, when you first download the repo, or acre has updated, A3sync will prompt a auto install for acre. However, if this fails use the steps below.
 
-1. Follow this link and download FPARMA’s repo ( LINK ).
-2. Once the repo is downloaded, navigate to your arma 3 directory
-3. Navigate to  the @ACRE2\plugin folder
-4. Once in the plugin folder, you will have two DLLS required for ACRE2 to communicate with TeamsSpeak 3.
-5. Copy / cut these dlls into: TeamSpeak 3 Client\plugins
-6. Running TS3 as Administrator, go to Settings > Plugins and turn on the ACRE2 plugin.
-7. Adjust the post and pre mix volumes to your liking in plugin settings.
+1. Navigate to your arma 3 directory
+2. Navigate to  the @ACRE2\plugin folder
+3. Once in the plugin folder, you will have two DLLS required for ACRE2 to communicate with TeamsSpeak 3.
+4. Copy / cut these dlls into: TeamSpeak 3 Client\plugins
+5. Running TS3 as Administrator, go to Settings > Plugins and turn on the ACRE2 plugin.
+6. Adjust the post and pre mix volumes to your liking in plugin settings.
 ***
 ## List of ACRE2 Radios:
 | Name | Range | Weight |
