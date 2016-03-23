@@ -40,7 +40,7 @@ const EventSchema = new Schema({
   },
   user_ratings: [{
     user_id: {type: String, required: true},
-    rating: {type: Number, min: 0, max: 5}
+    rating: {type: Number, min: 0, max: 3}
   }],
   permalink: String,
   date: {type: Date, required: true},

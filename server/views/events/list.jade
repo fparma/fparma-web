@@ -14,7 +14,7 @@ mixin createEvent(evt, showRating)
               data-disabled=(locals.user && locals.user.name ? "false": "true"),
               data-event-id=evt.id,
               data-rating=evt.rating,
-              data-max-rating="5"
+              data-max-rating="3"
             )
             .ui.mini.floating.black.label=evt.user_ratings.length
 
