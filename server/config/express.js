@@ -20,7 +20,7 @@ export default function (app, root, IS_DEV) {
 
   // Middlewares
   app.use(compression())
-  app.use(favicon(join(root, '../public/img/favicon.ico')))
+  app.use(favicon(join(root, '../public/favicon.ico')))
   app.use(logger(IS_DEV ? 'dev' : 'combined'))
   app.use(express.static('public', {maxage: IS_DEV ? 0 : '7d'}))
 
