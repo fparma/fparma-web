@@ -1,4 +1,5 @@
 #app specific
+.idea
 /config.json
 client/semantic/dist
 public/semantic
