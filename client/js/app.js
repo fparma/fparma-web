@@ -436,7 +436,7 @@
         }
       }
 
-      $div.append('<p class="mt-top1">TS3: prfn.se</p>')
+      $div.append('<p class="mt-top1">TS3: thor.prfn.se</p>')
       if (data.ts3.length) {
         var l = '<a style="cursor: pointer">Users: ' + data.ts3.length + '</a>' +
         '<div class="ui flowing popup transition hidden">' +
