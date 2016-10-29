@@ -319,3 +319,12 @@ video {
   color: #1e70bf;
   text-decoration: underline;
 }
+
+.item.warning {
+  /*box-shadow: inset 0px 0px 0px 3px #921818;*/
+  background-color: rgba(146, 24, 24, 0.1);
+}
+
+.item.info {
+  background-color: rgba(33, 133, 208, 0.1);
+}
