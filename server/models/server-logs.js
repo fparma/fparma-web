@@ -6,7 +6,7 @@ const LogSchema = new mongoose.Schema({
   logs: [{
     time: Number,
     text: String,
-    level: Number
+    level: { type: Number, default: 0 }
   }]
 }, {
   collection: 'serverlogs'
