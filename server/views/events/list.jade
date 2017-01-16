@@ -13,7 +13,7 @@ block content
     h1.ui.dividing.header Events
       if (locals.user.admin)
         a.ui.primary.button.float-r(href='/events/create') Create new event
-    
+
     if (events.upcoming.length || events.completed.length)
       .full-w.mt-top1
         p
@@ -30,7 +30,7 @@ block content
           +createEvent(event)
     else
       h2.ui.dividing.header No upcoming events
-    
+
     if events.completed.length
       h2.ui.dividing.header.mt-top2 Previous events
       .ui.fluid.very.relaxed.vertical.menu
