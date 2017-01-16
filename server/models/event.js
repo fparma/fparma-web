@@ -24,6 +24,7 @@ const EventSchema = new Schema({
   },
   type: {
     type: String,
+    default: 'co',
     trim: true,
     required: true,
     lowercase: true,
