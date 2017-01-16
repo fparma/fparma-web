@@ -41,6 +41,10 @@ router.get('/about', (req, res) => {
   res.render('about.jade', {page: 'about', title: 'About'})
 })
 
+router.get('/rules', (req, res) => {
+  res.render('rules.jade', {page: 'rules', title: 'Rules'})
+})
+
 router.get('/policy', (req, res) => {
   res.render('policy.jade', {tite: 'Policy'})
 })
