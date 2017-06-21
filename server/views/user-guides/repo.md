@@ -16,6 +16,9 @@ We also allow the below client-side addons.
 - <a href="http://www.armaholic.com/page.php?id=27827" target="_blank">JSRS</a>
 - <a href="http://www.armaholic.com/page.php?id=23438" target="_blank">HeadRange Plus (for TrackIR)</a>
 - <a href="http://www.armaholic.com/page.php?id=26780" target="_blank">LAxemann's Enhanced Soundscape</a>
+- <a href="http://www.armaholic.com/page.php?id=31235" target="_blank">Ares Mod - Achilles Expansion</a>
+- <a href="http://www.armaholic.com/page.php?id=27076" target="_blank">Action Button Mod</a>
+- <a href="http://www.armaholic.com/page.php?id=32385" target="_blank">Blastcore Edited</a>
 
 <script type="text/javascript">
 $(function () {
