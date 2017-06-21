@@ -1,5 +1,6 @@
 #app specific
 .idea
+.DS_store
 /config.json
 client/semantic/dist
 public/semantic
