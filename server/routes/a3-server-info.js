@@ -16,7 +16,7 @@ function getCached () {
   if ((Date.now() - lastUpdated) > ttl) cached = null
   if (cached) return cached
   return {
-    name: '[EU] Facepunch OP Server [Hosted by Profan]',
+    name: '[EU] Facepunch OP Server [Hosted by Comfy]',
     state: 'unknown'
   }
 }
@@ -40,7 +40,7 @@ function getA3ServerInfo () {
   return new Promise((resolve, reject) => {
     query({
       type: 'arma3',
-      host: 'prfn.se'
+      host: 'fparma.com'
     }, d => {
       let ret = {}
       if (d.error) {
@@ -48,7 +48,7 @@ function getA3ServerInfo () {
         ret = getCached()
       } else {
         ret.name = d.name
-        ret.adress = `${d.query ? d.query.address : 'prfn.se'}:${d.query ? d.query.port : '2302'}`
+        ret.adress = `${d.query ? d.query.address : 'fparma.com'}:${d.query ? d.query.port : '2302'}`
         ret.players = d.players.map(v => {
           return {
             name: v.name || 'unknown',
@@ -70,7 +70,7 @@ function getTS3Info () {
   return new Promise((resolve, reject) => {
     query({
       type: 'ts3',
-      host: '144.76.223.6'
+      host: '31.7.186.230'
     }, function (d) {
       if (d.error || !d.raw) {
         if (d.error) console.warn(d.error)
