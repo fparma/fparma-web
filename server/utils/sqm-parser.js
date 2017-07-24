@@ -19,7 +19,7 @@ const isPlayable = unit => {
     false
 }
 
-const parseGroupName = str => {
+const groupNameFromLeaderInit = str => {
   str = str + ''
   let ret = ''
   // might be better with a regexp here
@@ -33,6 +33,25 @@ const parseGroupName = str => {
   }
 
   return _.capitalize(ret.toLowerCase().trim())
+}
+
+const groupNameFromDescription = desc => {
+  return desc.slice(desc.indexOf('@') + 1).trim()
+}
+
+const groupNameFromGroupCallsign = grp => {
+  let ret = ''
+  _.forOwn(grp.CustomAttributes, attr => {
+    if (attr.property === 'groupID') {
+      ret = _.get(attr, 'Value.data.value', '').trim()
+    }
+  })
+  return ret
+}
+
+const getUnitDescription = desc => {
+  const atIdx = desc.indexOf('@')
+  return _.escape(desc.slice(0, atIdx === -1 ? desc.length : atIdx) || '').trim()
 }
 
 export default function parseSqmString (str, callback) {
@@ -58,14 +77,23 @@ export default function parseSqmString (str, callback) {
       _.forOwn(grp.Entities, unit => {
         if (!_.isObject(unit) || !isOkSide(unit) || !isPlayable(unit)) return
 
+        const desc = _.get(unit, 'Attributes.description', '')
         // the first unit seems to always be the leader in Eden
         if (!group.units.length) {
           group.side = translateSide(unit.side)
-          group.name = parseGroupName(unit.Attributes.init)
+          if (desc.indexOf('@') !== -1) {
+            group.name = groupNameFromDescription(desc)
+          } else if (_.isObject(grp.CustomAttributes)) {
+            group.name = groupNameFromGroupCallsign(grp)
+          }
+
+          if (!group.name) {
+            group.name = groupNameFromLeaderInit(_.get(unit, 'Attributes.init', ''))
+          }
         }
 
         group.units.push({
-          description: _.escape(unit.Attributes.description || '').trim()
+          description: getUnitDescription(desc)
         })
       })
 

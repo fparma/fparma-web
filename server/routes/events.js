@@ -35,13 +35,13 @@ router.get('/event/:permalink', ensureAuthenticated, (req, res, next) => {
     let slots = {
       total: event.groups.map(v => {
         return v.units.length
-      }).reduce((a, b) => { return a + b }),
+      }).reduce((a, b) => { return a + b }, 0),
 
       taken: event.groups.map(v => {
         return v.units.filter(v => {
           if (v.user_name) return true
         }).length
-      }).reduce((a, b) => { return a + b })
+      }).reduce((a, b) => { return a + b }, 0)
     }
 
     res.render('events/event.jade', {
