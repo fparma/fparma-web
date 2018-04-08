@@ -33,7 +33,7 @@
   !(function () {
     var events = $('#events-list')
     if (!events.length) return
-    var DATE_PREFERENCE = window.localStorage ? window.localStorage.getItem('date-preference') : null
+    var DATE_PREFERENCE = window.localStorage ? window.localStorage.getItem('date-preference') : 'local'
 
     var update = function (val) {
       $('.js-event-date').each(function () {
