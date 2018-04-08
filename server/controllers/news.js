@@ -6,7 +6,8 @@ exports.create = (data, cb) => {
     header: data.header,
     text: data.text,
     url: data.url,
-    author: data.author
+    author: data.author,
+    meta: data.meta
   })
   .save(e => {
     if (cb) cb(e, e ? null : true)

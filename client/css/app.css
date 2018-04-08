@@ -299,8 +299,8 @@ video {
   margin-bottom: 0.2em;
 }
 
-#events-list .text.menu .item.active {
-  text-decoration: underline;;
+#js-date-select .item.active {
+  text-decoration: underline;
 }
 
 

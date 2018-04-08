@@ -16,9 +16,28 @@ block content
   if (locals.news.length)
     #news.ui.segment.container
       h2.ui.header News
+      p
+        #js-date-select.ui.text.menu
+          .header.item Show dates in
+          a.active.item(data-time="utc") UTC
+          a.item(data-time="local") Local time
+          a.item(data-time="from") From now
       each item in locals.news
         .ui.raised.red.segment.mt-top2
-          span.ui.top.attached.label Posted on #{item.display_date}
+          span.ui.top.attached.label
+            if item.meta && item.meta.type == 'event'
+              table
+                tbody
+                  tr
+                    td Posted on
+                    td(style='width:0.25em')
+                    td=item.display_date
+                  tr
+                    td Start time
+                    td
+                    td.js-event-date(data-date=item.meta.date, data-def=item.get('meta.display_date'))=item.get('meta.display_date')
+            else
+              |Posted on #{item.display_date}
           h3.headline
             if item.url
               a(href=item.url)=item.header
@@ -27,3 +46,5 @@ block content
           .mt-top1
             .ui.floating.message
               p.keep-format=item.text
+block tail
+  +script_link('/vendor/moment.min.js', true)

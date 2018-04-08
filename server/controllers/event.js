@@ -52,7 +52,11 @@ exports.create = (evt, user, cb) => {
               header: `New event: ${event.name}`,
               text: event.description,
               url: `/events/event/${event.permalink}`,
-              author: user.name
+              author: user.name,
+              meta: {
+                type: 'event',
+                date: event.date
+              }
             })
             cb(null, event)
           }

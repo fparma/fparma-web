@@ -31,7 +31,7 @@
   $('.event-group .grp-desc').popup()
 
   !(function () {
-    var events = $('#events-list')
+    var events = $('#events-list, #news')
     if (!events.length) return
     var DATE_PREFERENCE = window.localStorage ? window.localStorage.getItem('date-preference') : null
 

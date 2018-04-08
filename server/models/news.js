@@ -10,7 +10,8 @@ const NewsSchema = new mongoose.Schema({
   created_at: {
     type: Date,
     default: Date.now
-  }
+  },
+  meta: mongoose.Schema.Types.Mixed
 })
 
 NewsSchema.path('text').get(v => {
@@ -23,6 +24,10 @@ NewsSchema.path('text').get(v => {
 
 NewsSchema.virtual('display_date').get(function () {
   return moment.utc(this.created_at).format('YYYY-MMM-DD')
+})
+
+NewsSchema.virtual('meta.display_date').get(function () {
+  return this.meta && this.meta.date && moment.utc(this.meta.date).format('YYYY-MMM-DD, HH:mm') || null
 })
 
 mongoose.model('News', NewsSchema)
