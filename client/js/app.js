@@ -1,4 +1,6 @@
 (function ($) {
+  var dateFormat = 'YYYY-MMM-DD, HH:mm (dddd)'
+
   var $navMobile = $('nav .mobile-only')
   function isMobile () {
     return $navMobile.is(':visible')
@@ -40,7 +42,7 @@
         var $date = $(this)
         if (val === 'utc') return $date.html($date.attr('data-def'))
         var time = window.moment($date.attr('data-date').replace(/"/g, ''))
-        if (val === 'local') return $date.html(time.format('YYYY-MMM-DD, HH:mm'))
+        if (val === 'local') return $date.html(time.format(dateFormat))
         if (val === 'from') return $date.html(time.fromNow())
       })
     }
@@ -100,8 +102,8 @@
     if (!$('#event-description').length) return
     var $date = $('#js-date')
     var date = $date.attr('data-date').replace(/['"]+/g, '')
-    var local = window.moment(date).format('YYYY-MMM-DD, HH:mm')
-    var utc = window.moment.utc(date).format('YYYY-MMM-DD, HH:mm')
+    var local = window.moment(date).format(dateFormat)
+    var utc = window.moment.utc(date).format(dateFormat)
     $date.html(local)
 
     $('#js-date-checkbox').on('change', function (e) {

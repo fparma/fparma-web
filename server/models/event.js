@@ -94,7 +94,7 @@ EventSchema.virtual('completed').get(function () {
 })
 
 EventSchema.virtual('display_date').get(function () {
-  return moment.utc(this.date).format('YYYY-MMM-DD, HH:mm')
+  return moment.utc(this.date).format('YYYY-MMM-DD, HH:mm (dddd)')
 })
 
 mongoose.model('Event', EventSchema)
