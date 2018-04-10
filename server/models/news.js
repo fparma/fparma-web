@@ -22,7 +22,7 @@ NewsSchema.path('text').get(v => {
 })
 
 NewsSchema.virtual('display_date').get(function () {
-  return moment.utc(this.created_at).format('YYYY-MMM-DD')
+  return moment.utc(this.created_at).format('YYYY-MMM-DD (dddd)')
 })
 
 mongoose.model('News', NewsSchema)
