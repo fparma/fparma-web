@@ -21,43 +21,50 @@ const md = new MarkdownIt({
 
 const dir = path.join(__dirname, '../views/user-guides/')
 const generatedDir = path.join(dir, '_generated')
-const guides = require(path.join(dir, 'config.json')).guides
+const guideConfig = require(path.join(dir, 'config.json')).guides
 
 del.sync(generatedDir)
 fs.mkdirSync(generatedDir)
 
-const okFiles = []
-guides.map(v => v.file).forEach((file) => {
+const guides = guideConfig.filter(guide => {
+  if (guide.url) {
+    return true
+  }
+
   try {
-    var data = fs.readFileSync(path.join(dir, file), 'utf8')
+    var data = fs.readFileSync(path.join(dir, guide.file), 'utf8')
   } catch (e) {
-    return console.error(e)
+    console.error(e)
+    return false
   }
 
   let html = md.render(data)
-  let fileName = file.substr(0, file.lastIndexOf('.')) + '.html'
+  let fileName = guide.file.substr(0, guide.file.lastIndexOf('.')) + '.html'
 
   try {
     fs.writeFileSync(path.join(generatedDir, fileName), html)
   } catch (e) {
-    return console.error(e)
+    console.error(e)
+    return false
   }
 
-  okFiles.push(file)
+  return true
 })
-
-exports.files = guides
-.filter(v => okFiles.indexOf(v.file) !== -1)
-.sort((a, b) => b.menuPriority - a.menuPriority)
-.map(v => {
-  let url = slug(v.menuTitle, {
-    replacement: '-',
-    lower: true
-  })
+.map(guide => {
+  if (guide.url) {
+    return {
+      url: guide.url,
+      title: guide.menuTitle,
+    }
+  }
 
   return {
-    url: `/guides/${url}`,
-    title: v.menuTitle,
-    file: path.join(generatedDir, v.file.substr(0, v.file.lastIndexOf('.')) + '.html')
+    url: '/guides/' + slug(guide.menuTitle, { replacement: '-',lower: true }),
+    title: guide.menuTitle,
+    file: path.join(generatedDir, guide.file.substr(0, guide.file.lastIndexOf('.')) + '.html')
   }
 })
+
+module.exports = {
+  guides
+}

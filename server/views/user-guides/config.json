@@ -1,7 +1,7 @@
 {
   "guides": [
     {
-      "file": "repo.md",
+      "url": "https://wiki.fparma.com/Swifty",
       "menuTitle": "Installing our modpack",
       "menuPriority": 100
     },

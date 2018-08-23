@@ -6,8 +6,7 @@ import expressConfig from './config/express'
 import passportConfig from './config/passport'
 import {router} from './routes'
 import {handle404, handleError} from './routes/error-handler'
-import {files} from './utils/generate-contrib-markdown'
-
+import {guides} from './utils/generate-contrib-markdown'
 const IS_DEV = nconf.get('NODE_ENV') === 'development'
 const app = express()
 
@@ -24,7 +23,7 @@ connectDatabase((err) => {
     // to handle cache bust
     version: require('../package.json').version,
     // for nav. renders the guides
-    userGuides: files
+    userGuides: guides
   }
 
   // Make user available to Jade templates
