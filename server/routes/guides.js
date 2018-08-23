@@ -1,9 +1,9 @@
 import fs from 'fs'
-import {files as userGuides} from '../utils/generate-contrib-markdown'
+import {guides } from '../utils/generate-contrib-markdown'
 
 export default function (req, res, next) {
   let id = req.url
-  let guide = userGuides.find(v => v.url === id)
+  let guide = guides.find(v => v.url === id)
   if (!guide) return next()
 
   // TODO: makes this better. use cache

@@ -1,6 +1,7 @@
 mixin mklink(page, url, cl)
   a.item(
     href!=url,
+    target=url.indexOf('/') !== 0 ? '_blank' : '_self'
     role='link',
     class=locals.page == url.substr(1).split('/')[0] ? 'active': '',
     class=cl
