@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  mariadb_dev:
+    image: 'bitnami/mariadb:latest'
+    container_name: fparma-dev
+    ports:
+      - '3356:3306'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=fparma
+      - MARIADB_PASSWORD=fparmapw
+      - MARIADB_DATABASE=fparmadev
+  mariadb_test:
+    image: 'bitnami/mariadb:latest'
+    container_name: fparma-test
+    ports:
+      - '3358:3306'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=fparma
+      - MARIADB_PASSWORD=fparmapw
+      - MARIADB_DATABASE=fparmatest

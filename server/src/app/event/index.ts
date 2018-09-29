@@ -1,0 +1,1 @@
+export { setupRoutes } from './EventRouter'

@@ -1,0 +1,1 @@
+docker run -v /path/to/mongodb-persistence:/bitnami bitnami/mongodb:latest

@@ -1,0 +1,30 @@
+{
+    "rootDir": "../",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "transform": {
+        "^.+\\.tsx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+        "<rootDir>/node_modules/(?!@foo)"
+    ],
+    "testRegex": ".*.spec.ts$",
+    "collectCoverageFrom": [
+        "src/**/*.ts",
+        "!src/test/**/*.ts",
+        "!src/entity/**/*.ts",
+        "!src/repository/**/*.ts"
+    ],
+    "moduleFileExtensions": [
+        "js",
+        "jsx",
+        "json",
+        "ts",
+        "tsx"
+    ],
+    "testPathIgnorePatterns": [
+        "<rootDir>/node_modules/",
+        "<rootDir>/src/entity",
+        "<rootDir>/src/repository"
+    ]
+}
