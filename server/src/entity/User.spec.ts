@@ -4,7 +4,7 @@ import { APP_ROLES } from '../../../shared/definitions/AppRoles'
 
 const testUtils = new DatabaseTestUtil()
 
-describe.only(User, () => {
+describe(User, () => {
   beforeAll(async () => await testUtils.connect())
   beforeEach(async () => await testUtils.dropAllTables())
   afterAll(async () => {
