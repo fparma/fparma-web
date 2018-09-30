@@ -1,0 +1,14 @@
+@import 'bulma/sass/utilities/_all.sass';
+
+$background: rgba(0, 0, 0, 0.4);
+$body-background-color: #211c1c;
+
+// Text colors
+$text: rgba(255, 255, 255, 0.96);
+$title-color: $text;
+$subtitle-color: rgba(255, 255, 255, 0.85);
+
+$navbar-background-color: #202021;
+
+$navbar-item-color: $subtitle-color;
+$navbar-item-hover-background-color: transparent;
