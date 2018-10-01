@@ -1,0 +1,42 @@
+div.app-menu-links a {
+  &::before, &::after {
+  color: rgba(255,255,255,0.4);
+  display: inline-block;
+  opacity: 0;
+  transition: transform 0.2s, opacity 0.1s;
+  }
+  &::before {
+    margin-right: 4px;
+    content: '[';
+    transform: translateX(20px);
+  }
+  &::after {
+    margin-left: 4px;
+    content: ']';
+    transform: translateX(-20px);
+  }
+  &:hover {
+    &::before, &::after {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+  &:focus {
+    &::before, &::after {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+}
+
+@media screen and (max-width: 1087px) {
+  div.app-menu-links {
+    padding-bottom: 0;
+    a {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      &:hover {
+        background-color: rgba(255,255,255,0.1)
+      }
+    }
+  }
+}

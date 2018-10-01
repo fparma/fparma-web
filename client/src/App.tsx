@@ -5,7 +5,6 @@ export default class App extends React.Component {
   render = () => (
     <React.Fragment>
       <Header />
-      <div />
     </React.Fragment>
   )
 }
