@@ -20,7 +20,7 @@ const Burger = styled(Navbar.Burger)`
 
 export const Brand = (props: Props) =>
   <Navbar.Brand>
-    <Navbar.Item>
+    <Navbar.Item to="/">
       {/* <Image src="/assets/logo_fp_128px.png" /> */}
       <NavTitle>FPARMA</NavTitle>
     </Navbar.Item>

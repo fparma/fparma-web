@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Navbar, Container } from '../ui'
 import styled from 'styled-components'
-import './header/Header.scss'
 import { LeftMenu, RightMenu, Brand } from './header/index'
+
+import './header/Header.scss'
 
 const Navigation = styled(Navbar.Main)`
   @media screen and (min-width: 1088px) {
