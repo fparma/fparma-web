@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link, LinkProps } from 'react-router-dom';
 
 interface IProps {
   className?: string;
@@ -25,7 +26,7 @@ const Main: React.SFC<IProps> = ({ className, modifiers, children }) => (
 
 const Brand = (props: any) => <div className="navbar-brand">{props.children}</div>
 
-const Item = (props: IProps) => <a tabIndex={0} className="navbar-item">{props.children}</a>
+const Item = (props: LinkProps) => <Link className="navbar-item" {...props}>{props.children}</Link>
 
 const Menu = (props: { children: { start: React.ReactNode; end: React.ReactNode }, className: string }) => (
   <div className={`navbar-menu ${props.className}`}>
