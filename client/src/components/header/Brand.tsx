@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Navbar, Title } from '../../ui'
 import styled from 'styled-components'
+import { Image, Navbar, Title } from '../../ui'
 
 interface Props {
-  onBurgerClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
+  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 const NavTitle = styled(Title)`
@@ -12,17 +12,19 @@ const NavTitle = styled(Title)`
 
 const Burger = styled(Navbar.Burger)`
   color: white;
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: white;
-    background-color: rgba(255,255,255,0.2) !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
   }
 `
 
-export const Brand = (props: Props) =>
+export const Brand = (props: Props) => (
   <Navbar.Brand>
     <Navbar.Item to="/">
-      {/* <Image src="/assets/logo_fp_128px.png" /> */}
+      <Image src="/assets/logo_fp_128px.png" />
       <NavTitle>FPARMA</NavTitle>
     </Navbar.Item>
-    <Burger onClick={props.onBurgerClick} />
+    <Burger onClick={props.onClick} />
   </Navbar.Brand>
+)

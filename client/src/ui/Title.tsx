@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { printClass } from './utils'
 
 interface Props {
   size?: number
@@ -8,10 +9,10 @@ interface Props {
 
 export const Title: React.SFC<Props> = ({ className, size = 3, children }) => {
   const As = `h${size}`
-  return <As className={`title ${className} is-${size}`}>{children}</As>
+  return <As className={printClass('title', `is-${size}`, className)}>{children}</As>
 }
 
 export const SubTitle: React.SFC<Props> = ({ className, size = 5, children }) => {
   const As = `h${size}`
-  return <As className={`subtitle ${className} is-${size}`}>{children}</As>
+  return <As className={printClass('subtitle', `is-${size}`, className)}>{children}</As>
 }

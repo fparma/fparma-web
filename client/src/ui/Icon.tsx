@@ -9,6 +9,7 @@ import {
   faMagic,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
+import { printClass } from './utils'
 
 export const ICONS = {
   faCalendar,
@@ -22,7 +23,7 @@ export const ICONS = {
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))
 
 export const Icon: React.SFC<Props> = props => (
-  <span className={`icon ${props.className}`}>
+  <span className={printClass('icon', props.className)}>
     <FontAwesomeIcon {...props} />
   </span>
 )
