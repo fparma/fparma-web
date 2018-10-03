@@ -1,12 +1,16 @@
 import * as React from 'react'
+import { printClass } from './utils'
 
 interface Props {
   src: string
   size?: number
 }
 
-export const Image = ({ src, size }: Props) => (
-  <figure className={`image ${size ? `is-${size}x${size}` : ''}`}>
-    <img src={src} />
-  </figure>
-)
+export const Image = ({ src, size }: Props) => {
+  const s = size ? `is-${size}x${size}` : ''
+  return (
+    <figure className={printClass('image', s)}>
+      <img src={src} />
+    </figure>
+  )
+}
