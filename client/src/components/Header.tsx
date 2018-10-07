@@ -3,7 +3,6 @@ import { RouteComponentProps, withRouter } from 'react-router'
 import styled from 'styled-components'
 import { withClickOutSide } from '../components/OutsideClick'
 import { Container, Navbar } from '../ui'
-import { printClass } from '../ui/utils'
 import './header/Header.scss'
 import { Brand, LeftMenu, RightMenu } from './header/index'
 
@@ -15,32 +14,38 @@ const Navigation = styled(Navbar.Main)`
   }
 `
 
-class Header extends React.Component<RouteComponentProps> {
-  removeHistoryListener: Function
+class Header extends React.PureComponent<RouteComponentProps, { menuActive: boolean }> {
   state = { menuActive: false }
+  removeHistoryListener: Function
 
   componentDidMount() {
     const { history } = this.props
-    this.removeHistoryListener = history.listen(() => this.off()) as Function
-  }
-  componentWillUnmount = () => this.removeHistoryListener()
-
-  toggle = () => {
-    this.setState({ menuActive: !this.state.menuActive })
+    this.removeHistoryListener = history.listen(this.closeMenu) as Function
   }
 
-  off = () => {
-    this.state.menuActive && this.setState({ menuActive: false })
+  componentWillUnmount() {
+    this.removeHistoryListener()
   }
+
+  toggleMenu = () => {
+    this.setState(({ menuActive }) => {
+      return {
+        menuActive: !menuActive,
+      }
+    })
+  }
+
+  closeMenu = () => {
+    this.state.menuActive && this.toggleMenu()
+  }
+
+  brandRef = React.createRef()
 
   render = () => (
-    <Navigation modifiers={['has-shadow']}>
+    <Navigation hasShadow mobileMenuOpen={this.state.menuActive}>
       <Container>
-        <Brand onClick={this.toggle} />
-        <Menu
-          onOutSideClick={this.off}
-          className={printClass('app-menu-links', { 'is-active': this.state.menuActive })}
-        >
+        <Brand ref={this.brandRef} onClick={this.toggleMenu} />
+        <Menu onOutSideClick={this.closeMenu} excempt={this.brandRef} className={'app-menu-links'}>
           {{ start: LeftMenu, end: RightMenu }}
         </Menu>
       </Container>

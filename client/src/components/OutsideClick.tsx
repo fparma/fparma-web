@@ -3,27 +3,44 @@ import * as ReactDOM from 'react-dom'
 
 interface WithOutsideClickProps<T> {
   onOutSideClick?: () => void
+  excempt: React.RefObject<any>
 }
 
 export const withClickOutSide = <P extends object>(Wrapped: React.ComponentType<P>) => {
-  return class OutsideClick extends React.Component<P & WithOutsideClickProps<P>> {
+  return class OutsideClick extends React.PureComponent<P & WithOutsideClickProps<P>> {
     componentWillMount() {
-      document.addEventListener('mousedown', e => this.onClick(e), false)
+      document.addEventListener('click', e => this.onClick(e), false)
     }
 
     componentWillUnmount() {
-      document.removeEventListener('mousedown', e => this.onClick(e), false)
+      document.removeEventListener('click', e => this.onClick(e), false)
     }
 
     onClick(e: MouseEvent) {
-      const ref = this.getChildRef()
+      if (this.isClickOnExcempt(e)) return
+
+      const refNode = this.getMountedOn()
       const { onOutSideClick } = this.props
 
-      if (ref && onOutSideClick && !ref.contains(e.target as Node)) onOutSideClick()
+      if (refNode && onOutSideClick && !refNode.contains(e.target as Node)) {
+        onOutSideClick()
+      }
     }
 
-    getChildRef() {
+    getMountedOn() {
       return ReactDOM.findDOMNode(this) as HTMLElement
+    }
+
+    isClickOnExcempt(e: MouseEvent) {
+      const { excempt } = this.props
+      if (!excempt || !excempt.current) return false
+
+      const ref = ReactDOM.findDOMNode(excempt.current)
+      if (ref && e.target === ref) {
+        return true
+      }
+
+      return false
     }
 
     render() {

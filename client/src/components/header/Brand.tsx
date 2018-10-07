@@ -2,10 +2,6 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Image, Navbar, Title } from '../../ui'
 
-interface Props {
-  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
-}
-
 const NavTitle = styled(Title)`
   padding-left: 4px;
 `
@@ -19,12 +15,16 @@ const Burger = styled(Navbar.Burger)`
   }
 `
 
-export const Brand = (props: Props) => (
+interface IProps {
+  onClick: (event: React.MouseEvent<HTMLAnchorElement>) => void
+}
+
+export const Brand = React.forwardRef((props: IProps, ref) => (
   <Navbar.Brand>
     <Navbar.Item to="/">
       <Image src="/assets/logo_fp_128px.png" />
       <NavTitle>FPARMA</NavTitle>
     </Navbar.Item>
-    <Burger onClick={props.onClick} />
+    <Burger ref={ref as any} onClick={props.onClick} />
   </Navbar.Brand>
-)
+))
