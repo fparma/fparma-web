@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Navbar, ICONS, Icon } from '../../ui'
+import { Icon, ICONS, Navbar } from '../../ui'
 
 export const LeftMenu = (
   <React.Fragment>

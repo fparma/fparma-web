@@ -1,14 +1,14 @@
-import * as React from 'react'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import {
   faCalendar,
   faImages,
-  faQuestionCircle,
   faLandmark,
   faMagic,
+  faQuestionCircle,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
+import * as React from 'react'
 import { printClass } from './utils'
 
 export const ICONS = {
