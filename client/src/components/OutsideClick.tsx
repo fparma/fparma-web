@@ -9,14 +9,14 @@ interface WithOutsideClickProps<T> {
 export const withClickOutSide = <P extends object>(Wrapped: React.ComponentType<P>) => {
   return class OutsideClick extends React.PureComponent<P & WithOutsideClickProps<P>> {
     componentWillMount() {
-      document.addEventListener('click', e => this.onClick(e), false)
+      document.addEventListener('click', this.onClick, false)
     }
 
     componentWillUnmount() {
-      document.removeEventListener('click', e => this.onClick(e), false)
+      document.removeEventListener('click', this.onClick, false)
     }
 
-    onClick(e: MouseEvent) {
+    onClick = (e: MouseEvent) => {
       if (this.isClickOnExcempt(e)) return
 
       const refNode = this.getMountedOn()
