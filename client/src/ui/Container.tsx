@@ -2,12 +2,19 @@ import * as React from 'react'
 import { printClass } from './utils'
 
 interface Props {
-  as?: string
-  fluid?: boolean
-  children: React.ReactNode
+  isFluid?: boolean
+  isFullhd?: boolean
+  isWidescreen?: boolean
 }
 
-export const Container = (props: Props) => {
-  const As = props.as || 'div'
-  return <As className={printClass('container', { 'is-fluid': props.fluid })}>{props.children}</As>
-}
+export const Container: React.SFC<Props> = ({ isFluid, isFullhd, isWidescreen, children }) => (
+  <div
+    className={printClass('container', {
+      'is-fluid': isFluid,
+      'is-fullhd': isFullhd,
+      'is-widescreen': isWidescreen,
+    })}
+  >
+    {children}
+  </div>
+)
