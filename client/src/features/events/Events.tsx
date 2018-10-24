@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Icon, ICONS, Title } from '../../ui'
 import { Field, Form } from '../../ui/Form'
 import { Grid } from '../../ui/Grid'
-import { Input, Checkbox } from '../../ui/Input';
+import { Input, Checkbox, Radio, RadioGroup } from '../../ui/Input';
 
 export default class Events extends React.Component {
   onSubmit = () => { }
@@ -22,6 +22,10 @@ export default class Events extends React.Component {
               <Input></Input>
             </Field>
           </Grid.Column>
+
+        </Grid.Container>
+        <Grid.Container>
+         
         </Grid.Container>
       </Form>
     </React.Fragment>
