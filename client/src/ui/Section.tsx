@@ -1,9 +1,16 @@
 import * as React from 'react'
+import { printClass } from './utils'
 
 interface Props {
-  children: React.ReactNode
+  className?: string
+  isLarge?: boolean
+  isMedium?: boolean
 }
 
-export const Section = (props: Props) => {
-  return <section className="section">{props.children}</section>
+export const Section: React.SFC<Props> = ({ className, children, ...props }) => {
+  return (
+    <section className={printClass('section', className, { 'is-large': props.isLarge, 'is-medium': props.isMedium })}>
+      {children}
+    </section>
+  )
 }

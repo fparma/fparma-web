@@ -45,7 +45,7 @@ class Header extends React.PureComponent<RouteComponentProps, { menuActive: bool
     <Navigation hasShadow mobileMenuOpen={this.state.menuActive}>
       <Container>
         <Brand ref={this.brandRef} onClick={this.toggleMenu} />
-        <Menu onOutSideClick={this.closeMenu} excempt={this.brandRef} className={'app-menu-links'}>
+        <Menu onOutSideClick={this.closeMenu} excempt={this.brandRef} className="app-menu-links">
           {{ start: LeftMenu, end: RightMenu }}
         </Menu>
       </Container>

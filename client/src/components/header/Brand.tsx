@@ -7,6 +7,7 @@ const NavTitle = styled(Title)`
 `
 
 const Burger = styled(Navbar.Burger)`
+  user-select: none;
   color: white;
   &:hover,
   &:focus {
@@ -22,7 +23,7 @@ interface IProps {
 export const Brand = React.forwardRef((props: IProps, ref) => (
   <Navbar.Brand>
     <Navbar.Item to="/">
-      <Image src="/assets/logo_fp_128px.png" />
+      <Image is32x32 src="/assets/logo_fp_128px.png" />
       <NavTitle>FPARMA</NavTitle>
     </Navbar.Item>
     <Burger ref={ref as any} onClick={props.onClick} />

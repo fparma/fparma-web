@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Icon, ICONS, Title } from '../../ui'
 import { Field, Form } from '../../ui/Form'
 import { Grid } from '../../ui/Grid'
-import { Input, Checkbox, Radio, RadioGroup } from '../../ui/Input';
+import { Input, Checkbox, Radio, RadioGroup } from '../../ui/Input'
 
 export default class Events extends React.Component {
-  onSubmit = () => { }
+  onSubmit = () => {}
 
   render = () => (
     <React.Fragment>
@@ -13,20 +13,17 @@ export default class Events extends React.Component {
       <Form onSubmit={this.onSubmit}>
         <Grid.Container>
           <Grid.Column size={6}>
-            <Field name="title" label="Event title" >
-              <Input></Input>
+            <Field name="title" label="Event title">
+              <Input />
             </Field>
           </Grid.Column>
           <Grid.Column size={6}>
-            <Field name="author" label="Author" iconLeft={<Icon icon={ICONS.faUserTie} />}>
-              <Input></Input>
+            <Field name="author" label="Authors" iconLeft={<Icon icon={ICONS.faUserTie} />}>
+              <Input />
             </Field>
           </Grid.Column>
-
         </Grid.Container>
-        <Grid.Container>
-         
-        </Grid.Container>
+        <Grid.Container />
       </Form>
     </React.Fragment>
   )

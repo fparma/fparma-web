@@ -52,7 +52,7 @@ const Burger = React.forwardRef((props: BurgerProps, ref) => (
         onClick={props.onClick}
         className={printClass('navbar-burger', props.className, { 'is-active': state.mobileMenuOpen })}
         aria-label="menu"
-        aria-expanded="false"
+        aria-expanded={state.mobileMenuOpen}
       >
         <span aria-hidden="true" />
         <span aria-hidden="true" />

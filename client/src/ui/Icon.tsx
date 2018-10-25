@@ -1,19 +1,20 @@
+import * as React from 'react'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
+import { printClass } from './utils'
+
 import {
   faCalendar,
   faImages,
   faLandmark,
   faMagic,
   faQuestionCircle,
-  faUserTie, 
+  faUserTie,
   faCheckSquare,
   faSquare,
   faCircle,
-  faCheckCircle
+  faCheckCircle,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
-import * as React from 'react'
-import { printClass } from './utils'
 
 export const ICONS = {
   faCalendar,
@@ -25,7 +26,7 @@ export const ICONS = {
   faCheckSquare,
   faSquare,
   faCircle,
-  faCheckCircle
+  faCheckCircle,
 }
 
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))
