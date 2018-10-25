@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface Props {
   className?: string
@@ -9,7 +9,7 @@ interface Props {
 
 export const Section: React.SFC<Props> = ({ className, children, ...props }) => {
   return (
-    <section className={printClass('section', className, { 'is-large': props.isLarge, 'is-medium': props.isMedium })}>
+    <section className={classnames('section', className, { 'is-large': props.isLarge, 'is-medium': props.isMedium })}>
       {children}
     </section>
   )

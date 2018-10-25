@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface IColumnsProps {
   className?: string
@@ -12,7 +12,7 @@ interface IColumnsProps {
 
 const Container: React.SFC<IColumnsProps> = ({ className, children, ...props }) => (
   <section
-    className={printClass('columns', className, {
+    className={classnames('columns', className, {
       'is-centered': props.isCentered,
       'is-desktop': props.isDesktop,
       'is-gapless': props.isGapless,
@@ -40,7 +40,7 @@ const Column: React.SFC<IColumnProps> = ({ className, size, children, ...props }
   if (size != null && (size < 2 || size > 11)) throw new Error('Size must be value between 2-11')
   return (
     <div
-      className={printClass('column', className, {
+      className={classnames('column', className, {
         [`is-${size}`]: !!size,
         'is-narrow': props.isNarrow,
         'is-narrow-desktop': props.isNarrowDesktop,

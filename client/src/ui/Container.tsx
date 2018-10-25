@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface Props {
   className?: string
@@ -10,7 +10,7 @@ interface Props {
 
 export const Container: React.SFC<Props> = ({ className, children, ...props }) => (
   <div
-    className={printClass('container', className, {
+    className={classnames('container', className, {
       'is-fluid': props.isFluid,
       'is-fullhd': props.isFullhd,
       'is-widescreen': props.isWidescreen,

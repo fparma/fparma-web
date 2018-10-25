@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface IFormProps {
   onSubmit: React.FormEventHandler
@@ -8,7 +8,6 @@ interface IFormProps {
 
 interface IFieldProps {
   name: string
-  children: React.ReactNode
   label?: string
   fullWidth?: boolean
   iconLeft?: React.ReactElement<any>
@@ -18,14 +17,14 @@ interface IFieldProps {
 export const Form: React.SFC<IFormProps> = props => <form onSubmit={props.onSubmit}>{props.children}</form>
 
 export const Field: React.SFC<IFieldProps> = props => (
-  <div className={printClass('field')}>
+  <div className={classnames('field')}>
     {props.label && (
       <label htmlFor={`id_${props.name}`} className="label">
         {props.label}
       </label>
     )}
     <div
-      className={printClass(
+      className={classnames(
         'control',
         { 'has-icons-left': !!props.iconLeft },
         { 'has-icons-right': !!props.iconRight },

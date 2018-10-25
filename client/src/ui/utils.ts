@@ -1,6 +1,6 @@
 type IClassArgs = undefined | string | { [key: string]: boolean | undefined }
 
-export const printClass = (...args: IClassArgs[]) => {
+export const classnames = (...args: IClassArgs[]) => {
   return args
     .filter(Boolean)
     .map((val: string | { [key: string]: boolean }) => {

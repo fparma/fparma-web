@@ -8,6 +8,7 @@ import './index.scss'
 ReactDOM.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-  , document.getElementById('root') as HTMLElement)
+  </BrowserRouter>,
+  document.getElementById('root') as HTMLElement
+)
 // registerServiceWorker()

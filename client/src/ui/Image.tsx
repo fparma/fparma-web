@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface Props {
   src: string
@@ -31,7 +31,7 @@ interface Props {
 export const Image: React.SFC<Props> = ({ className, src, ...props }) => {
   return (
     <figure
-      className={printClass('image', className, {
+      className={classnames('image', className, {
         'is-1by1': props.is1by1,
         'is-1by2': props.is1by2,
         'is-1by3': props.is1by3,

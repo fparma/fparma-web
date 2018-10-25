@@ -31,16 +31,12 @@ export const withClickOutSide = <P extends object>(Wrapped: React.ComponentType<
       return ReactDOM.findDOMNode(this) as HTMLElement
     }
 
-    isClickOnExcempt(e: MouseEvent) {
+    isClickOnExcempt(e: MouseEvent): boolean {
       const { excempt } = this.props
       if (!excempt || !excempt.current) return false
 
       const ref = ReactDOM.findDOMNode(excempt.current)
-      if (ref && e.target === ref) {
-        return true
-      }
-
-      return false
+      return Boolean(ref && e.target === ref)
     }
 
     render() {

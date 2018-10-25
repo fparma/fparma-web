@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Link, LinkProps } from 'react-router-dom'
-import { printClass } from './utils'
+import { classnames } from './utils'
 
 interface IProps {
   className?: string
@@ -12,7 +12,7 @@ const Context = React.createContext<{ mobileMenuOpen: boolean }>({ mobileMenuOpe
 const Menu = (props: { children: { start: React.ReactNode; end: React.ReactNode }; className: string }) => (
   <Context.Consumer>
     {state => (
-      <div className={printClass('navbar-menu', props.className, { 'is-active': state.mobileMenuOpen })}>
+      <div className={classnames('navbar-menu', props.className, { 'is-active': state.mobileMenuOpen })}>
         <div className="navbar-start">{props.children.start}</div>
         <div className="navbar-end">{props.children.end}</div>
       </div>
@@ -28,7 +28,7 @@ interface MainProps extends IProps {
 const Main: React.SFC<MainProps> = ({ className, hasShadow, children, mobileMenuOpen }) => (
   <Context.Provider value={{ mobileMenuOpen }}>
     <nav
-      className={printClass('navbar', className, { 'has-shadow': hasShadow })}
+      className={classnames('navbar', className, { 'has-shadow': hasShadow })}
       role="navigation"
       aria-label="main navigation"
     >
@@ -50,7 +50,7 @@ const Burger = React.forwardRef((props: BurgerProps, ref) => (
         role="button"
         tabIndex={0}
         onClick={props.onClick}
-        className={printClass('navbar-burger', props.className, { 'is-active': state.mobileMenuOpen })}
+        className={classnames('navbar-burger', props.className, { 'is-active': state.mobileMenuOpen })}
         aria-label="menu"
         aria-expanded={state.mobileMenuOpen}
       >
@@ -62,7 +62,7 @@ const Burger = React.forwardRef((props: BurgerProps, ref) => (
   </Context.Consumer>
 ))
 
-const Brand = (props: IProps) => <div className={printClass('navbar-brand', props.className)}>{props.children}</div>
+const Brand = (props: IProps) => <div className={classnames('navbar-brand', props.className)}>{props.children}</div>
 
 const Item = (props: LinkProps) => (
   <Link className="navbar-item" {...props}>

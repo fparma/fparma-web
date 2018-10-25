@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start --scripts-version @jpavon/react-scripts-ts",
+    "start-local": "HOST='192.168.1.104' react-app-rewired start --scripts-version @jpavon/react-scripts-ts",
     "build": "react-app-rewired build --scripts-version @jpavon/react-scripts-ts",
     "test": "react-app-rewired test --env=jsdom --scripts-version @jpavon/react-scripts-ts"
   },

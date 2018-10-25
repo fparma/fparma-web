@@ -1,7 +1,7 @@
-import { DatabaseTestUtil } from '../../test/DatabaseTestUtil'
-import { Event } from './Event'
-import { Group } from './Group'
-import { EVENT_TYPES } from '../../../../shared/definitions/EventTypes'
+import { EVENT_TYPES } from '../../../../shared/definitions/EventTypes';
+import { DatabaseTestUtil } from '../../test/DatabaseTestUtil';
+import { Event } from './Event';
+import { Group } from './Group';
 
 const testUtils = new DatabaseTestUtil()
 
