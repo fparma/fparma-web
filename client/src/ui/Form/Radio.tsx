@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled, { StyledFunction } from 'styled-components'
 import { Icon, ICONS } from '../Icon'
-import { InputElement } from './index'
 
 const { Consumer, Provider } = React.createContext({
   value: '',
@@ -11,6 +10,7 @@ const { Consumer, Provider } = React.createContext({
 
 interface IRadioGroupProps {
   name: string
+  label?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => {}
   defaultValue?: string
 }
@@ -30,13 +30,18 @@ class RadioGroup extends React.PureComponent<IRadioGroupProps, { value: string }
   }
 
   render() {
-    const { name, children } = this.props
+    const { label, name, children } = this.props
     const { value } = this.state
-    return <Provider value={{ name, value, onChange: e => this.onChange(e) }}>{children}</Provider>
+    return (
+      <Provider value={{ name, value, onChange: e => this.onChange(e) }}>
+        {label && <label className="label">{label}</label>}
+        {children}
+      </Provider>
+    )
   }
 }
 
-interface IRadioProps extends InputElement {
+interface IRadioProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   className?: string
   isInline?: boolean
   value: string
@@ -64,6 +69,7 @@ const StyledRadio = radioContainer`
   }
 
   .icon + span {
+    vertical-align: top;
     padding-left: 6px;
   }
 `

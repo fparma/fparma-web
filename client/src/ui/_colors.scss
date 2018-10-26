@@ -3,7 +3,6 @@
 $background: rgba(0, 0, 0, 0.4);
 $body-background-color: #211c1c;
 
-// Text colors
 $text: rgba(255, 255, 255, 0.96);
 $title-color: $text;
 $subtitle-color: rgba(255, 255, 255, 0.85);
@@ -14,3 +13,6 @@ $navbar-item-color: $subtitle-color;
 $navbar-item-hover-background-color: transparent;
 
 $label-color: $subtitle-color;
+
+$modal-card-head-background-color: $body-background-color;
+$modal-card-title-color: $text;

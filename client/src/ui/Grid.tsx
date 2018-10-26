@@ -27,6 +27,12 @@ const Container: React.SFC<IColumnsProps> = ({ className, children, ...props }) 
 interface IColumnProps {
   className?: string
   size?: number
+  sizeFullhd?: number
+  sizeWidescreen?: number
+  sizeDesktop?: number
+  sizeTablet?: number
+  sizeMobile?: number
+  isFull?: boolean
   isNarrow?: boolean
   isNarrowDesktop?: boolean
   isNarrowMobile?: boolean
@@ -36,12 +42,26 @@ interface IColumnProps {
   isNarrowFullhd?: boolean
 }
 
-const Column: React.SFC<IColumnProps> = ({ className, size, children, ...props }) => {
-  if (size != null && (size < 2 || size > 11)) throw new Error('Size must be value between 2-11')
+const Column: React.SFC<IColumnProps> = ({
+  className,
+  size,
+  sizeFullhd,
+  sizeWidescreen,
+  sizeDesktop,
+  sizeTablet,
+  sizeMobile,
+  children,
+  ...props
+}) => {
   return (
     <div
       className={classnames('column', className, {
         [`is-${size}`]: !!size,
+        [`is-${sizeFullhd}-fullhd`]: !!sizeFullhd,
+        [`is-${sizeWidescreen}-widescreen`]: !!sizeWidescreen,
+        [`is-${sizeDesktop}-desktop`]: !!sizeDesktop,
+        [`is-${sizeTablet}-tablet`]: !!sizeTablet,
+        [`is-${sizeMobile}-mobile`]: !!sizeMobile,
         'is-narrow': props.isNarrow,
         'is-narrow-desktop': props.isNarrowDesktop,
         'is-narrow-mobile': props.isNarrowMobile,
@@ -49,6 +69,7 @@ const Column: React.SFC<IColumnProps> = ({ className, size, children, ...props }
         'is-narrow-touch': props.isNarrowTouch,
         'is-narrow-widescreen': props.isNarrowWidescreen,
         'is-narrow-fullhd': props.isNarrowFullhd,
+        'is-full': props.isFull,
       })}
     >
       {children}

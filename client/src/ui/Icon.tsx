@@ -9,6 +9,7 @@ import {
   faMagic,
   faQuestionCircle,
   faSquare,
+  faTimesCircle,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
@@ -26,6 +27,7 @@ export const ICONS = {
   faSquare,
   faCircle,
   faCheckCircle,
+  faCloseX: faTimesCircle,
 }
 
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))

@@ -10,7 +10,7 @@ const Menu = withClickOutSide(Navbar.Menu)
 
 const Navigation = styled(Navbar.Main)`
   @media screen and (min-width: 1088px) {
-    padding: 1rem 0;
+    padding: 0.4rem 0;
   }
 `
 

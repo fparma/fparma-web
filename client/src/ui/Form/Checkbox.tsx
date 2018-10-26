@@ -1,10 +1,10 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled, { StyledFunction } from 'styled-components'
 import { Icon, ICONS } from '../Icon'
 import { classnames } from '../utils'
-import { InputElement } from './index'
 
-interface ICheckboxProps extends InputElement {
+interface ICheckboxProps
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   type?: never
   isInline?: boolean
   label: string
@@ -14,9 +14,11 @@ interface ICheckboxProps extends InputElement {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Styled: any = styled.div`
-  display: ${(props: ICheckboxProps) => (props.isInline ? 'inline-flex' : 'flex')}
-  padding-right: ${(props: ICheckboxProps) => (props.isInline ? '12px' : 0)};
+const container: StyledFunction<Partial<ICheckboxProps>> = styled.div
+
+const StyledCheckbox = container`
+  display: ${({ isInline }) => (isInline ? 'inline-flex' : 'flex')}
+  padding-right: ${({ isInline }) => (isInline ? '12px' : 0)};
   label {
     display: inline-flex;
   }
@@ -36,6 +38,10 @@ const Styled: any = styled.div`
   input + span:last-child {
     text-decoration: underline;
   }
+`
+
+const StyledIcon = styled(Icon)`
+  font-size: 1.4rem;
 `
 
 export class Checkbox extends React.PureComponent<ICheckboxProps, { checked: boolean | undefined }> {
@@ -59,13 +65,13 @@ export class Checkbox extends React.PureComponent<ICheckboxProps, { checked: boo
   render() {
     const { className, isInline, onChange, label, type, ...rest } = this.props
     return (
-      <Styled className={classnames('field')} isInline>
+      <StyledCheckbox className={classnames('field')} isInline>
         <label>
           <input type="checkbox" onChange={this.onChange} className={classnames('is-checkbox', className)} {...rest} />
-          <Icon icon={this.state.checked ? ICONS.faCheckSquare : ICONS.faSquare} style={Checkbox.size} />
+          <StyledIcon icon={this.state.checked ? ICONS.faCheckSquare : ICONS.faSquare} />
           <span>{label}</span>
         </label>
-      </Styled>
+      </StyledCheckbox>
     )
   }
 }
