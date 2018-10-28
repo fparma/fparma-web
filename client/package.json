@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start --scripts-version @jpavon/react-scripts-ts",
-    "start-local": "HOST='192.168.1.104' react-app-rewired start --scripts-version @jpavon/react-scripts-ts",
+    "start:local": "HOST='192.168.1.xxx' react-app-rewired start --scripts-version @jpavon/react-scripts-ts",
     "build": "react-app-rewired build --scripts-version @jpavon/react-scripts-ts",
     "test": "react-app-rewired test --env=jsdom --scripts-version @jpavon/react-scripts-ts"
   },
@@ -32,6 +32,7 @@
     "@types/react-loadable": "^5.4.1",
     "@types/react-router-dom": "^4.3.1",
     "bulma": "^0.7.1",
+    "flatpickr": "^4.5.2",
     "node-sass": "^4.9.3",
     "styled-components": "^3.4.9",
     "typescript": "^3.0.3"

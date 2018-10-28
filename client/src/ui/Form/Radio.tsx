@@ -11,7 +11,7 @@ const { Consumer, Provider } = React.createContext({
 interface IRadioGroupProps {
   name: string
   label?: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => {}
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   defaultValue?: string
 }
 
@@ -23,8 +23,6 @@ class RadioGroup extends React.PureComponent<IRadioGroupProps, { value: string }
 
   onChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.target
-    console.log(value)
-
     this.setState({ value })
     if (this.props.onChange) this.props.onChange(e)
   }
@@ -76,11 +74,11 @@ const StyledRadio = radioContainer`
 
 class Radio extends React.PureComponent<IRadioProps> {
   render() {
-    const { className, value, label, ...rest } = this.props
+    const { className, value, label, isInline, ...rest } = this.props
     return (
       <Consumer>
         {ctx => (
-          <StyledRadio className={className} isInline={rest.isInline} disabled={rest.disabled}>
+          <StyledRadio className={className} isInline={isInline} disabled={rest.disabled}>
             <label>
               <input type="radio" name={ctx.name} value={value} onChange={e => ctx.onChange(e)} {...rest} />
               <Icon icon={ctx.value === value ? ICONS.faCheckCircle : ICONS.faCircle} />

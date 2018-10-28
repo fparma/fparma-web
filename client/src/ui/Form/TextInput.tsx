@@ -14,9 +14,9 @@ const StyledInput = input`
   }
 `
 
-export const Input: React.SFC<Props> = ({ name, ref, className, autoComplete = 'off', ...rest }) => (
+export const Input: React.SFC<Props> = ({ name, ref, type = 'text', className, autoComplete = 'off', ...rest }) => (
   <StyledInput
-    type="text"
+    type={type}
     name={name}
     className={classnames('input', className)}
     autoComplete={autoComplete}

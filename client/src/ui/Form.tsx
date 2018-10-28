@@ -7,7 +7,6 @@ interface IFormProps {
 }
 
 interface IFieldProps {
-  name: string
   label?: string
   fullWidth?: boolean
   iconLeft?: React.ReactElement<any>
@@ -18,11 +17,7 @@ export const Form: React.SFC<IFormProps> = props => <form onSubmit={props.onSubm
 
 export const Field: React.SFC<IFieldProps> = props => (
   <div className={classnames('field')}>
-    {props.label && (
-      <label htmlFor={`id_${props.name}`} className="label">
-        {props.label}
-      </label>
-    )}
+    {props.label && <label className="label">{props.label}</label>}
     <div
       className={classnames(
         'control',
