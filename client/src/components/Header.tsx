@@ -28,11 +28,7 @@ class Header extends React.PureComponent<RouteComponentProps, { menuActive: bool
   }
 
   toggleMenu = () => {
-    this.setState(({ menuActive }) => {
-      return {
-        menuActive: !menuActive,
-      }
-    })
+    this.setState(({ menuActive }) => ({ menuActive: !menuActive }))
   }
 
   closeMenu = () => {
