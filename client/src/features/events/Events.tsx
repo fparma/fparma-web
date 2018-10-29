@@ -1,42 +1,40 @@
 import * as React from 'react'
 import { Icon, ICONS, Input, Radio, RadioGroup, TextArea, Title } from '../../ui'
-import { Field, Form } from '../../ui/Form'
+import { Field } from '../../ui/Form'
 import { Grid } from '../../ui/Grid'
 import { Datepicker } from '../../ui/Timepicker/DatePicker'
 import { Timepicker } from '../../ui/Timepicker/Timepicker'
 
-const DEFAULT_HOUR_UTC = 18
+const DEFAULT_HOUR_UTC = 18 // hmm?
 
 export default class Events extends React.Component {
-  state = {
-    form: {},
-  }
-  onSubmit = () => {}
-
-  handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    const change = { [name]: value }
-    this.setState((prevState: any) => ({ form: { ...prevState.form, ...change } }))
+  onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const { target: form } = e
+    const data = new FormData(form as HTMLFormElement)
+    data.forEach((val, key) => {
+      console.log(key, '=', val)
+    })
   }
 
   render = () => (
     <React.Fragment>
       <Title>Schedule a new event</Title>
-      <pre>{JSON.stringify(this.state.form)}</pre>
-      <Form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Submit</button>
         <Grid.Container>
           <Grid.Column sizeFullhd={5} sizeDesktop={6}>
             <Grid.Container isMultiline isMobile>
               <Grid.Column>
-                <RadioGroup name="type" defaultValue="co" label="Event type" onChange={this.handleFormChange}>
-                  <Radio label="COOP" value="co" isInline />
-                  <Radio label="TVT" value="tvt" isInline />
+                <RadioGroup name="type" defaultValue="co" label="Event type">
+                  <Radio label="COOP" value="co" required />
+                  <Radio label="TVT" value="tvt" />
                 </RadioGroup>
               </Grid.Column>
 
               <Grid.Column isFull>
                 <Field label="Event title">
-                  <Input name="title" placeholder="Operation FPARMA" onChange={this.handleFormChange} />
+                  <Input name="title" placeholder="Operation FPARMA" />
                 </Field>
               </Grid.Column>
 
@@ -70,11 +68,15 @@ export default class Events extends React.Component {
         <Grid.Container>
           <Grid.Column isFull>
             <Field label="Event description">
-              <TextArea name="description" placeholder="If custom mods are used, remember to link them here" />
+              <TextArea
+                name="description"
+                rows={15}
+                placeholder="If custom mods are used, remember to link them here"
+              />
             </Field>
           </Grid.Column>
         </Grid.Container>
-      </Form>
+      </form>
     </React.Fragment>
   )
 }

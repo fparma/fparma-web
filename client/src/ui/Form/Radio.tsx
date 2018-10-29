@@ -15,6 +15,12 @@ interface IRadioGroupProps {
   defaultValue?: string
 }
 
+const RadioContainer = styled.div`
+  > div:not(:last-child) {
+    margin-right: 0.5em;
+  }
+`
+
 class RadioGroup extends React.PureComponent<IRadioGroupProps, { value: string }> {
   constructor(props: IRadioGroupProps) {
     super(props)
@@ -31,26 +37,26 @@ class RadioGroup extends React.PureComponent<IRadioGroupProps, { value: string }
     const { label, name, children } = this.props
     const { value } = this.state
     return (
-      <Provider value={{ name, value, onChange: e => this.onChange(e) }}>
-        {label && <label className="label">{label}</label>}
-        {children}
-      </Provider>
+      <RadioContainer className="control">
+        <Provider value={{ name, value, onChange: e => this.onChange(e) }}>
+          {label && <label className="label">{label}</label>}
+          {children}
+        </Provider>
+      </RadioContainer>
     )
   }
 }
 
 interface IRadioProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   className?: string
-  isInline?: boolean
   value: string
   label: string
 }
 
-const radioContainer: StyledFunction<Partial<IRadioProps>> = styled.div
+const radio: StyledFunction<Partial<IRadioProps>> = styled.div
 
-const StyledRadio = radioContainer`
-  display: ${({ isInline }) => (isInline ? 'inline-flex' : 'flex')};
-  padding-right: ${({ isInline }) => (isInline ? '12px' : 0)};
+const StyledRadio = radio`
+  display: inline-flex;
   color: ${({ disabled }) => (disabled ? 'grey' : 'inherit')};
 
   input {
@@ -66,21 +72,31 @@ const StyledRadio = radioContainer`
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};;
   }
 
+  label:hover .icon {
+    color: white;
+  }
+
   .icon + span {
     vertical-align: top;
-    padding-left: 6px;
   }
 `
 
 class Radio extends React.PureComponent<IRadioProps> {
   render() {
-    const { className, value, label, isInline, ...rest } = this.props
+    const { className, value, label, ...rest } = this.props
     return (
       <Consumer>
         {ctx => (
-          <StyledRadio className={className} isInline={isInline} disabled={rest.disabled}>
-            <label>
-              <input type="radio" name={ctx.name} value={value} onChange={e => ctx.onChange(e)} {...rest} />
+          <StyledRadio className={className} disabled={rest.disabled}>
+            <label className="radio">
+              <input
+                type="radio"
+                name={ctx.name}
+                value={value}
+                defaultChecked={ctx.value === value}
+                onChange={e => ctx.onChange(e)}
+                {...rest}
+              />
               <Icon icon={ctx.value === value ? ICONS.faCheckCircle : ICONS.faCircle} />
               <span>{label}</span>
             </label>
