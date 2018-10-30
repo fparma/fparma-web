@@ -40,13 +40,13 @@ export default class Events extends React.Component {
 
               <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={8}>
                 <Field label="Date">
-                  <Datepicker />
+                  <Datepicker onChange={console.log} />
                 </Field>
               </Grid.Column>
 
               <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={4}>
                 <Field label="Time">
-                  <Timepicker defaultHour={DEFAULT_HOUR_UTC} />
+                  <Timepicker defaultHour={DEFAULT_HOUR_UTC} onChange={console.log} />
                 </Field>
               </Grid.Column>
 

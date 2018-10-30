@@ -77,7 +77,7 @@ const StyledRadio = radio`
   }
 
   .icon + span {
-    vertical-align: top;
+    vertical-align: text-bottom;
   }
 `
 
