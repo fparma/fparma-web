@@ -5,6 +5,8 @@ import 'flatpickr/dist/themes/dark.css'
 
 interface Props {
   onChange?: (date: Date) => void
+  minDate?: Date
+  maxDate?: Date
 }
 
 export class Datepicker extends React.Component<Props> {
@@ -16,6 +18,8 @@ export class Datepicker extends React.Component<Props> {
       weekNumbers: true,
       onChange: date => this.props.onChange && this.props.onChange(date[0]),
       locale: { firstDayOfWeek: '1' } as any,
+      minDate: this.props.minDate,
+      maxDate: this.props.maxDate,
     })
   }
 
