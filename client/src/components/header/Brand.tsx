@@ -8,18 +8,23 @@ const NavTitle = styled(Title)`
 `
 
 const Emblem = styled(Image)`
-  img {
-    max-height: none !important;
+  && img {
+    max-height: none;
   }
 `
 
 const Burger = styled(Navbar.Burger)`
-  user-select: none;
-  color: white;
-  &:hover,
-  &:focus {
+  && {
+    width: 4rem;
+    height: 4rem;
+
+    user-select: none;
     color: white;
-    background-color: rgba(255, 255, 255, 0.2) !important;
+    &:hover,
+    &:focus {
+      color: white;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 `
 

@@ -10,8 +10,8 @@ interface Props
 const text: StyledFunction<Partial<Props>> = styled.textarea
 
 const StyledText = text`
-  ::placeholder {
-    color: rgba(0,0,0, 0.6) !important;
+  && ::placeholder {
+    color: rgba(0,0,0, 0.2);
   }
 `
 

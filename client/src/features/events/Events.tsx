@@ -15,7 +15,9 @@ const getDefaultHour = () => {
 }
 
 const GridColumnSmall = styled(Grid.Column)`
-  padding-top: 0 !important;
+  && {
+    padding-top: 0;
+  }
 `
 
 export default class Events extends React.PureComponent {
