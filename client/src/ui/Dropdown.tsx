@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { classnames } from './utils'
-import { ProgressPlugin } from 'webpack'
 
 interface Props {
   className?: string
