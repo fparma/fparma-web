@@ -1,12 +1,10 @@
-import { Formik } from 'formik'
+import { Formik, FormikTouched } from 'formik'
 import * as React from 'react'
-import { Icon, ICONS, Input, Radio, RadioGroup, TextArea, Title } from 'src/ui'
-import { Field } from 'src/ui/Form'
+import { Icon, ICONS, Field, Input, Radio, RadioGroup, TextArea, Title, Grid, Text } from 'src/ui'
 import { Datepicker } from 'src/ui/Timepicker/DatePicker'
 import { Timepicker } from 'src/ui/Timepicker/Timepicker'
 import styled from 'styled-components'
 import * as yup from 'yup'
-import { Grid } from '../../ui/Grid'
 
 type FormikSetValue = (arg: string, value: string) => void
 
@@ -15,12 +13,18 @@ const schema = yup.object().shape({
     .string()
     .trim()
     .min(4)
-    .max(48)
+    .max(128)
     .required(),
   date: yup.date().required(),
-  authors: yup.string(),
-  image: yup.string().url(),
-  description: yup.string().required(),
+  authors: yup.string().max(256),
+  image: yup
+    .string()
+    .url()
+    .max(2048),
+  description: yup
+    .string()
+    .required()
+    .max(4096),
 })
 
 const pad = (nr: number) => (nr < 10 ? `0${nr}` : `${nr}`)
@@ -86,12 +90,13 @@ export default class Events extends React.PureComponent<null, { fakeDate: Date |
     setFieldValue('date', date ? date.toISOString() : '')
   }
 
-  getDefault(): Partial<FormState> {
-    return { type: 'co' }
-  }
+  checkError = (touched: FormikTouched<Partial<FormState>>, errors: Partial<FormState>) => (name: keyof FormState) =>
+    touched[name] && Boolean(errors[name])
+
+  defaults: Partial<FormState> = { type: 'co' }
 
   render = () => (
-    <Formik initialValues={this.getDefault()} onSubmit={this.onSubmit} validationSchema={schema}>
+    <Formik initialValues={this.defaults} onSubmit={this.onSubmit} validationSchema={schema} validateOnBlur={true}>
       {({
         values,
         touched,
@@ -103,89 +108,110 @@ export default class Events extends React.PureComponent<null, { fakeDate: Date |
         handleSubmit,
         handleReset,
         setFieldValue,
-      }) => (
-        <React.Fragment>
-          <Title>Schedule a new event</Title>
-          <pre>{JSON.stringify(values)}</pre>
-          <form onSubmit={handleSubmit}>
-            <button type="submit">Submit</button>
-            <Grid.Container>
-              <Grid.Column sizeFullhd={5} sizeDesktop={6}>
-                <Grid.Container isMultiline isMobile>
-                  <Grid.Column>
-                    <RadioGroup name="type" defaultValue={values.type} label="Event type" onChange={handleChange}>
-                      <Radio label="COOP" value="co" />
-                      <Radio label="TVT" value="tvt" />
-                    </RadioGroup>
-                  </Grid.Column>
+      }) => {
+        const hasError = this.checkError(touched, errors)
 
-                  <Grid.Column isFull>
-                    <Field label="Event title">
-                      <Input name="title" onChange={handleChange} onBlur={handleBlur} placeholder="Operation FPARMA" />
-                    </Field>
-                  </Grid.Column>
+        return (
+          <React.Fragment>
+            <Title>Schedule a new event</Title>
+            <pre>{JSON.stringify(errors)}</pre>
+            <form onSubmit={handleSubmit}>
+              <button type="submit">Submit</button>
+              <Grid.Container>
+                <Grid.Column sizeFullhd={5} sizeDesktop={6}>
+                  <Grid.Container isMultiline isMobile>
+                    <Grid.Column>
+                      <RadioGroup name="type" defaultValue={values.type} label="Event type" onChange={handleChange}>
+                        <Radio label="COOP" value="co" />
+                        <Radio label="TVT" value="tvt" />
+                      </RadioGroup>
+                    </Grid.Column>
 
-                  <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={8}>
-                    <Field label="Date">
-                      <Datepicker
-                        minDate={this.minDate}
-                        maxDate={this.maxDate}
-                        onChange={this.onDateChange(setFieldValue)}
-                      />
-                    </Field>
-                  </Grid.Column>
+                    <Grid.Column isFull>
+                      <Field label="Event title" isError={hasError('title')}>
+                        <Input
+                          name="title"
+                          isError={hasError('title')}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          placeholder="Operation FPARMA"
+                        />
+                        {hasError('title') && <Text isError>{errors.title}</Text>}
+                      </Field>
+                    </Grid.Column>
 
-                  <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={4}>
-                    <Field label="Time">
-                      <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
-                    </Field>
-                  </Grid.Column>
+                    <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={8}>
+                      <Field label="Date">
+                        <Datepicker
+                          minDate={this.minDate}
+                          maxDate={this.maxDate}
+                          onChange={this.onDateChange(setFieldValue)}
+                        />
+                      </Field>
+                    </Grid.Column>
 
-                  <GridColumnSmall isNarrow isFull>
-                    <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
-                  </GridColumnSmall>
+                    <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={4}>
+                      <Field label="Time">
+                        <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
+                      </Field>
+                    </Grid.Column>
 
-                  <Grid.Column isFull>
-                    <Field label="Author(s)" iconLeft={<Icon icon={ICONS.faUserTie} />}>
-                      <Input
-                        name="authors"
-                        placeholder="User, Other User"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </Field>
-                  </Grid.Column>
+                    <GridColumnSmall isNarrow isFull>
+                      <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
+                    </GridColumnSmall>
 
-                  <Grid.Column isFull>
-                    <Field label="Image url (optional)" iconLeft={<Icon icon={ICONS.faImages} />}>
-                      <Input
-                        name="image"
-                        placeholder="http://example.com/image.jpg"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </Field>
-                  </Grid.Column>
-                </Grid.Container>
-              </Grid.Column>
-            </Grid.Container>
+                    <Grid.Column isFull>
+                      <Field label="Author(s)" isError={hasError('authors')} iconLeft={<Icon icon={ICONS.faUserTie} />}>
+                        <Input
+                          name="authors"
+                          isError={hasError('authors')}
+                          placeholder="User, Other User"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        {hasError('authors') && <Text isError>{errors.authors}</Text>}
+                      </Field>
+                    </Grid.Column>
 
-            <Grid.Container>
-              <Grid.Column isFull>
-                <Field label="Event description">
-                  <TextArea
-                    name="description"
-                    rows={12}
-                    placeholder="If custom mods are used, remember to link them here"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </Field>
-              </Grid.Column>
-            </Grid.Container>
-          </form>
-        </React.Fragment>
-      )}
+                    <Grid.Column isFull>
+                      <Field
+                        label="Image url (optional)"
+                        isError={hasError('image')}
+                        iconLeft={<Icon icon={ICONS.faImages} />}
+                      >
+                        <Input
+                          name="image"
+                          isError={hasError('image')}
+                          placeholder="http://example.com/image.jpg"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </Field>
+                      {hasError('image') && <Text isError>{errors.image}</Text>}
+                    </Grid.Column>
+                  </Grid.Container>
+                </Grid.Column>
+              </Grid.Container>
+
+              <Grid.Container>
+                <Grid.Column isFull>
+                  <Field label="Event description" isError={hasError('description')}>
+                    <TextArea
+                      name="description"
+                      rows={12}
+                      isError={hasError('description')}
+                      placeholder="If custom mods are used, remember to link them here"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </Field>
+                  {hasError('description') && <Text isError>{errors.description}</Text>}
+                </Grid.Column>
+              </Grid.Container>
+            </form>
+          </React.Fragment>
+        )
+      }}
     </Formik>
   )
 }
