@@ -6,6 +6,7 @@ interface Props {
   isFluid?: boolean
   isFullhd?: boolean
   isWidescreen?: boolean
+  hidden?: boolean
 }
 
 export const Container: React.SFC<Props> = ({ className, children, ...props }) => (
@@ -15,6 +16,7 @@ export const Container: React.SFC<Props> = ({ className, children, ...props }) =
       'is-fullhd': props.isFullhd,
       'is-widescreen': props.isWidescreen,
     })}
+    hidden={props.hidden}
   >
     {children}
   </div>

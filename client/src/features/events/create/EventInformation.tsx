@@ -1,6 +1,6 @@
 import { Formik, FormikTouched } from 'formik'
 import * as React from 'react'
-import { Icon, ICONS, Field, Input, Radio, RadioGroup, TextArea, Title, Grid, Text } from 'src/ui'
+import { Field, Grid, Icon, ICONS, Input, Radio, RadioGroup, Text, TextArea, Title } from 'src/ui'
 import { Datepicker } from 'src/ui/Timepicker/DatePicker'
 import { Timepicker } from 'src/ui/Timepicker/Timepicker'
 import styled from 'styled-components'
@@ -35,9 +35,15 @@ const getDefaultHour = () => {
   return d.getHours()
 }
 
-const GridColumnSmall = styled(Grid.Column)`
+const GridColumnNoPadTop = styled(Grid.Column)`
   && {
     padding-top: 0;
+  }
+`
+
+const GridColumnNoPadBottom = styled(Grid.Column)`
+  && {
+    padding-bottom: 0;
   }
 `
 
@@ -50,7 +56,10 @@ interface FormState {
   description: string
 }
 
-export default class Events extends React.PureComponent<null, { fakeDate: Date | null; fakeTime: Date | null }> {
+export default class EventInformation extends React.PureComponent<
+  {},
+  { fakeDate: Date | null; fakeTime: Date | null }
+> {
   state = { fakeDate: null, fakeTime: null }
   minDate = new Date()
 
@@ -114,21 +123,12 @@ export default class Events extends React.PureComponent<null, { fakeDate: Date |
         return (
           <React.Fragment>
             <Title>Schedule a new event</Title>
-            <pre>{JSON.stringify(errors)}</pre>
             <form onSubmit={handleSubmit}>
-              <button type="submit">Submit</button>
               <Grid.Container>
                 <Grid.Column sizeFullhd={5} sizeDesktop={6}>
                   <Grid.Container isMultiline isMobile>
-                    <Grid.Column>
-                      <RadioGroup name="type" defaultValue={values.type} label="Event type" onChange={handleChange}>
-                        <Radio label="COOP" value="co" />
-                        <Radio label="TVT" value="tvt" />
-                      </RadioGroup>
-                    </Grid.Column>
-
                     <Grid.Column isFull>
-                      <Field label="Event title" isError={hasError('title')}>
+                      <Field label="Title" isError={hasError('title')}>
                         <Input
                           name="title"
                           isError={hasError('title')}
@@ -156,12 +156,28 @@ export default class Events extends React.PureComponent<null, { fakeDate: Date |
                       </Field>
                     </Grid.Column>
 
-                    <GridColumnSmall isNarrow isFull>
+                    <GridColumnNoPadBottom isFull>
+                      <RadioGroup
+                        name="type"
+                        defaultValue={values.type}
+                        label="Type of game mode"
+                        onChange={handleChange}
+                      >
+                        <Radio label="COOP" value="co" />
+                        <Radio label="TVT" value="tvt" />
+                      </RadioGroup>
+                    </GridColumnNoPadBottom>
+
+                    <GridColumnNoPadTop isNarrow isFull>
                       <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
-                    </GridColumnSmall>
+                    </GridColumnNoPadTop>
 
                     <Grid.Column isFull>
-                      <Field label="Author(s)" isError={hasError('authors')} iconLeft={<Icon icon={ICONS.faUserTie} />}>
+                      <Field
+                        label="Author(s) (optional)"
+                        isError={hasError('authors')}
+                        iconLeft={<Icon icon={ICONS.faUserTie} />}
+                      >
                         <Input
                           name="authors"
                           isError={hasError('authors')}

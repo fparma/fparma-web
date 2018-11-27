@@ -4,14 +4,17 @@ import {
   faCheckCircle,
   faCheckSquare,
   faCircle,
+  faExclamationTriangle,
   faImages,
   faLandmark,
   faMagic,
+  faPencilAlt,
   faQuestionCircle,
+  faSearch,
   faSquare,
   faTimesCircle,
+  faUserCog,
   faUserTie,
-  faExclamationTriangle,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
@@ -30,6 +33,9 @@ export const ICONS = {
   faCheckCircle,
   faCloseX: faTimesCircle,
   faExclamationTriangle,
+  faPencilAlt,
+  faUserCog,
+  faSearch,
 }
 
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))
