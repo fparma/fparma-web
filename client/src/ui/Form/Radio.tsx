@@ -81,6 +81,13 @@ const StyledRadio = radio`
   }
 `
 
+const StyledLabel = styled.label`
+  && {
+    display: flex;
+    align-items: center;
+  }
+`
+
 class Radio extends React.PureComponent<IRadioProps> {
   render() {
     const { className, value, label, ...rest } = this.props
@@ -88,7 +95,7 @@ class Radio extends React.PureComponent<IRadioProps> {
       <Consumer>
         {ctx => (
           <StyledRadio className={className} disabled={rest.disabled}>
-            <label className="radio">
+            <StyledLabel className="radio">
               <input
                 type="radio"
                 name={ctx.name}
@@ -99,7 +106,7 @@ class Radio extends React.PureComponent<IRadioProps> {
               />
               <Icon icon={ctx.value === value ? ICONS.faCheckCircle : ICONS.faCircle} />
               <span>{label}</span>
-            </label>
+            </StyledLabel>
           </StyledRadio>
         )}
       </Consumer>

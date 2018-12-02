@@ -11,7 +11,7 @@ const input: StyledFunction<Partial<Props>> = styled.input
 
 const StyledInput = input`
   && ::placeholder { 
-    color: rgba(0,0,0, 0.4);
+    color: red !important;
   }
 `
 

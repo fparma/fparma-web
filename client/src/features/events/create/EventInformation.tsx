@@ -1,6 +1,6 @@
 import { Formik, FormikTouched } from 'formik'
 import * as React from 'react'
-import { Field, Grid, Icon, ICONS, Input, Radio, RadioGroup, Text, TextArea, Title } from 'src/ui'
+import { Field, Grid, Icon, ICONS, Input, Radio, RadioGroup, Text, TextArea } from 'src/ui'
 import { Datepicker } from 'src/ui/Timepicker/DatePicker'
 import { Timepicker } from 'src/ui/Timepicker/Timepicker'
 import styled from 'styled-components'
@@ -122,12 +122,11 @@ export default class EventInformation extends React.PureComponent<
 
         return (
           <React.Fragment>
-            <Title>Schedule a new event</Title>
             <form onSubmit={handleSubmit}>
               <Grid.Container>
                 <Grid.Column sizeFullhd={5} sizeDesktop={6}>
                   <Grid.Container isMultiline isMobile>
-                    <Grid.Column isFull>
+                    <Grid.Column sizeDesktop={8} sizeTablet={8} sizeMobile={12}>
                       <Field label="Title" isError={hasError('title')}>
                         <Input
                           name="title"
@@ -136,27 +135,11 @@ export default class EventInformation extends React.PureComponent<
                           onBlur={handleBlur}
                           placeholder="Operation FPARMA"
                         />
-                        {hasError('title') && <Text isError>{errors.title}</Text>}
+                        {hasError('title') && <Text isWarning>{errors.title}</Text>}
                       </Field>
                     </Grid.Column>
 
-                    <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={8}>
-                      <Field label="Date">
-                        <Datepicker
-                          minDate={this.minDate}
-                          maxDate={this.maxDate}
-                          onChange={this.onDateChange(setFieldValue)}
-                        />
-                      </Field>
-                    </Grid.Column>
-
-                    <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={4}>
-                      <Field label="Time">
-                        <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
-                      </Field>
-                    </Grid.Column>
-
-                    <GridColumnNoPadBottom isFull>
+                    <GridColumnNoPadBottom sizeDesktop={4} sizeTablet={4} sizeMobile={12}>
                       <RadioGroup
                         name="type"
                         defaultValue={values.type}
@@ -167,6 +150,22 @@ export default class EventInformation extends React.PureComponent<
                         <Radio label="TVT" value="tvt" />
                       </RadioGroup>
                     </GridColumnNoPadBottom>
+
+                    <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={7}>
+                      <Field label="Date">
+                        <Datepicker
+                          minDate={this.minDate}
+                          maxDate={this.maxDate}
+                          onChange={this.onDateChange(setFieldValue)}
+                        />
+                      </Field>
+                    </Grid.Column>
+
+                    <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={5}>
+                      <Field label="Time">
+                        <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
+                      </Field>
+                    </Grid.Column>
 
                     <GridColumnNoPadTop isNarrow isFull>
                       <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
@@ -185,7 +184,7 @@ export default class EventInformation extends React.PureComponent<
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
-                        {hasError('authors') && <Text isError>{errors.authors}</Text>}
+                        {hasError('authors') && <Text isWarning>{errors.authors}</Text>}
                       </Field>
                     </Grid.Column>
 
@@ -203,7 +202,7 @@ export default class EventInformation extends React.PureComponent<
                           onBlur={handleBlur}
                         />
                       </Field>
-                      {hasError('image') && <Text isError>{errors.image}</Text>}
+                      {hasError('image') && <Text isWarning>{errors.image}</Text>}
                     </Grid.Column>
                   </Grid.Container>
                 </Grid.Column>
@@ -221,7 +220,7 @@ export default class EventInformation extends React.PureComponent<
                       onBlur={handleBlur}
                     />
                   </Field>
-                  {hasError('description') && <Text isError>{errors.description}</Text>}
+                  {hasError('description') && <Text isWarning>{errors.description}</Text>}
                 </Grid.Column>
               </Grid.Container>
             </form>

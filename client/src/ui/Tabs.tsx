@@ -29,23 +29,18 @@ export const Tab: React.SFC<TabProps> = ({ text, className, isActive, onClick, .
   </li>
 )
 
-export class Tabs extends React.PureComponent<TabsProps> {
-  render() {
-    const { children, className, ...props } = this.props
-    return (
-      <div
-        className={classnames('tabs', className, {
-          'is-small': props.isSmall,
-          'is-medium': props.isMedium,
-          'is-large': props.isLarge,
-          'is-boxed': props.isBoxed,
-          'is-fullwidth': props.isFullWidth,
-          'is-centered': props.isCentered,
-          'is-right': props.isRight,
-        })}
-      >
-        <ul>{children}</ul>
-      </div>
-    )
-  }
-}
+export const Tabs: React.SFC<TabsProps> = ({ children, className, ...props }) => (
+  <div
+    className={classnames('tabs', className, {
+      'is-small': props.isSmall,
+      'is-medium': props.isMedium,
+      'is-large': props.isLarge,
+      'is-boxed': props.isBoxed,
+      'is-fullwidth': props.isFullWidth,
+      'is-centered': props.isCentered,
+      'is-right': props.isRight,
+    })}
+  >
+    <ul>{children}</ul>
+  </div>
+)
