@@ -34,9 +34,9 @@ export const Tile: React.SFC<Props> = ({
         'is-parent': isParent,
         'is-vertical': isVertical,
       })}
-      tabIndex={onClick ? 0 : -1}
+      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
-      onKeyUp={spaceEnterClick(onClick)}
+      onKeyDown={spaceEnterClick(onClick)}
     >
       {children}
     </Type>

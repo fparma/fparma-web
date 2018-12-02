@@ -23,7 +23,7 @@ interface TabProps extends Partial<FAProps> {
 
 export const Tab: React.SFC<TabProps> = ({ text, className, isActive, onClick, ...rest }) => (
   <li className={classnames(className, { 'is-active': isActive })}>
-    <a onKeyUp={spaceEnterClick(onClick)} tabIndex={0} onClick={onClick}>
+    <a onKeyDown={spaceEnterClick(onClick)} tabIndex={0} onClick={onClick}>
       {rest.icon ? <Icon {...rest as any} /> : null}
       {text}
     </a>
