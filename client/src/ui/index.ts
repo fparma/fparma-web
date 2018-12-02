@@ -1,5 +1,6 @@
 export * from './Container'
 export * from './Dropdown'
+export * from './Button'
 export * from './Form/Checkbox'
 export * from './Form/Field'
 export * from './Form/Radio'

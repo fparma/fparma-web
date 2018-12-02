@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Route } from 'react-router-dom'
-import { EventCreate } from 'src/features/events/create'
+import { EventCreate } from './features/events/create'
 import { Header } from './components/Header'
 import { Container } from './ui'
 import { Section } from './ui/Section'

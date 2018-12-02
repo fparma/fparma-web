@@ -1,8 +1,6 @@
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as React from 'react'
-import { DropFilesEventHandler } from 'react-dropzone'
-import { Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title } from 'src/ui'
-import { Button } from 'src/ui/Button'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title, Button } from 'src/ui'
 import { StringUtils } from 'src/util/StringUtils'
 import styled from 'styled-components'
 import Dropzone from './Dropzone'
@@ -50,7 +48,7 @@ export default class EventSlots extends React.PureComponent<State> {
     this.setState({ chosenType: '', fileError: '', file: null, paste: '' })
   }
 
-  onDrop: DropFilesEventHandler = (accepted: File[], rejected: File[]) => {
+  onDrop = (accepted: File[], rejected: File[]) => {
     if (rejected.length) return this.setState({ file: null, fileError: StringUtils.NBSP + 'Invalid file' })
     if (accepted.length) this.setState({ file: accepted[0], fileError: '' })
   }
@@ -96,6 +94,7 @@ export default class EventSlots extends React.PureComponent<State> {
 
   render() {
     const { chosenType, file, fileError } = this.state
+
     return (
       <React.Fragment>
         <Title size={4}>Select slot input</Title>
