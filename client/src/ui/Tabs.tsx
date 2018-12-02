@@ -1,5 +1,6 @@
 import { Props as FAProps } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
+import { spaceEnterClick } from 'src/util/spaceEnterClick'
 import { Icon } from './Icon'
 import { classnames } from './utils'
 
@@ -22,7 +23,7 @@ interface TabProps extends Partial<FAProps> {
 
 export const Tab: React.SFC<TabProps> = ({ text, className, isActive, onClick, ...rest }) => (
   <li className={classnames(className, { 'is-active': isActive })}>
-    <a onKeyUp={e => onClick && e.keyCode === 13 && onClick()} tabIndex={0} onClick={onClick}>
+    <a onKeyUp={spaceEnterClick(onClick)} tabIndex={0} onClick={onClick}>
       {rest.icon ? <Icon {...rest as any} /> : null}
       {text}
     </a>

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled, { StyledFunction } from 'styled-components'
 import { classnames } from '../utils'
-import { isError } from 'util'
 
 interface Props
   extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {

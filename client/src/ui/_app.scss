@@ -9,6 +9,7 @@ $family-sans-serif: 'Lato', BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Ubun
 
 // Components
 @import 'bulma/sass/elements/button.sass';
+@import 'bulma/sass/elements/box.sass';
 @import 'bulma/sass/elements/image.sass';
 @import 'bulma/sass/elements/container.sass';
 @import 'bulma/sass/elements/title.sass';
@@ -24,3 +25,4 @@ $family-sans-serif: 'Lato', BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Ubun
 @import 'bulma/sass/layout/section.sass';
 
 @import 'bulma/sass/grid/columns.sass';
+@import 'bulma/sass/grid/tiles.sass';

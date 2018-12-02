@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { Container, ICONS, Tab, Tabs, Title } from 'src/ui'
 import EventInformation from './EventInformation'
+import EventSlots from './EventSlots'
 
 export class EventCreate extends React.PureComponent {
-  state = { step: 0 }
+  state = { step: 1 }
 
   setStep = (step: number) => () => {
     this.setState({ step })
@@ -26,6 +27,10 @@ export class EventCreate extends React.PureComponent {
 
         <Container hidden={!this.isStepActive(0)}>
           <EventInformation />
+        </Container>
+
+        <Container hidden={!this.isStepActive(1)}>
+          <EventSlots />
         </Container>
       </React.Fragment>
     )

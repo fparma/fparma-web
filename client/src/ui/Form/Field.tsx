@@ -3,11 +3,6 @@ import styled from 'styled-components'
 import { Icon, ICONS } from '../Icon'
 import { classnames } from '../utils'
 
-interface IFormProps {
-  onSubmit: React.FormEventHandler
-  children: React.ReactNode
-}
-
 interface IFieldProps {
   label?: string
   fullWidth?: boolean
@@ -19,8 +14,6 @@ interface IFieldProps {
 const Error = styled(Icon)`
   color: rgba(255, 30, 15, 0.8);
 `
-
-export const Form: React.SFC<IFormProps> = props => <form onSubmit={props.onSubmit}>{props.children}</form>
 
 export const Field: React.SFC<IFieldProps> = ({ label, iconLeft, iconRight, isError, fullWidth, children }) => (
   <div className={classnames('field')}>

@@ -1,6 +1,7 @@
 import { Formik, FormikTouched } from 'formik'
 import * as React from 'react'
 import { Field, Grid, Icon, ICONS, Input, Radio, RadioGroup, Text, TextArea } from 'src/ui'
+import { Form } from 'src/ui/Form/Form'
 import { Datepicker } from 'src/ui/Timepicker/DatePicker'
 import { Timepicker } from 'src/ui/Timepicker/Timepicker'
 import styled from 'styled-components'
@@ -122,7 +123,7 @@ export default class EventInformation extends React.PureComponent<
 
         return (
           <React.Fragment>
-            <form onSubmit={handleSubmit}>
+            <Form>
               <Grid.Container>
                 <Grid.Column sizeFullhd={5} sizeDesktop={6}>
                   <Grid.Container isMultiline isMobile>
@@ -223,7 +224,7 @@ export default class EventInformation extends React.PureComponent<
                   {hasError('description') && <Text isWarning>{errors.description}</Text>}
                 </Grid.Column>
               </Grid.Container>
-            </form>
+            </Form>
           </React.Fragment>
         )
       }}

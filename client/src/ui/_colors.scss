@@ -1,5 +1,7 @@
 @import 'bulma/sass/utilities/_all.sass';
 
+$link-color: #3273dc;
+
 $background: rgba(0, 0, 0, 0.4);
 $body-background-color: #211c1c;
 
@@ -9,7 +11,7 @@ $subtitle-color: rgba(255, 255, 255, 0.85);
 
 $input-hover-color: $subtitle-color;
 
-$navbar-background-color: #202021;
+$navbar-background-color: $black-ter;
 
 $navbar-item-color: $subtitle-color;
 $navbar-item-hover-background-color: transparent;
@@ -23,3 +25,10 @@ $tabs-link-color: $white;
 $tabs-link-hover-color: $white;
 $tabs-link-hover-border-bottom-color: $white;
 $tabs-boxed-link-hover-background-color: $black-bis;
+
+$box-color: $text;
+$box-background-color: $black-ter;
+
+html a:hover {
+  color: $link-color;
+}
