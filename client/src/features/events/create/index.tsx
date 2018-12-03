@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Container, ICONS, Tab, Tabs, Title } from 'src/ui'
+import { Container, ICONS, Tab, Tabs, Title } from '../../../ui'
 import EventInformation from './EventInformation'
 import EventSlots from './EventSlots'
 

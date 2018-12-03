@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { spaceEnterClick } from 'src/util/spaceEnterClick'
+import { spaceEnterClick } from '../util/spaceEnterClick'
 import { classnames } from './utils'
 
 interface Props {
@@ -23,7 +23,7 @@ export const Tile: React.SFC<Props> = ({
   isVertical,
   onClick,
 }) => {
-  const Type = onClick ? 'a' : 'div'
+  const Type = (onClick ? 'a' : 'div') as any
   return (
     <Type
       className={classnames('tile', className, {

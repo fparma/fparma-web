@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Dropzone, { DropFilesEventHandler, DropzoneRenderArgs } from 'react-dropzone'
-import { Container } from 'src/ui'
 import styled from 'styled-components'
+import { Container } from '../../../ui/Container'
 
 interface Props {
   onDrop?: DropFilesEventHandler

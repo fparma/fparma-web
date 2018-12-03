@@ -12,12 +12,12 @@ const checkSize = (size: number) => {
 
 export const Title: React.SFC<Props> = ({ className, size = 3, children }) => {
   checkSize(size)
-  const As = `h${size}`
+  const As = `h${size}` as any
   return <As className={classnames('title', `is-${size}`, className)}>{children}</As>
 }
 
 export const SubTitle: React.SFC<Props> = ({ className, size = 5, children }) => {
   checkSize(size)
-  const As = `h${size}`
+  const As = `h${size}` as any
   return <As className={classnames('subtitle', `is-${size}`, className)}>{children}</As>
 }

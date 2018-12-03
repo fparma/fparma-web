@@ -16,7 +16,7 @@ const Navigation = styled(Navbar.Main)`
 
 class Header extends React.PureComponent<RouteComponentProps, { menuActive: boolean }> {
   state = { menuActive: false }
-  removeHistoryListener: Function
+  removeHistoryListener: Function | null = null
 
   componentDidMount() {
     const { history } = this.props
@@ -24,7 +24,7 @@ class Header extends React.PureComponent<RouteComponentProps, { menuActive: bool
   }
 
   componentWillUnmount() {
-    this.removeHistoryListener()
+    this.removeHistoryListener!()
   }
 
   toggleMenu = () => {

@@ -1,4 +1,4 @@
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { IconDefinition, library } from '@fortawesome/fontawesome-svg-core'
 import {
   faCalendar,
   faCheckCircle,
@@ -22,7 +22,7 @@ import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
 import { classnames } from './utils'
 
-export const ICONS = {
+export const ICONS: { [key: string]: IconDefinition } = {
   faCalendar,
   faImages,
   faQuestionCircle,
@@ -42,8 +42,7 @@ export const ICONS = {
   faPaste,
 }
 
-const ICON_VALUES = Object.keys(ICONS).map(v => ICONS[v])
-library.add(...ICON_VALUES)
+library.add(...Object.keys(ICONS).map(v => ICONS[v]))
 
 interface IconProps {
   isWarning?: boolean

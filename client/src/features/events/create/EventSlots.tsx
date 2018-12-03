@@ -1,8 +1,8 @@
-import * as React from 'react'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title, Button } from 'src/ui'
-import { StringUtils } from 'src/util/StringUtils'
+import * as React from 'react'
 import styled from 'styled-components'
+import { Button, Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title } from '../../../ui'
+import { StringUtils } from '../../../util/StringUtils'
 import Dropzone from './Dropzone'
 
 const HugeIcon = styled(Icon)`

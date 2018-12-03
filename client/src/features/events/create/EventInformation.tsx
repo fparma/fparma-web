@@ -1,11 +1,21 @@
 import { Formik, FormikTouched } from 'formik'
 import * as React from 'react'
-import { Field, Grid, Icon, ICONS, Input, Radio, RadioGroup, Text, TextArea } from 'src/ui'
-import { Form } from 'src/ui/Form/Form'
-import { Datepicker } from 'src/ui/Timepicker/DatePicker'
-import { Timepicker } from 'src/ui/Timepicker/Timepicker'
 import styled from 'styled-components'
 import * as yup from 'yup'
+import {
+  Datepicker,
+  Field,
+  Form,
+  Grid,
+  Icon,
+  ICONS,
+  Input,
+  Radio,
+  RadioGroup,
+  Text,
+  TextArea,
+  Timepicker,
+} from '../../../ui'
 
 type FormikSetValue = (arg: string, value: string) => void
 
@@ -106,7 +116,7 @@ export default class EventInformation extends React.PureComponent<
   defaults: Partial<FormState> = { type: 'co' }
 
   render = () => (
-    <Formik initialValues={this.defaults} onSubmit={this.onSubmit} validationSchema={schema} validateOnBlur={true}>
+    <Formik initialValues={this.defaults} onSubmit={() => {}} validationSchema={schema} validateOnBlur={true}>
       {({
         values,
         touched,

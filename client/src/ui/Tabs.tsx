@@ -1,6 +1,6 @@
 import { Props as FAProps } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
-import { spaceEnterClick } from 'src/util/spaceEnterClick'
+import { spaceEnterClick } from '../util/spaceEnterClick'
 import { Icon } from './Icon'
 import { classnames } from './utils'
 
