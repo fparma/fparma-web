@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { Button, Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title } from '../../../ui'
 import { StringUtils } from '../../../util/StringUtils'
 import Dropzone from './Dropzone'
+import { getSidesAndGroups, parseSqm } from '../../../util/sqmHelpers'
+import { Groups } from '../../../util/sqmTypes'
 
 const HugeIcon = styled(Icon)`
   && {
@@ -49,13 +51,51 @@ export default class EventSlots extends React.PureComponent<State> {
   }
 
   onDrop = (accepted: File[], rejected: File[]) => {
-    if (rejected.length) return this.setState({ file: null, fileError: StringUtils.NBSP + 'Invalid file' })
+    if (rejected.length) return this.setFileError('Invalid file')
     if (accepted.length) this.setState({ file: accepted[0], fileError: '' })
   }
 
   getFileInfo(file: File): string {
     const size = Math.round((file.size / Math.pow(1024, 2)) * 100) / 100
     return `${file.name} (${size} MB)`
+  }
+
+  onDropSubmit = () => {
+    const { file } = this.state
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.readAsBinaryString(file)
+
+    reader.addEventListener('loadend', () => {
+      this.convertSqmStringToGroups(reader.result as string)
+    })
+
+    reader.addEventListener('error', () => {
+      this.setFileError(`Error reading file: ${reader.error!.message}`)
+    })
+  }
+
+  convertSqmStringToGroups(sqm: string) {
+    if (!sqm) {
+      return this.setFileError('Failed to parse sqm. Empty?')
+    }
+
+    try {
+      const data = getSidesAndGroups(parseSqm(sqm))
+      this.onInputSelectionFinished(data)
+    } catch (e) {
+      console.error(e)
+      this.setFileError(`Error parsing sqm, maybe it's binarized?: ${e.message}`)
+    }
+  }
+
+  setFileError(fileError: string) {
+    this.setState({ file: null, fileError })
+  }
+
+  onInputSelectionFinished(data: Groups[]) {
+    console.log('ready', data)
   }
 
   handlePasteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({ paste: event.target.value })
@@ -88,7 +128,9 @@ export default class EventSlots extends React.PureComponent<State> {
         </Grid.Container>
       </Dropzone>
 
-      <Button disabled={!file}>Submit</Button>
+      <Button disabled={!file} onClick={this.onDropSubmit}>
+        Submit
+      </Button>
     </React.Fragment>
   )
 

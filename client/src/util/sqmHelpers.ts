@@ -1,21 +1,7 @@
 import { parse } from 'arma-class-parser'
 import { inspect } from 'util'
 import * as R from 'ramda'
-
-enum Sides {
-  BLUFOR = 'blufor',
-  OPFOR = 'opfor',
-  INDEPENDENT = 'independent',
-  CIVILIAN = 'civilian',
-}
-
-const stringToSide = (side: string = ''): Sides | null =>
-  ({
-    west: Sides.BLUFOR,
-    east: Sides.OPFOR,
-    independent: Sides.INDEPENDENT,
-    civilian: Sides.CIVILIAN,
-  }[side.toLowerCase()] || null)
+import { Sides, stringToSide, Groups } from './sqmTypes'
 
 const getMission = R.propOr({}, 'Mission')
 const getEntities = R.propOr({}, 'Entities')
@@ -52,7 +38,8 @@ const getCustomAttributes = R.pipe(
 
 const sideValues = R.values(Sides)
 const isValidSide = obj => R.includes(R.prop('side', obj), sideValues)
-const isPlayable = unit => R.equals(R.pathOr(0, ['attrs', 'isPlayable'], unit), 1)
+const isPropEq1 = (prop, unit) => R.equals(R.pathOr(0, ['attrs', prop], unit), 1)
+const isPlayable = unit => isPropEq1('isPlayable', unit) || isPropEq1('isPlayer', unit)
 
 const getUnits = R.pipe(
   getEntities,
@@ -83,30 +70,6 @@ const hasUnits = R.pipe(
   R.propOr([], 'units'),
   R.complement(R.isEmpty)
 )
-
-interface Unit {
-  sqmId: number
-  type: string
-  side: Sides
-  customAttrs: Attributes[]
-  attrs: {
-    description: string | undefined
-    isPlayable: 0 | 1
-  }
-}
-
-interface Attributes {
-  property: string | undefined
-  expression: string | undefined
-  value: string | number | undefined
-}
-
-interface Groups {
-  sqmId: number
-  side: Sides
-  units: Unit[]
-  attrs: Attributes[]
-}
 
 export const getSidesAndGroups = (sqm: object): Groups[] => {
   const groups = R.pipe(
