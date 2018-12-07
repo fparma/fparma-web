@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { getSidesAndGroups, parseSqm } from './sqmHelpers'
 
-const data = readFileSync(__dirname + '/test2.sqm', 'utf8')
+const data = readFileSync(__dirname + '/test2.txt', 'utf8')
 
 it('parses mission and entities', () => {
   const expected = { test: true }
