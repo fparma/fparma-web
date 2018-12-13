@@ -71,15 +71,11 @@ const hasUnits = R.pipe(
   R.complement(R.isEmpty)
 )
 
-export const getSidesAndGroups = (sqm: object): Groups[] => {
-  const groups = R.pipe(
+export const getSidesAndGroups = (sqm: object): Groups[] =>
+  R.pipe(
     getMission,
     getEntities,
     getGroups,
     mapGroupsAndUnits,
     R.filter(R.allPass([isValidSide, hasUnits]))
   )(sqm)
-  console.log(inspect(groups, { depth: 5 }))
-  console.log(groups.length)
-  return groups
-}

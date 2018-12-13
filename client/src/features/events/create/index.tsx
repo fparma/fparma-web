@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Container, ICONS, Tab, Tabs, Title } from '../../../ui'
 import EventInformation from './EventInformation'
-import EventSlots from './EventSlots'
+import SelectSlotInput from './SelectSlotInput'
+import { Groups } from '../../../util/sqmTypes'
+import GroupManager from './GroupManager'
 
 export class EventCreate extends React.PureComponent {
-  state = { step: 1 }
+  state = { step: 1, groups: null }
 
   setStep = (step: number) => () => {
     this.setState({ step })
@@ -12,6 +14,10 @@ export class EventCreate extends React.PureComponent {
 
   isStepActive = (step: number) => {
     return this.state.step === step
+  }
+
+  componentDidMount() {
+    this.setState({ groups: data })
   }
 
   render() {
@@ -30,7 +36,12 @@ export class EventCreate extends React.PureComponent {
         </Container>
 
         <Container hidden={!this.isStepActive(1)}>
-          <EventSlots />
+          <Container hidden={Boolean(this.state.groups)}>
+            <SelectSlotInput onGroups={console.log} />
+          </Container>
+          <Container hidden={Boolean(!this.state.groups)}>
+            <GroupManager groups={(this.state.groups as unknown) as Groups[]} />
+          </Container>
         </Container>
       </React.Fragment>
     )

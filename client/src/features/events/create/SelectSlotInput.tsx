@@ -29,13 +29,17 @@ const iconWithText = (icon: IconProp, text: string) => (
 
 interface State {
   chosenType?: '' | 'upload' | 'paste'
-  file?: File
+  file?: null | File
   fileError?: string
   paste?: string
 }
 
-export default class EventSlots extends React.PureComponent<State> {
-  state = { chosenType: '', file: null, fileError: '', paste: '' }
+interface Props {
+  onGroups?: (groups: Groups[]) => void
+}
+
+export default class SelectSlotInput extends React.PureComponent<Props, State> {
+  state: State = { chosenType: '', file: null, fileError: '', paste: '' }
 
   handleClick = (type: 'upload' | 'paste') => () => {
     this.clearInputState()
@@ -78,7 +82,7 @@ export default class EventSlots extends React.PureComponent<State> {
 
   convertSqmStringToGroups(sqm: string) {
     if (!sqm) {
-      return this.setFileError('Failed to parse sqm. Empty?')
+      return this.setFileError('Failed to parse sqm. Empty file?')
     }
 
     try {
@@ -95,7 +99,8 @@ export default class EventSlots extends React.PureComponent<State> {
   }
 
   onInputSelectionFinished(data: Groups[]) {
-    console.log('ready', data)
+    const { onGroups } = this.props
+    onGroups && onGroups(data)
   }
 
   handlePasteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({ paste: event.target.value })
@@ -160,7 +165,7 @@ export default class EventSlots extends React.PureComponent<State> {
         </Tile>
 
         {chosenType === 'paste' && this.renderPasteArea()}
-        {chosenType === 'upload' && this.renderDropzone(file, fileError)}
+        {chosenType === 'upload' && this.renderDropzone(file as File, fileError as string)}
       </React.Fragment>
     )
   }
