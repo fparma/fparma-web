@@ -13,28 +13,29 @@ const stringToSide = (side: string = ''): Sides | null =>
     civilian: Sides.CIVILIAN,
   }[side.toLowerCase()] || null)
 
+export interface Attributes {
+  property?: string
+  expression?: string
+  value?: string | number
+}
+
 export interface Unit {
   sqmId: number
   type: string
   side: Sides
   customAttrs: Attributes[]
   attrs: {
-    description: string | undefined
-    init: string | undefined
-    isPlayable: 0 | 1 | undefined
-    isPlayer: 0 | 1 | undefined
+    description?: string
+    init?: string
+    isPlayable?: 0 | 1
+    isPlayer?: 0 | 1
   }
 }
 
-export interface Attributes {
-  property: string | undefined
-  expression: string | undefined
-  value: string | number | undefined
-}
-
-export interface Groups {
+export interface Group {
   sqmId: number
   side: Sides
+  groupId: string
   units: Unit[]
   attrs: Attributes[]
 }

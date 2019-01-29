@@ -1,7 +1,6 @@
 import { parse } from 'arma-class-parser'
-import { inspect } from 'util'
 import * as R from 'ramda'
-import { Sides, stringToSide, Groups } from './sqmTypes'
+import { Group, Sides, stringToSide, Unit } from './sqmTypes'
 
 const getMission = R.propOr({}, 'Mission')
 const getEntities = R.propOr({}, 'Entities')
@@ -27,7 +26,15 @@ const getLayerGroups = R.pipe(
 
 const getGroups = entities => R.concat(getMissionGroups(entities), getLayerGroups(entities))
 
-const getAttributes = R.propOr({}, 'Attributes')
+const getDescription = R.propOr('', 'description')
+const getAttributes = R.pipe(
+  R.propOr({}, 'Attributes'),
+  attrs => ({
+    ...attrs,
+    description: R.trim(getDescription(attrs).split('@')[0]),
+  })
+)
+
 const valueProp = R.path(['data', 'value'])
 const getCustomAttributes = R.pipe(
   R.propOr({}, 'CustomAttributes'),
@@ -45,22 +52,34 @@ const getUnits = R.pipe(
   getEntities,
   R.filter(isSqmObject),
   R.values,
-  R.map(unit => ({
-    sqmId: unit.id,
-    type: unit.type,
-    side: stringToSide(unit.side),
-    attrs: getAttributes(unit),
-    customAttrs: getCustomAttributes(unit),
-  })),
+  R.map(
+    unit =>
+      ({
+        sqmId: unit.id,
+        type: unit.type,
+        side: stringToSide(unit.side),
+        attrs: getAttributes(unit),
+        customAttrs: getCustomAttributes(unit),
+      } as Unit)
+  ),
   R.filter(R.allPass([isValidSide, isPlayable]))
 )
 
-const mapGroupsAndUnits = R.map(grp => ({
-  sqmId: grp.id,
-  side: stringToSide(grp.side),
-  units: getUnits(grp),
-  attrs: getCustomAttributes(grp),
-}))
+const getGroupId = R.pipe(
+  R.find(R.propEq('property', 'groupID')),
+  R.propOr('', 'value')
+)
+
+const mapGroupsAndUnits = R.map(grp => {
+  const attrs = getCustomAttributes(grp)
+  return {
+    sqmId: grp.id,
+    side: stringToSide(grp.side),
+    units: getUnits(grp),
+    attrs,
+    groupId: getGroupId(attrs),
+  } as Group
+})
 
 export const parseSqm = (sqm: string): object => {
   return parse(sqm)
@@ -71,7 +90,7 @@ const hasUnits = R.pipe(
   R.complement(R.isEmpty)
 )
 
-export const getSidesAndGroups = (sqm: object): Groups[] =>
+export const getSidesAndGroups = (sqm: object): Group[] =>
   R.pipe(
     getMission,
     getEntities,

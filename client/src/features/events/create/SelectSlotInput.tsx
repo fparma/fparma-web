@@ -2,10 +2,9 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Button, Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title } from '../../../ui'
-import { StringUtils } from '../../../util/StringUtils'
-import Dropzone from './Dropzone'
 import { getSidesAndGroups, parseSqm } from '../../../util/sqmHelpers'
-import { Groups } from '../../../util/sqmTypes'
+import { Group } from '../../../util/sqmTypes'
+import Dropzone from './Dropzone'
 
 const HugeIcon = styled(Icon)`
   && {
@@ -35,7 +34,7 @@ interface State {
 }
 
 interface Props {
-  onGroups?: (groups: Groups[]) => void
+  onGroups?: (groups: Group[]) => void
 }
 
 export default class SelectSlotInput extends React.PureComponent<Props, State> {
@@ -98,7 +97,7 @@ export default class SelectSlotInput extends React.PureComponent<Props, State> {
     this.setState({ file: null, fileError })
   }
 
-  onInputSelectionFinished(data: Groups[]) {
+  onInputSelectionFinished(data: Group[]) {
     const { onGroups } = this.props
     onGroups && onGroups(data)
   }

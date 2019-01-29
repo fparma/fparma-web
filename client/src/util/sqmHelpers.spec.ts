@@ -1,6 +1,5 @@
-import { readFileSync } from 'fs'
 import { getSidesAndGroups } from './sqmHelpers'
-import { Sides } from './sqmTypes'
+import { Group, Sides, Unit } from './sqmTypes'
 
 const createData = (obj?: object) => ({ Mission: { Entities: { ...obj } } })
 
@@ -15,6 +14,17 @@ it('parses a group in entities', () => {
       id: 0,
       dataType: 'Group',
       side: 'West',
+      CustomAttributes: {
+        Attribute0: {
+          property: 'groupID',
+          expression: '[_this, _value] call CBA_fnc_setCallsign',
+          Value: {
+            data: {
+              value: 'TEST',
+            },
+          },
+        },
+      },
       Entities: {
         Item0: {
           id: 1,
@@ -22,6 +32,7 @@ it('parses a group in entities', () => {
           side: 'West',
           type: 'test',
           Attributes: {
+            description: 'TEST@TEST',
             isPlayable: 1,
           },
         },
@@ -36,17 +47,24 @@ it('parses a group in entities', () => {
     expect.objectContaining({
       sqmId: 0,
       side: Sides.BLUFOR,
-      attrs: [],
+      groupId: 'TEST',
+      attrs: [
+        {
+          property: 'groupID',
+          expression: '[_this, _value] call CBA_fnc_setCallsign',
+          value: 'TEST',
+        },
+      ],
       units: [
         {
           sqmId: 1,
           type: 'test',
           side: Sides.BLUFOR,
-          attrs: { isPlayable: 1 },
+          attrs: { isPlayable: 1, description: 'TEST' },
           customAttrs: [],
         },
-      ],
-    })
+      ] as Unit[],
+    } as Group)
   )
 })
 
@@ -81,6 +99,7 @@ it('parses a group in layers', () => {
   expect(res[0]).toEqual(
     expect.objectContaining({
       sqmId: 0,
+      groupId: '',
       side: Sides.BLUFOR,
       attrs: [],
       units: [
@@ -88,10 +107,10 @@ it('parses a group in layers', () => {
           sqmId: 1,
           type: 'test',
           side: Sides.BLUFOR,
-          attrs: { isPlayable: 1 },
+          attrs: { isPlayable: 1, description: '' },
           customAttrs: [],
         },
-      ],
-    })
+      ] as Unit[],
+    } as Group)
   )
 })

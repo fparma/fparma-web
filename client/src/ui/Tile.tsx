@@ -12,6 +12,7 @@ interface Props {
   isVertical?: boolean
   onClick?: () => void
 }
+
 export const Tile: React.SFC<Props> = ({
   className,
   children,

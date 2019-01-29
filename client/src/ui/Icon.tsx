@@ -1,5 +1,6 @@
-import { IconDefinition, library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+  faArrowsAlt,
   faCalendar,
   faCheckCircle,
   faCheckSquare,
@@ -16,13 +17,15 @@ import {
   faSquare,
   faTimesCircle,
   faUserCog,
+  faUserMinus,
+  faUserPlus,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
 import { classnames } from './utils'
 
-export const ICONS: { [key: string]: IconDefinition } = {
+export const ICONS = {
   faCalendar,
   faImages,
   faQuestionCircle,
@@ -40,6 +43,9 @@ export const ICONS: { [key: string]: IconDefinition } = {
   faSearch,
   faFile,
   faPaste,
+  faArrowsAlt,
+  faUserPlus,
+  faUserMinus,
 }
 
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))
