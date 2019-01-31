@@ -3,9 +3,12 @@ import { Group, Sides, Unit } from './sqmTypes'
 
 const createData = (obj?: object) => ({ Mission: { Entities: { ...obj } } })
 
-it('returns empty array when no groups', () => {
+it('returns empty when no groups', () => {
+  const expected = { blufor: [], civilian: [], indepedent: [], opfor: [] }
+  expect(getSidesAndGroups({})).toEqual(expected)
+
   const args = createData()
-  expect(getSidesAndGroups(args)).toEqual([])
+  expect(getSidesAndGroups(args)).toEqual(expected)
 })
 
 it('parses a group in entities', () => {
@@ -40,10 +43,9 @@ it('parses a group in entities', () => {
     },
   })
 
-  const res = getSidesAndGroups(args)
-  expect(res.length).toEqual(1)
-  expect(res[0].units.length).toEqual(1)
-  expect(res[0]).toEqual(
+  const { blufor } = getSidesAndGroups(args)
+  expect(blufor.length).toEqual(1)
+  expect(blufor[0]).toEqual(
     expect.objectContaining({
       sqmId: 0,
       side: Sides.BLUFOR,
@@ -93,10 +95,9 @@ it('parses a group in layers', () => {
     },
   })
 
-  const res = getSidesAndGroups(args)
-  expect(res.length).toEqual(1)
-  expect(res[0].units.length).toEqual(1)
-  expect(res[0]).toEqual(
+  const { blufor } = getSidesAndGroups(args)
+  expect(blufor.length).toEqual(1)
+  expect(blufor[0]).toEqual(
     expect.objectContaining({
       sqmId: 0,
       groupId: '',

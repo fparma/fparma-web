@@ -41,6 +41,7 @@ const UnitField = styled.div`
     padding-bottom: 0.5em;
   }
 `
+
 const UnitHeader = ({ length }) => (
   <Container>
     <Field.Label>Units ({length})</Field.Label>
@@ -57,7 +58,9 @@ const UnitHeader = ({ length }) => (
 
 const GroupHeader = ({ color }) => (
   <Container>
-    <Field.Label>Group name</Field.Label>
+    <Field.Label>
+      <span style={{ backgroundColor: color }}>Group name</span>
+    </Field.Label>
     <IconContainer>
       <Icon icon={ICONS.faArrowsAlt} />
       <Icon icon={ICONS.faCloseX} />

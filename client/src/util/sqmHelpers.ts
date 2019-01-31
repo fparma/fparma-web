@@ -1,6 +1,6 @@
 import { parse } from 'arma-class-parser'
 import * as R from 'ramda'
-import { Group, Sides, stringToSide, Unit } from './sqmTypes'
+import { Group, ParsedGroups, Sides, stringToSide, Unit } from './sqmTypes'
 
 const getMission = R.propOr({}, 'Mission')
 const getEntities = R.propOr({}, 'Entities')
@@ -90,11 +90,14 @@ const hasUnits = R.pipe(
   R.complement(R.isEmpty)
 )
 
-export const getSidesAndGroups = (sqm: object): Group[] =>
+export const getSidesAndGroups = (sqm: object): ParsedGroups =>
   R.pipe(
     getMission,
     getEntities,
     getGroups,
     mapGroupsAndUnits,
-    R.filter(R.allPass([isValidSide, hasUnits]))
+    R.filter(R.allPass([isValidSide, hasUnits])),
+    //groups => R.map(Sides, side => ({ [side]: groups.filter(grp => grp.side === side) }))
+    R.groupBy(grp => grp.side),
+    grouped => ({ blufor: [], opfor: [], indepedent: [], civilian: [], ...grouped })
   )(sqm)

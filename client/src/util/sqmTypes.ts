@@ -1,11 +1,11 @@
-enum Sides {
+export enum Sides {
   BLUFOR = 'blufor',
   OPFOR = 'opfor',
   INDEPENDENT = 'independent',
   CIVILIAN = 'civilian',
 }
 
-const stringToSide = (side: string = ''): Sides | null =>
+export const stringToSide = (side: string = ''): Sides | null =>
   ({
     west: Sides.BLUFOR,
     east: Sides.OPFOR,
@@ -40,4 +40,9 @@ export interface Group {
   attrs: Attributes[]
 }
 
-export { stringToSide, Sides }
+export interface ParsedGroups {
+  blufor: Group[]
+  opfor: Group[]
+  independent: Group[]
+  civilian: Group[]
+}
