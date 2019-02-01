@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Container, ICONS, Tab, Tabs, Title } from '../../../ui'
-import { Group } from '../../../util/sqmTypes'
+import { Group, ParsedGroups } from '../../../util/sqmTypes'
 import EventInformation from './EventInformation'
 import GroupManager from './GroupManager'
 import SelectSlotInput from './SelectSlotInput'
 
 export class EventCreate extends React.PureComponent {
-  state = { step: 1, groups: data }
+  state = { step: 1, groups: { blufor: data } }
 
   setStep = (step: number) => () => {
     this.setState({ step })
@@ -36,7 +36,7 @@ export class EventCreate extends React.PureComponent {
             <SelectSlotInput onGroups={console.log} />
           </Container>
           <Container hidden={Boolean(!this.state.groups)}>
-            <GroupManager groups={(this.state.groups as unknown) as Group[]} />
+            <GroupManager data={(this.state.groups as unknown) as ParsedGroups} />
           </Container>
         </Container>
       </React.Fragment>

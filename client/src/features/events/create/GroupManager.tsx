@@ -1,10 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Button, Field, Grid, Icon, ICONS, Input, Tile } from '../../../ui'
-import { Group, Unit } from '../../../util/sqmTypes'
+import { Section, Field, Grid, Icon, ICONS, Input, Tile, Title } from '../../../ui'
+import { Group, Unit, ParsedGroups, Sides } from '../../../util/sqmTypes'
+import { propOr, isEmpty } from 'ramda'
 
 interface Props {
-  groups: Group[]
+  data: ParsedGroups
 }
 
 const SideColors = {
@@ -42,28 +43,41 @@ const UnitField = styled.div`
   }
 `
 
+const Clickable = styled.a`
+  color: white;
+  &&:not(:last-child) {
+    margin-right: 12px;
+  }
+
+  span {
+    justify-content: flex-start;
+  }
+`
+
 const UnitHeader = ({ length }) => (
   <Container>
     <Field.Label>Units ({length})</Field.Label>
     <UnitButtonContainer>
-      <Button isSmall>
+      <Clickable onClick={console.log}>
         <Icon icon={ICONS.faUserPlus} />
-      </Button>
-      <Button isSmall>
+      </Clickable>
+      <Clickable onClick={console.log}>
         <Icon icon={ICONS.faUserMinus} />
-      </Button>
+      </Clickable>
     </UnitButtonContainer>
   </Container>
 )
 
 const GroupHeader = ({ color }) => (
   <Container>
-    <Field.Label>
-      <span style={{ backgroundColor: color }}>Group name</span>
-    </Field.Label>
+    <Field.Label>Group name</Field.Label>
     <IconContainer>
-      <Icon icon={ICONS.faArrowsAlt} />
-      <Icon icon={ICONS.faCloseX} />
+      <Clickable onClick={console.log}>
+        <Icon icon={ICONS.faArrowsAlt} />
+      </Clickable>
+      <Clickable onClick={console.log}>
+        <Icon icon={ICONS.faCloseX} />
+      </Clickable>
     </IconContainer>
   </Container>
 )
@@ -89,9 +103,19 @@ const renderGroup = (group: Group) => (
   </Grid.Column>
 )
 
+const ORDER = [Sides.BLUFOR, Sides.OPFOR, Sides.INDEPENDENT, Sides.INDEPENDENT]
 export default class GroupManager extends React.PureComponent<Props> {
   render() {
-    const { groups } = this.props
-    return <Grid.Container isMultiline>{groups.map(renderGroup)}</Grid.Container>
+    const { data } = this.props
+    if (!data) return null
+
+    return ORDER.map(side => {
+      return isEmpty(propOr([], side, data)) ? null : (
+        <Section>
+          <Title>{side.toUpperCase()}</Title>
+          <Grid.Container isMultiline>{data[side].map(renderGroup)}</Grid.Container>
+        </Section>
+      )
+    })
   }
 }

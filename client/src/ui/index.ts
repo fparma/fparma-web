@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Container'
+export * from './Section'
 export * from './Dropdown'
 export * from './Form/Checkbox'
 export * from './Form/Field'
