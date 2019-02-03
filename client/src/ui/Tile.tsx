@@ -10,6 +10,7 @@ interface Props {
   isChild?: boolean
   isParent?: boolean
   isVertical?: boolean
+  hasShadow?: boolean
   onClick?: () => void
 }
 
@@ -23,6 +24,7 @@ export const Tile: React.SFC<Props> = ({
   isParent,
   isVertical,
   onClick,
+  hasShadow,
 }) => {
   const Type = (onClick ? 'a' : 'div') as any
   return (
@@ -34,6 +36,7 @@ export const Tile: React.SFC<Props> = ({
         'is-child': isChild,
         'is-parent': isParent,
         'is-vertical': isVertical,
+        'has-shadow': hasShadow,
       })}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}

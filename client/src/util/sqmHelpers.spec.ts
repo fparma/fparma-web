@@ -49,7 +49,7 @@ it('parses a group in entities', () => {
     expect.objectContaining({
       sqmId: 0,
       side: Sides.BLUFOR,
-      groupId: 'TEST',
+      name: 'TEST',
       attrs: [
         {
           property: 'groupID',
@@ -100,7 +100,7 @@ it('parses a group in layers', () => {
   expect(blufor[0]).toEqual(
     expect.objectContaining({
       sqmId: 0,
-      groupId: '',
+      name: '',
       side: Sides.BLUFOR,
       attrs: [],
       units: [

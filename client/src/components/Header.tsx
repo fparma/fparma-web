@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import styled from 'styled-components'
-import { withClickOutSide } from '../components/OutsideClick'
+import { withClickOutSide } from '../hoc/OutsideClick'
 import { Container, Navbar } from '../ui'
 import './header/Header.scss'
 import { Brand, LeftMenu, RightMenu } from './header/index'

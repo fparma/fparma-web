@@ -35,7 +35,7 @@ export interface Unit {
 export interface Group {
   sqmId: number
   side: Sides
-  groupId: string
+  name: string
   units: Unit[]
   attrs: Attributes[]
 }

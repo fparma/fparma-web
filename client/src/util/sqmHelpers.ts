@@ -74,10 +74,10 @@ const mapGroupsAndUnits = R.map(grp => {
   const attrs = getCustomAttributes(grp)
   return {
     sqmId: grp.id,
+    name: getGroupId(attrs),
     side: stringToSide(grp.side),
     units: getUnits(grp),
     attrs,
-    groupId: getGroupId(attrs),
   } as Group
 })
 
