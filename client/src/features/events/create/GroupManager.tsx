@@ -17,7 +17,7 @@ export default class GroupManager extends React.PureComponent<Props> {
     if (!data) return null
 
     return (
-      <Formik initialValues={data} onSubmit={() => {}} validateOnBlur={true}>
+      <Formik initialValues={data} onSubmit={() => {}} validateOnBlur={true} validateOnChange={false}>
         {({
           values,
           touched,
@@ -33,21 +33,18 @@ export default class GroupManager extends React.PureComponent<Props> {
           return ORDER.map(side => {
             return isEmpty(propOr([], side, data)) ? null : (
               <Section key={side}>
-                <textarea style={{ width: '100%' }} readOnly value={JSON.stringify(values)} />
+                {/* <textarea style={{ width: '100%' }} readOnly value={JSON.stringify(values)} /> */}
                 <Title style={{ color: Colors.Sides[side] }}>{side.toUpperCase()}</Title>
                 <Grid.Container isMultiline>
-                  {values[side].map((group, index) => {
-                    const key = `${side}[${index}]`
-                    return (
-                      <GroupTile
-                        key={key}
-                        group={group}
-                        formikKey={key}
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                      />
-                    )
-                  })}
+                  {values[side].map((group, index) => (
+                    <GroupTile
+                      key={group.id}
+                      group={group}
+                      formikKey={`${side}[${index}]`}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                    />
+                  ))}
                 </Grid.Container>
               </Section>
             )

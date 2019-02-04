@@ -32,11 +32,9 @@ interface Props {
   handleBlur: any
 }
 
-export class GroupTile extends React.Component<Props> {
+export class GroupTile extends React.PureComponent<Props> {
   render() {
     const { group, formikKey, handleBlur, handleChange } = this.props
-    const inputProps = { onChange: handleChange, onBlur: handleBlur }
-    console.log('render', group)
     return (
       <Grid.Column sizeDesktop={3} sizeTablet={6}>
         <Tile isBox isVertical hasShadow>
@@ -53,7 +51,13 @@ export class GroupTile extends React.Component<Props> {
               </IconContainer>
             </Container>
             <Field.Control isFullWidth>
-              <Input name={`${formikKey}.name`} placeholder="E.g Alpha" value={group.name} {...inputProps} />
+              <Input
+                name={`${formikKey}.name`}
+                placeholder="E.g Alpha"
+                value={group.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </Field.Control>
           </Field.Container>
           <GroupUnits units={group.units} formikKey={formikKey} handleChange={handleChange} handleBlur={handleBlur} />

@@ -1,6 +1,11 @@
 import { getSidesAndGroups } from './sqmHelpers'
 import { Group, Sides, Unit } from './sqmTypes'
 
+jest.mock('./generateId')
+import { generateId } from './generateId'
+const mockGenerateId = <jest.Mock<typeof generateId>>generateId
+mockGenerateId.mockReturnValue(0)
+
 const createData = (obj?: object) => ({ Mission: { Entities: { ...obj } } })
 
 it('returns empty when no groups', () => {
@@ -14,7 +19,6 @@ it('returns empty when no groups', () => {
 it('parses a group in entities', () => {
   const args = createData({
     Item0: {
-      id: 0,
       dataType: 'Group',
       side: 'West',
       CustomAttributes: {
@@ -30,7 +34,6 @@ it('parses a group in entities', () => {
       },
       Entities: {
         Item0: {
-          id: 1,
           dataType: 'Object',
           side: 'West',
           type: 'test',
@@ -47,7 +50,7 @@ it('parses a group in entities', () => {
   expect(blufor.length).toEqual(1)
   expect(blufor[0]).toEqual(
     expect.objectContaining({
-      sqmId: 0,
+      id: 0,
       side: Sides.BLUFOR,
       name: 'TEST',
       attrs: [
@@ -59,7 +62,7 @@ it('parses a group in entities', () => {
       ],
       units: [
         {
-          sqmId: 1,
+          id: 0,
           type: 'test',
           side: Sides.BLUFOR,
           attrs: { isPlayable: 1, description: 'TEST' },
@@ -76,12 +79,10 @@ it('parses a group in layers', () => {
       dataType: 'Layer',
       Entities: {
         Item0: {
-          id: 0,
           dataType: 'Group',
           side: 'West',
           Entities: {
             Item0: {
-              id: 1,
               dataType: 'Object',
               side: 'West',
               type: 'test',
@@ -99,13 +100,13 @@ it('parses a group in layers', () => {
   expect(blufor.length).toEqual(1)
   expect(blufor[0]).toEqual(
     expect.objectContaining({
-      sqmId: 0,
+      id: 0,
       name: '',
       side: Sides.BLUFOR,
       attrs: [],
       units: [
         {
-          sqmId: 1,
+          id: 0,
           type: 'test',
           side: Sides.BLUFOR,
           attrs: { isPlayable: 1, description: '' },

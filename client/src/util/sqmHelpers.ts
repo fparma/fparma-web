@@ -1,6 +1,7 @@
 import { parse } from 'arma-class-parser'
 import * as R from 'ramda'
 import { Group, ParsedGroups, Sides, stringToSide, Unit } from './sqmTypes'
+import { generateId } from './generateId'
 
 const getMission = R.propOr({}, 'Mission')
 const getEntities = R.propOr({}, 'Entities')
@@ -55,9 +56,9 @@ const getUnits = R.pipe(
   R.map(
     unit =>
       ({
-        sqmId: unit.id,
-        type: unit.type,
-        side: stringToSide(unit.side),
+        id: generateId(),
+        type: R.prop('type', unit),
+        side: stringToSide(R.prop('side', unit)),
         attrs: getAttributes(unit),
         customAttrs: getCustomAttributes(unit),
       } as Unit)
@@ -73,7 +74,7 @@ const getGroupId = R.pipe(
 const mapGroupsAndUnits = R.map(grp => {
   const attrs = getCustomAttributes(grp)
   return {
-    sqmId: grp.id,
+    id: generateId(),
     name: getGroupId(attrs),
     side: stringToSide(grp.side),
     units: getUnits(grp),
@@ -81,14 +82,14 @@ const mapGroupsAndUnits = R.map(grp => {
   } as Group
 })
 
-export const parseSqm = (sqm: string): object => {
-  return parse(sqm)
-}
-
 const hasUnits = R.pipe(
   R.propOr([], 'units'),
   R.complement(R.isEmpty)
 )
+
+export const parseSqm = (sqm: string): object => {
+  return parse(sqm)
+}
 
 export const getSidesAndGroups = (sqm: object): ParsedGroups =>
   R.pipe(
@@ -97,7 +98,7 @@ export const getSidesAndGroups = (sqm: object): ParsedGroups =>
     getGroups,
     mapGroupsAndUnits,
     R.filter(R.allPass([isValidSide, hasUnits])),
-    //groups => R.map(Sides, side => ({ [side]: groups.filter(grp => grp.side === side) }))
     R.groupBy(grp => grp.side),
+    // spread into defaults
     grouped => ({ blufor: [], opfor: [], indepedent: [], civilian: [], ...grouped })
   )(sqm)

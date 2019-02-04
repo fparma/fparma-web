@@ -44,14 +44,9 @@ const UnitField = styled.div`
   }
 `
 
-export class GroupUnits extends React.Component<Props> {
-  shouldComponentUpdate() {
-    return false
-  }
-
+export class GroupUnits extends React.PureComponent<Props> {
   render() {
     const { units, formikKey, handleBlur, handleChange } = this.props
-    const inputProps = { onChange: handleChange, onBlur: handleBlur }
     return (
       <React.Fragment>
         <Container>
@@ -65,19 +60,17 @@ export class GroupUnits extends React.Component<Props> {
             </Clickable>
           </UnitButtonContainer>
         </Container>
-        {units.map((unit, index) => {
-          const key = `${formikKey}.units[${index}].attrs.description`
-          return (
-            <UnitField key={key}>
-              <Input
-                name={key}
-                placeholder="E.g SQL, Asst AR, Rifleman"
-                value={unit.attrs.description}
-                {...inputProps}
-              />
-            </UnitField>
-          )
-        })}
+        {units.map((unit, index) => (
+          <UnitField key={unit.id}>
+            <Input
+              name={`${formikKey}.units[${index}].attrs.description`}
+              placeholder="E.g SQL, Asst AR, Rifleman"
+              value={unit.attrs.description}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </UnitField>
+        ))}
       </React.Fragment>
     )
   }

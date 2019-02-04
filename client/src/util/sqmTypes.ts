@@ -20,7 +20,7 @@ export interface Attributes {
 }
 
 export interface Unit {
-  sqmId: number
+  id: number
   type: string
   side: Sides
   customAttrs: Attributes[]
@@ -33,7 +33,7 @@ export interface Unit {
 }
 
 export interface Group {
-  sqmId: number
+  id: number
   side: Sides
   name: string
   units: Unit[]
