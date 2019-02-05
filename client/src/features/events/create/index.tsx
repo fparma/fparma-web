@@ -16,6 +16,10 @@ export class EventCreate extends React.PureComponent {
     return this.state.step === step
   }
 
+  onReset = () => this.setState({ groups: null })
+
+  onInputSelection = (groups: ParsedGroups) => this.setState({ groups })
+
   render() {
     return (
       <React.Fragment>
@@ -33,10 +37,10 @@ export class EventCreate extends React.PureComponent {
 
         <Container hidden={!this.isStepActive(1)}>
           <Container hidden={Boolean(this.state.groups)}>
-            <SelectSlotInput onGroups={console.log} />
+            <SelectSlotInput onSlotInput={this.onInputSelection} />
           </Container>
           <Container hidden={Boolean(!this.state.groups)}>
-            <GroupManager data={(this.state.groups as unknown) as ParsedGroups} />
+            <GroupManager data={(this.state.groups as unknown) as ParsedGroups} onReset={this.onReset} />
           </Container>
         </Container>
       </React.Fragment>

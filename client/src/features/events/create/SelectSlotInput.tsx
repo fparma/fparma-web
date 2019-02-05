@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, Container, Field, Grid, Icon, ICONS, SubTitle, Text, TextArea, Tile, Title } from '../../../ui'
 import { getSidesAndGroups, parseSqm } from '../../../util/sqmHelpers'
 import Dropzone from './Dropzone'
+import { ParsedGroups } from '../../../util/sqmTypes'
 
 const HugeIcon = styled(Icon)`
   && {
@@ -33,7 +34,7 @@ interface State {
 }
 
 interface Props {
-  onGroups?: (groups) => void
+  onSlotInput?: (groups) => void
 }
 
 export default class SelectSlotInput extends React.PureComponent<Props, State> {
@@ -45,7 +46,7 @@ export default class SelectSlotInput extends React.PureComponent<Props, State> {
   }
 
   onManuallyEnter = () => {
-    this.clearInputState()
+    this.onInputSelectionFinished({ blufor: [], opfor: [], independent: [], civilian: [] })
   }
 
   clearInputState() {
@@ -96,9 +97,10 @@ export default class SelectSlotInput extends React.PureComponent<Props, State> {
     this.setState({ file: null, fileError })
   }
 
-  onInputSelectionFinished(data) {
-    const { onGroups } = this.props
-    onGroups && onGroups(data)
+  onInputSelectionFinished(data: ParsedGroups) {
+    const { onSlotInput } = this.props
+    onSlotInput && onSlotInput(data)
+    this.clearInputState()
   }
 
   handlePasteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({ paste: event.target.value })

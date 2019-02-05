@@ -20,6 +20,8 @@ import {
   faUserMinus,
   faUserPlus,
   faUserTie,
+  faPlusSquare,
+  faRedo,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
@@ -46,6 +48,8 @@ export const ICONS = {
   faArrowsAlt,
   faUserPlus,
   faUserMinus,
+  faPlusSquare,
+  faRedo,
 }
 
 library.add(...Object.keys(ICONS).map(v => ICONS[v]))
