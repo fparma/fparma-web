@@ -37,7 +37,7 @@ export interface Group {
   side: Sides
   name: string
   units: Unit[]
-  attrs: Attributes[]
+  attrs?: Attributes[]
 }
 
 export interface ParsedGroups {

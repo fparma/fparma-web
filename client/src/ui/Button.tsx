@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { CommonProps, commonProps } from './Common'
 import { classnames } from './utils'
 
-interface IButtonProps {
+interface IButtonProps extends CommonProps {
   className?: string
   disabled?: boolean
   href?: string
@@ -23,31 +24,37 @@ interface IButtonProps {
 }
 
 const classes = (className: string | undefined, props: IButtonProps) =>
-  classnames('button', className, {
-    'is-active': props.isActive,
-    'is-focused': props.isFocused,
-    'is-fullwidth': props.isFullwidth,
-    'is-large': props.isLarge,
-    'is-link': props.isLink,
-    'is-loading': props.isLoading,
-    'is-medium': props.isMedium,
-    'is-normal': props.isNormal,
-    'is-outlined': props.isOutlined,
-    'is-rounded': props.isRounded,
-    'is-small': props.isSmall,
-    'is-static': props.isStatic,
-    'is-text': props.isText,
-  })
+  classnames(
+    'button',
+    {
+      'is-active': props.isActive,
+      'is-focused': props.isFocused,
+      'is-fullwidth': props.isFullwidth,
+      'is-large': props.isLarge,
+      'is-link': props.isLink,
+      'is-loading': props.isLoading,
+      'is-medium': props.isMedium,
+      'is-normal': props.isNormal,
+      'is-outlined': props.isOutlined,
+      'is-rounded': props.isRounded,
+      'is-small': props.isSmall,
+      'is-static': props.isStatic,
+      'is-text': props.isText,
+    },
+    commonProps(props),
+    className
+  )
 
-export const Button: React.SFC<IButtonProps> = ({ href, type, className, disabled, onClick, children, ...props }) =>
-  href ? (
-    <a className={classes(className, props)} href={href} {...props}>
+export const Button: React.SFC<IButtonProps> = ({ href, type, className, disabled, onClick, children, ...props }) => {
+  return href ? (
+    <a className={classes(className, props)} href={href} onClick={onClick as any}>
       {children}
     </a>
   ) : type ? (
-    <input className={classes(className, props)} type={type} {...props} />
+    <input className={classes(className, props)} type={type} disabled={disabled} onClick={onClick as any} />
   ) : (
-    <button className={classes(className, props)} disabled={disabled} onClick={onClick} {...props}>
+    <button className={classes(className, props)} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   )
+}

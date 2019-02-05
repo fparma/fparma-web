@@ -11,15 +11,11 @@ interface IFieldProps {
   iconRight?: React.ReactElement<any>
 }
 
-const FlexedDiv = styled.div`
-  flex: 1;
-`
-
 const Error = styled(Icon)`
   color: rgba(255, 30, 15, 0.8);
 `
 
-const FieldContainer: React.SFC = ({ children }) => <FlexedDiv className="field">{children}</FlexedDiv>
+const FieldContainer: React.SFC = ({ children }) => <div className="field">{children}</div>
 const FieldLabel: React.SFC = ({ children }) => <label className="label">{children}</label>
 const FieldControl: React.SFC<IFieldProps> = ({ isError, iconLeft, iconRight, isFullWidth, children }) => (
   <div

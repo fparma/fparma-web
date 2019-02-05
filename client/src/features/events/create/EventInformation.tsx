@@ -14,6 +14,7 @@ import {
   RadioGroup,
   Text,
   TextArea,
+  Tile,
   Timepicker,
 } from '../../../ui'
 
@@ -134,106 +135,108 @@ export default class EventInformation extends React.PureComponent<
         return (
           <React.Fragment>
             <Form>
-              <Grid.Container>
-                <Grid.Column sizeFullhd={5} sizeDesktop={6}>
-                  <Grid.Container isMultiline isMobile>
-                    <Grid.Column sizeDesktop={8} sizeTablet={8} sizeMobile={12}>
-                      <Field label="Title" isError={hasError('title')}>
-                        <Input
-                          name="title"
-                          isError={hasError('title')}
+              <Tile isBox isVertical hasShadow>
+                <Grid.Container>
+                  <Grid.Column sizeFullhd={5} sizeDesktop={6}>
+                    <Grid.Container isMultiline isMobile>
+                      <Grid.Column sizeDesktop={8} sizeTablet={8} sizeMobile={12}>
+                        <Field label="Title" isError={hasError('title')}>
+                          <Input
+                            name="title"
+                            isError={hasError('title')}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Operation FPARMA"
+                          />
+                          {hasError('title') && <Text isWarning>{errors.title}</Text>}
+                        </Field>
+                      </Grid.Column>
+
+                      <GridColumnNoPadBottom sizeDesktop={4} sizeTablet={4} sizeMobile={12}>
+                        <RadioGroup
+                          name="type"
+                          defaultValue={values.type}
+                          label="Type of game mode"
                           onChange={handleChange}
-                          onBlur={handleBlur}
-                          placeholder="Operation FPARMA"
-                        />
-                        {hasError('title') && <Text isWarning>{errors.title}</Text>}
-                      </Field>
-                    </Grid.Column>
+                        >
+                          <Radio label="COOP" value="co" />
+                          <Radio label="TVT" value="tvt" />
+                        </RadioGroup>
+                      </GridColumnNoPadBottom>
 
-                    <GridColumnNoPadBottom sizeDesktop={4} sizeTablet={4} sizeMobile={12}>
-                      <RadioGroup
-                        name="type"
-                        defaultValue={values.type}
-                        label="Type of game mode"
-                        onChange={handleChange}
-                      >
-                        <Radio label="COOP" value="co" />
-                        <Radio label="TVT" value="tvt" />
-                      </RadioGroup>
-                    </GridColumnNoPadBottom>
+                      <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={7}>
+                        <Field label="Date">
+                          <Datepicker
+                            minDate={this.minDate}
+                            maxDate={this.maxDate}
+                            onChange={this.onDateChange(setFieldValue)}
+                          />
+                        </Field>
+                      </Grid.Column>
 
-                    <Grid.Column sizeDesktop={6} sizeTablet={8} sizeMobile={7}>
-                      <Field label="Date">
-                        <Datepicker
-                          minDate={this.minDate}
-                          maxDate={this.maxDate}
-                          onChange={this.onDateChange(setFieldValue)}
-                        />
-                      </Field>
-                    </Grid.Column>
+                      <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={5}>
+                        <Field label="Time">
+                          <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
+                        </Field>
+                      </Grid.Column>
 
-                    <Grid.Column sizeDesktop={6} sizeTablet={4} sizeMobile={5}>
-                      <Field label="Time">
-                        <Timepicker onChange={this.onTimeChange(setFieldValue)} defaultHour={getDefaultHour()} />
-                      </Field>
-                    </Grid.Column>
+                      <GridColumnNoPadTop isNarrow isFull>
+                        <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
+                      </GridColumnNoPadTop>
 
-                    <GridColumnNoPadTop isNarrow isFull>
-                      <span>{values.date && `Entered time in UTC: ${this.getEnteredHourUTC()}`}</span>
-                    </GridColumnNoPadTop>
-
-                    <Grid.Column isFull>
-                      <Field
-                        label="Author(s) (optional)"
-                        isError={hasError('authors')}
-                        iconLeft={<Icon icon={ICONS.faUserTie} />}
-                      >
-                        <Input
-                          name="authors"
+                      <Grid.Column isFull>
+                        <Field
+                          label="Author(s) (optional)"
                           isError={hasError('authors')}
-                          placeholder="User, Other User"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        {hasError('authors') && <Text isWarning>{errors.authors}</Text>}
-                      </Field>
-                    </Grid.Column>
+                          iconLeft={<Icon icon={ICONS.faUserTie} />}
+                        >
+                          <Input
+                            name="authors"
+                            isError={hasError('authors')}
+                            placeholder="User, Other User"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          {hasError('authors') && <Text isWarning>{errors.authors}</Text>}
+                        </Field>
+                      </Grid.Column>
 
-                    <Grid.Column isFull>
-                      <Field
-                        label="Image url (optional)"
-                        isError={hasError('image')}
-                        iconLeft={<Icon icon={ICONS.faImages} />}
-                      >
-                        <Input
-                          name="image"
+                      <Grid.Column isFull>
+                        <Field
+                          label="Image url (optional)"
                           isError={hasError('image')}
-                          placeholder="http://example.com/image.jpg"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                      </Field>
-                      {hasError('image') && <Text isWarning>{errors.image}</Text>}
-                    </Grid.Column>
-                  </Grid.Container>
-                </Grid.Column>
-              </Grid.Container>
+                          iconLeft={<Icon icon={ICONS.faImages} />}
+                        >
+                          <Input
+                            name="image"
+                            isError={hasError('image')}
+                            placeholder="http://example.com/image.jpg"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                        </Field>
+                        {hasError('image') && <Text isWarning>{errors.image}</Text>}
+                      </Grid.Column>
+                    </Grid.Container>
+                  </Grid.Column>
+                </Grid.Container>
 
-              <Grid.Container>
-                <Grid.Column isFull>
-                  <Field label="Event description" isError={hasError('description')}>
-                    <TextArea
-                      name="description"
-                      rows={12}
-                      isError={hasError('description')}
-                      placeholder="If custom mods are used, remember to link them here"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </Field>
-                  {hasError('description') && <Text isWarning>{errors.description}</Text>}
-                </Grid.Column>
-              </Grid.Container>
+                <Grid.Container>
+                  <Grid.Column isFull>
+                    <Field label="Event description" isError={hasError('description')}>
+                      <TextArea
+                        name="description"
+                        rows={12}
+                        isError={hasError('description')}
+                        placeholder="If custom mods are used, remember to link them here"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </Field>
+                    {hasError('description') && <Text isWarning>{errors.description}</Text>}
+                  </Grid.Column>
+                </Grid.Container>
+              </Tile>
             </Form>
           </React.Fragment>
         )

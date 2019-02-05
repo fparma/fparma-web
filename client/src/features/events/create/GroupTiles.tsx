@@ -1,12 +1,12 @@
+import { ArrayHelpers, FieldArray } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
-import { Field, Grid, Icon, ICONS, Input, Tile, Button, Text } from '../../../ui'
+import { Button, Field, Grid, Icon, ICONS, Input, Text, Tile } from '../../../ui'
+import { generateId } from '../../../util/generateId'
 import { Group, Sides } from '../../../util/sqmTypes'
 import { GroupUnits } from './GroupUnits'
-import { FieldArray, ArrayHelpers } from 'formik'
-import { generateId } from '../../../util/generateId'
 
-const Container = styled.div`
+const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
 `
@@ -27,6 +27,10 @@ const Clickable = styled.a`
   }
 `
 
+const StretchedTile = styled(Tile)`
+  height: 100%;
+`
+
 interface Props {
   groups: Group[]
   formikKey: string
@@ -39,23 +43,23 @@ export class GroupTiles extends React.PureComponent<Props> {
     groups: [],
   }
 
-  createGroup = add => () => {
-    add({
+  createGroup = (helpers: ArrayHelpers) => () => {
+    helpers.push({
       id: generateId(),
       side: Sides[this.props.formikKey],
       name: '',
       units: [],
-      attrs: [],
     } as Group)
   }
 
   renderGroup = (helpers: ArrayHelpers) => (group: Group, index: number) => {
     const { formikKey, handleBlur, handleChange } = this.props
+    const groupKey = `${formikKey}[${index}]`
     return (
       <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
-        <Tile isBox isVertical hasShadow>
+        <StretchedTile isBox isVertical hasShadow>
           <Field.Container>
-            <Container>
+            <RowContainer>
               <Field.Label>Group name</Field.Label>
               <IconContainer>
                 <Clickable onClick={console.log}>
@@ -65,10 +69,10 @@ export class GroupTiles extends React.PureComponent<Props> {
                   <Icon icon={ICONS.faCloseX} />
                 </Clickable>
               </IconContainer>
-            </Container>
+            </RowContainer>
             <Field.Control isFullWidth>
               <Input
-                name={`${formikKey}[${index}].name`}
+                name={`${groupKey}.name`}
                 placeholder="E.g Alpha"
                 value={group.name}
                 onChange={handleChange}
@@ -76,8 +80,13 @@ export class GroupTiles extends React.PureComponent<Props> {
               />
             </Field.Control>
           </Field.Container>
-          <GroupUnits units={group.units} formikKey={formikKey} handleChange={handleChange} handleBlur={handleBlur} />
-        </Tile>
+          <GroupUnits
+            units={group.units}
+            formikKey={`${groupKey}.units`}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+          />
+        </StretchedTile>
       </Grid.Column>
     )
   }
@@ -91,8 +100,8 @@ export class GroupTiles extends React.PureComponent<Props> {
           <React.Fragment>
             {groups.map(this.renderGroup(helpers))}
             <Grid.Column sizeDesktop={3} sizeTablet={6}>
-              <Button isFullwidth isRounded isMedium onClick={this.createGroup(helpers.push)}>
-                <Icon icon={ICONS.faPlusSquare} />
+              <Button isFullwidth onClick={this.createGroup(helpers)}>
+                <Icon icon={ICONS.faUserFriends} />
                 <Text>Add group</Text>
               </Button>
             </Grid.Column>

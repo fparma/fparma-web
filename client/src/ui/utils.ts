@@ -1,7 +1,7 @@
 type IClassArgs = undefined | string | { [key: string]: boolean | undefined }
 
-export const classnames = (...args: IClassArgs[]) => {
-  return args
+export const classnames = (...args: IClassArgs[]) =>
+  args
     .filter(Boolean)
     .map((val: string | { [key: string]: boolean }) => {
       if (typeof val === 'string') return val
@@ -12,4 +12,3 @@ export const classnames = (...args: IClassArgs[]) => {
     .join(' ')
     .replace(/  +/g, ' ')
     .trim()
-}

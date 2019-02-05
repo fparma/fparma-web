@@ -13,15 +13,15 @@ import {
   faPaste,
   faPencilAlt,
   faQuestionCircle,
+  faRedo,
   faSearch,
   faSquare,
   faTimesCircle,
   faUserCog,
+  faUserFriends,
   faUserMinus,
   faUserPlus,
   faUserTie,
-  faPlusSquare,
-  faRedo,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon, Props } from '@fortawesome/react-fontawesome'
 import * as React from 'react'
@@ -48,7 +48,7 @@ export const ICONS = {
   faArrowsAlt,
   faUserPlus,
   faUserMinus,
-  faPlusSquare,
+  faUserFriends,
   faRedo,
 }
 

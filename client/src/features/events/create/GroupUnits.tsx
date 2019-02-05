@@ -1,7 +1,9 @@
+import { ArrayHelpers, FieldArray } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
 import { Field, Icon, ICONS, Input } from '../../../ui'
-import { Unit } from '../../../util/sqmTypes'
+import { generateId } from '../../../util/generateId'
+import { Sides, Unit } from '../../../util/sqmTypes'
 
 interface Props {
   units: Unit[]
@@ -45,33 +47,60 @@ const UnitField = styled.div`
 `
 
 export class GroupUnits extends React.PureComponent<Props> {
-  render() {
+  addUnit = (helpers: ArrayHelpers) => () => {
+    helpers.push({
+      id: generateId(),
+      side: Sides.BLUFOR,
+      attrs: { description: '' },
+      type: '',
+    } as Unit)
+  }
+
+  removeUnit = (helpers: ArrayHelpers) => () => {
+    helpers.pop()
+  }
+
+  renderHeader = (helpers: ArrayHelpers) => (
+    <Container>
+      <Field.Label>Units ({this.props.units.length})</Field.Label>
+      <UnitButtonContainer>
+        <Clickable onClick={this.addUnit(helpers)}>
+          <Icon icon={ICONS.faUserPlus} />
+        </Clickable>
+        <Clickable onClick={this.removeUnit(helpers)}>
+          <Icon icon={ICONS.faUserMinus} />
+        </Clickable>
+      </UnitButtonContainer>
+    </Container>
+  )
+
+  renderUnits = (helpers: ArrayHelpers) => (unit: Unit, index: number) => {
     const { units, formikKey, handleBlur, handleChange } = this.props
     return (
-      <React.Fragment>
-        <Container>
-          <Field.Label>Units ({units.length})</Field.Label>
-          <UnitButtonContainer>
-            <Clickable onClick={console.log}>
-              <Icon icon={ICONS.faUserPlus} />
-            </Clickable>
-            <Clickable onClick={console.log}>
-              <Icon icon={ICONS.faUserMinus} />
-            </Clickable>
-          </UnitButtonContainer>
-        </Container>
-        {units.map((unit, index) => (
-          <UnitField key={unit.id}>
-            <Input
-              name={`${formikKey}.units[${index}].attrs.description`}
-              placeholder="E.g SQL, Asst AR, Rifleman"
-              value={unit.attrs.description}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </UnitField>
-        ))}
-      </React.Fragment>
+      <UnitField key={unit.id}>
+        <Input
+          name={`${formikKey}[${index}].attrs.description`}
+          placeholder="E.g SQL, Asst AR, Rifleman"
+          value={unit.attrs.description}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+      </UnitField>
+    )
+  }
+
+  render() {
+    const { units, formikKey } = this.props
+    return (
+      <FieldArray
+        name={formikKey}
+        render={helpers => (
+          <React.Fragment>
+            {this.renderHeader(helpers)}
+            {units.map(this.renderUnits(helpers))}
+          </React.Fragment>
+        )}
+      />
     )
   }
 }

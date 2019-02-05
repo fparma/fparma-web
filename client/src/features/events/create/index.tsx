@@ -51,11 +51,11 @@ export class EventCreate extends React.PureComponent {
 var data = {
   blufor: [
     {
-      sqmId: 417,
+      id: 417,
       side: 'blufor',
       units: [
         {
-          sqmId: 418,
+          id: 418,
           type: 'B_Soldier_SL_F',
           side: 'blufor',
           attrs: { rank: 'CAPTAIN', description: 'Squad Leader', isPlayable: 1 },
@@ -65,7 +65,7 @@ var data = {
           ],
         },
         {
-          sqmId: 419,
+          id: 419,
           type: 'B_medic_F',
           side: 'blufor',
           attrs: { description: 'Medic', isPlayable: 1 },
@@ -75,7 +75,7 @@ var data = {
           ],
         },
         {
-          sqmId: 427,
+          id: 427,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -85,7 +85,7 @@ var data = {
           ],
         },
         {
-          sqmId: 428,
+          id: 428,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -95,7 +95,7 @@ var data = {
           ],
         },
         {
-          sqmId: 429,
+          id: 429,
           type: 'B_Soldier_TL_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', description: 'Team Leader', isPlayable: 1 },
@@ -105,7 +105,7 @@ var data = {
           ],
         },
         {
-          sqmId: 430,
+          id: 430,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -115,7 +115,7 @@ var data = {
           ],
         },
         {
-          sqmId: 431,
+          id: 431,
           type: 'B_soldier_AAR_F',
           side: 'blufor',
           attrs: { description: 'Ammo Bearer', isPlayable: 1 },
@@ -125,7 +125,7 @@ var data = {
           ],
         },
         {
-          sqmId: 1357,
+          id: 1357,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -139,11 +139,11 @@ var data = {
       name: 'Alpha',
     },
     {
-      sqmId: 433,
+      id: 433,
       side: 'blufor',
       units: [
         {
-          sqmId: 434,
+          id: 434,
           type: 'B_Soldier_SL_F',
           side: 'blufor',
           attrs: { rank: 'CAPTAIN', description: 'Squad Leader', isPlayable: 1 },
@@ -153,7 +153,7 @@ var data = {
           ],
         },
         {
-          sqmId: 435,
+          id: 435,
           type: 'B_medic_F',
           side: 'blufor',
           attrs: { description: 'Medic', isPlayable: 1 },
@@ -163,7 +163,7 @@ var data = {
           ],
         },
         {
-          sqmId: 436,
+          id: 436,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -173,7 +173,7 @@ var data = {
           ],
         },
         {
-          sqmId: 437,
+          id: 437,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -183,7 +183,7 @@ var data = {
           ],
         },
         {
-          sqmId: 438,
+          id: 438,
           type: 'B_Soldier_TL_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', description: 'Team Leader', isPlayable: 1 },
@@ -193,7 +193,7 @@ var data = {
           ],
         },
         {
-          sqmId: 439,
+          id: 439,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -203,7 +203,7 @@ var data = {
           ],
         },
         {
-          sqmId: 440,
+          id: 440,
           type: 'B_soldier_AAR_F',
           side: 'blufor',
           attrs: { description: 'Ammo Bearer', isPlayable: 1 },
@@ -213,7 +213,7 @@ var data = {
           ],
         },
         {
-          sqmId: 1358,
+          id: 1358,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -227,11 +227,11 @@ var data = {
       name: 'Bravo',
     },
     {
-      sqmId: 442,
+      id: 442,
       side: 'blufor',
       units: [
         {
-          sqmId: 443,
+          id: 443,
           type: 'B_Soldier_SL_F',
           side: 'blufor',
           attrs: { rank: 'CAPTAIN', description: 'Squad Leader', isPlayable: 1 },
@@ -241,7 +241,7 @@ var data = {
           ],
         },
         {
-          sqmId: 444,
+          id: 444,
           type: 'B_medic_F',
           side: 'blufor',
           attrs: { description: 'Medic', isPlayable: 1 },
@@ -251,7 +251,7 @@ var data = {
           ],
         },
         {
-          sqmId: 445,
+          id: 445,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -261,7 +261,7 @@ var data = {
           ],
         },
         {
-          sqmId: 446,
+          id: 446,
           type: 'B_soldier_LAT_F',
           side: 'blufor',
           attrs: { description: 'Rifleman (AT)', isPlayable: 1 },
@@ -271,7 +271,7 @@ var data = {
           ],
         },
         {
-          sqmId: 447,
+          id: 447,
           type: 'B_Soldier_TL_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', description: 'Team Leader', isPlayable: 1 },
@@ -281,7 +281,7 @@ var data = {
           ],
         },
         {
-          sqmId: 448,
+          id: 448,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -291,7 +291,7 @@ var data = {
           ],
         },
         {
-          sqmId: 449,
+          id: 449,
           type: 'B_soldier_AAR_F',
           side: 'blufor',
           attrs: { description: 'Ammo Bearer', isPlayable: 1 },
@@ -301,7 +301,7 @@ var data = {
           ],
         },
         {
-          sqmId: 1359,
+          id: 1359,
           type: 'B_soldier_AR_F',
           side: 'blufor',
           attrs: { description: 'Autorifleman', isPlayable: 1 },
@@ -315,11 +315,11 @@ var data = {
       name: 'Charlie',
     },
     {
-      sqmId: 451,
+      id: 451,
       side: 'blufor',
       units: [
         {
-          sqmId: 452,
+          id: 452,
           type: 'B_Soldier_SL_F',
           side: 'blufor',
           attrs: { rank: 'CAPTAIN', description: 'Squad Leader', isPlayable: 1 },
@@ -329,7 +329,7 @@ var data = {
           ],
         },
         {
-          sqmId: 453,
+          id: 453,
           type: 'B_medic_F',
           side: 'blufor',
           attrs: { description: 'Medic', isPlayable: 1 },
@@ -339,7 +339,7 @@ var data = {
           ],
         },
         {
-          sqmId: 454,
+          id: 454,
           type: 'B_HeavyGunner_F',
           side: 'blufor',
           attrs: { description: 'Machine Gunner', isPlayable: 1 },
@@ -349,7 +349,7 @@ var data = {
           ],
         },
         {
-          sqmId: 455,
+          id: 455,
           type: 'B_support_AMG_F',
           side: 'blufor',
           attrs: { description: 'Asst. Machine Gunner', isPlayable: 1 },
@@ -359,7 +359,7 @@ var data = {
           ],
         },
         {
-          sqmId: 456,
+          id: 456,
           type: 'B_Soldier_TL_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', description: 'Team Leader', isPlayable: 1 },
@@ -369,7 +369,7 @@ var data = {
           ],
         },
         {
-          sqmId: 458,
+          id: 458,
           type: 'B_soldier_AT_F',
           side: 'blufor',
           attrs: { description: 'Missile Specialist (HAT)', isPlayable: 1 },
@@ -379,7 +379,7 @@ var data = {
           ],
         },
         {
-          sqmId: 459,
+          id: 459,
           type: 'B_soldier_AAT_F',
           side: 'blufor',
           attrs: { description: 'Asst. Missile Specialist (HAT)', isPlayable: 1 },
@@ -389,7 +389,7 @@ var data = {
           ],
         },
         {
-          sqmId: 1348,
+          id: 1348,
           type: 'B_soldier_M_F',
           side: 'blufor',
           attrs: { description: 'Marksman', isPlayable: 1 },
@@ -403,11 +403,11 @@ var data = {
       name: 'Delta',
     },
     {
-      sqmId: 406,
+      id: 406,
       side: 'blufor',
       units: [
         {
-          sqmId: 407,
+          id: 407,
           type: 'B_RangeMaster_F',
           side: 'blufor',
           attrs: {
@@ -420,7 +420,7 @@ var data = {
           customAttrs: [{ property: 'pitch', expression: '_this setpitch _value;', value: 0.99000001 }],
         },
         {
-          sqmId: 410,
+          id: 410,
           type: 'B_RangeMaster_F',
           side: 'blufor',
           attrs: {
@@ -437,11 +437,11 @@ var data = {
       name: 'Game master',
     },
     {
-      sqmId: 497,
+      id: 497,
       side: 'blufor',
       units: [
         {
-          sqmId: 498,
+          id: 498,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', name: 'vc1', description: 'Commander', isPlayable: 1 },
@@ -451,7 +451,7 @@ var data = {
           ],
         },
         {
-          sqmId: 499,
+          id: 499,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { description: 'Gunner', isPlayable: 1 },
@@ -461,7 +461,7 @@ var data = {
           ],
         },
         {
-          sqmId: 500,
+          id: 500,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { description: 'Driver', isPlayable: 1 },
@@ -475,11 +475,11 @@ var data = {
       name: 'Hotel 1',
     },
     {
-      sqmId: 488,
+      id: 488,
       side: 'blufor',
       units: [
         {
-          sqmId: 489,
+          id: 489,
           type: 'B_engineer_F',
           side: 'blufor',
           attrs: { description: 'Engineer', isPlayable: 1 },
@@ -489,7 +489,7 @@ var data = {
           ],
         },
         {
-          sqmId: 490,
+          id: 490,
           type: 'B_soldier_exp_F',
           side: 'blufor',
           attrs: { description: 'Expl Spec.', isPlayable: 1 },
@@ -499,7 +499,7 @@ var data = {
           ],
         },
         {
-          sqmId: 491,
+          id: 491,
           type: 'B_soldier_exp_F',
           side: 'blufor',
           attrs: { description: 'Expl. Spec', isPlayable: 1 },
@@ -513,11 +513,11 @@ var data = {
       name: 'Kilo',
     },
     {
-      sqmId: 502,
+      id: 502,
       side: 'blufor',
       units: [
         {
-          sqmId: 503,
+          id: 503,
           type: 'B_Helipilot_F',
           side: 'blufor',
           attrs: { description: 'Pilot', isPlayable: 1 },
@@ -527,7 +527,7 @@ var data = {
           ],
         },
         {
-          sqmId: 504,
+          id: 504,
           type: 'B_helicrew_F',
           side: 'blufor',
           attrs: { description: 'Crew', isPlayable: 1 },
@@ -541,11 +541,11 @@ var data = {
       name: 'Lima 1',
     },
     {
-      sqmId: 412,
+      id: 412,
       side: 'blufor',
       units: [
         {
-          sqmId: 413,
+          id: 413,
           type: 'B_officer_F',
           side: 'blufor',
           attrs: { rank: 'COLONEL', name: 'plt', description: 'Platoon Leader', isPlayable: 1 },
@@ -555,7 +555,7 @@ var data = {
           ],
         },
         {
-          sqmId: 414,
+          id: 414,
           type: 'B_officer_F',
           side: 'blufor',
           attrs: { rank: 'MAJOR', description: '2IC', isPlayable: 1 },
@@ -565,7 +565,7 @@ var data = {
           ],
         },
         {
-          sqmId: 415,
+          id: 415,
           type: 'B_medic_F',
           side: 'blufor',
           attrs: { rank: 'CORPORAL', description: 'Medic', isPlayable: 1 },
@@ -575,7 +575,7 @@ var data = {
           ],
         },
         {
-          sqmId: 416,
+          id: 416,
           type: 'B_soldier_UAV_F',
           side: 'blufor',
           attrs: { rank: 'CORPORAL', description: 'UAV Operator', isPlayable: 1 },
@@ -591,11 +591,11 @@ var data = {
       name: 'Platoon Command',
     },
     {
-      sqmId: 492,
+      id: 492,
       side: 'blufor',
       units: [
         {
-          sqmId: 493,
+          id: 493,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { rank: 'SERGEANT', name: 'sc1', description: 'Commander', isPlayable: 1 },
@@ -605,7 +605,7 @@ var data = {
           ],
         },
         {
-          sqmId: 494,
+          id: 494,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { description: 'Gunner', isPlayable: 1 },
@@ -615,7 +615,7 @@ var data = {
           ],
         },
         {
-          sqmId: 495,
+          id: 495,
           type: 'B_crew_F',
           side: 'blufor',
           attrs: { description: 'Driver', isPlayable: 1 },
@@ -629,11 +629,11 @@ var data = {
       name: 'Sierra 1',
     },
     {
-      sqmId: 506,
+      id: 506,
       side: 'blufor',
       units: [
         {
-          sqmId: 507,
+          id: 507,
           type: 'B_Fighter_Pilot_F',
           side: 'blufor',
           attrs: { description: 'Pilot', isPlayable: 1 },

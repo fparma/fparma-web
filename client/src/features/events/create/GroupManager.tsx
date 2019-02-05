@@ -1,15 +1,24 @@
-import { Formik, FieldArray } from 'formik'
-import { isEmpty, propOr } from 'ramda'
+import { Formik } from 'formik'
+import * as R from 'ramda'
 import * as React from 'react'
-import { Grid, Section, Title, Button, Icon, ICONS, Text } from '../../../ui'
+import styled from 'styled-components'
+import { Button, Grid, Icon, ICONS, Section, Text, Title } from '../../../ui'
 import { Colors } from '../../../util/Colors'
 import { ParsedGroups, Sides } from '../../../util/sqmTypes'
 import { GroupTiles } from './GroupTiles'
-import styled from 'styled-components'
 
 const BorderBottomTitle = styled(Title)`
   && {
     border-bottom: 1px solid;
+  }
+`
+
+const SideContainer = styled(Section)`
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  &&:not(:first-child) {
+    padding-top: 0.5rem;
   }
 `
 
@@ -18,7 +27,9 @@ interface Props {
   onReset: () => void
 }
 
+const getGroupCount = (values: ParsedGroups, side: Sides) => R.pathOr(0, [side, 'length'], values)
 const ORDER = [Sides.BLUFOR, Sides.OPFOR, Sides.INDEPENDENT, Sides.CIVILIAN]
+
 export default class GroupManager extends React.PureComponent<Props> {
   render() {
     const { data, onReset } = this.props
@@ -26,10 +37,13 @@ export default class GroupManager extends React.PureComponent<Props> {
 
     return (
       <React.Fragment>
-        <Button isRounded isMedium onClick={onReset}>
-          <Icon icon={ICONS.faRedo} />
-          <Text>Reset</Text>
-        </Button>
+        <Grid.Column>
+          <Button isRounded isPulledRight onClick={onReset}>
+            <Icon icon={ICONS.faRedo} />
+            <Text>Reset</Text>
+          </Button>
+        </Grid.Column>
+
         <Formik initialValues={data} onSubmit={() => {}} validateOnBlur={true} validateOnChange={false}>
           {({
             values,
@@ -43,11 +57,13 @@ export default class GroupManager extends React.PureComponent<Props> {
             handleReset,
             setFieldValue,
           }) => {
-            return ORDER.map(side => {
+            return ORDER.map((side, index) => {
               return (
-                <Section key={side}>
+                <SideContainer key={side}>
                   {/* <textarea style={{ width: '100%' }} readOnly value={JSON.stringify(values)} /> */}
-                  <BorderBottomTitle style={{ color: Colors.Sides[side] }}>{side.toUpperCase()}</BorderBottomTitle>
+                  <BorderBottomTitle style={{ color: Colors.Sides[side] }}>
+                    {side.toUpperCase()} ({getGroupCount(values, side)})
+                  </BorderBottomTitle>
                   <Grid.Container isMultiline>
                     <GroupTiles
                       groups={values[side]}
@@ -56,7 +72,7 @@ export default class GroupManager extends React.PureComponent<Props> {
                       handleChange={handleChange}
                     />
                   </Grid.Container>
-                </Section>
+                </SideContainer>
               )
             })
           }}
