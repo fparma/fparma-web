@@ -17,6 +17,7 @@ import {
   Tile,
   Timepicker,
 } from '../../../ui'
+import { BackgroundImage } from './BackgroundImage'
 
 type FormikSetValue = (arg: string, value: string) => void
 
@@ -218,6 +219,9 @@ export default class EventInformation extends React.PureComponent<
                         {hasError('image') && <Text isWarning>{errors.image}</Text>}
                       </Grid.Column>
                     </Grid.Container>
+                  </Grid.Column>
+                  <Grid.Column sizeFullhd={7} sizeDesktop={6}>
+                    <BackgroundImage url={values.image as string} />
                   </Grid.Column>
                 </Grid.Container>
 
