@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import { Field, Icon, ICONS, Input } from '../../../ui'
 import { generateId } from '../../../util/generateId'
 import { Sides, Unit } from '../../../util/sqmTypes'
+import { createUnit } from './utils'
 
 interface Props {
   units: Unit[]
+  side: Sides
   formikKey: string
   handleChange: any
   handleBlur: any
@@ -48,15 +50,11 @@ const UnitField = styled.div`
 
 export class GroupUnits extends React.PureComponent<Props> {
   addUnit = (helpers: ArrayHelpers) => () => {
-    helpers.push({
-      id: generateId(),
-      side: Sides.BLUFOR,
-      attrs: { description: '' },
-      type: '',
-    } as Unit)
+    helpers.push(createUnit(this.props.side))
   }
 
   removeUnit = (helpers: ArrayHelpers) => () => {
+    if (this.props.units.length <= 1) return
     helpers.pop()
   }
 

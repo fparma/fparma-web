@@ -14,11 +14,10 @@ const BorderBottomTitle = styled(Title)`
 `
 
 const SideContainer = styled(Section)`
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0;
-  &&:not(:first-child) {
-    padding-top: 0.5rem;
+  && {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1rem;
   }
 `
 
@@ -67,6 +66,7 @@ export default class GroupManager extends React.PureComponent<Props> {
                   <Grid.Container isMultiline>
                     <GroupTiles
                       groups={values[side]}
+                      side={side}
                       formikKey={side}
                       handleBlur={handleBlur}
                       handleChange={handleChange}

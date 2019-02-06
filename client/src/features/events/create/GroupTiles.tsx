@@ -5,6 +5,7 @@ import { Button, Field, Grid, Icon, ICONS, Input, Text, Tile } from '../../../ui
 import { generateId } from '../../../util/generateId'
 import { Group, Sides } from '../../../util/sqmTypes'
 import { GroupUnits } from './GroupUnits'
+import { createGroup } from './utils'
 
 const RowContainer = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const StretchedTile = styled(Tile)`
 
 interface Props {
   groups: Group[]
+  side: Sides
   formikKey: string
   handleChange: any
   handleBlur: any
@@ -44,16 +46,11 @@ export class GroupTiles extends React.PureComponent<Props> {
   }
 
   createGroup = (helpers: ArrayHelpers) => () => {
-    helpers.push({
-      id: generateId(),
-      side: Sides[this.props.formikKey],
-      name: '',
-      units: [],
-    } as Group)
+    helpers.push(createGroup(this.props.side, 2))
   }
 
   renderGroup = (helpers: ArrayHelpers) => (group: Group, index: number) => {
-    const { formikKey, handleBlur, handleChange } = this.props
+    const { side, formikKey, handleBlur, handleChange } = this.props
     const groupKey = `${formikKey}[${index}]`
     return (
       <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
@@ -82,6 +79,7 @@ export class GroupTiles extends React.PureComponent<Props> {
           </Field.Container>
           <GroupUnits
             units={group.units}
+            side={side}
             formikKey={`${groupKey}.units`}
             handleChange={handleChange}
             handleBlur={handleBlur}
