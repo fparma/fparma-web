@@ -1,8 +1,8 @@
 import { ArrayHelpers, FieldArray } from 'formik'
 import React from 'react'
 import styled from 'styled-components'
+import * as yup from 'yup'
 import { Button, Field, Grid, Icon, ICONS, Input, Text, Tile } from '../../../ui'
-import { generateId } from '../../../util/generateId'
 import { Group, Sides } from '../../../util/sqmTypes'
 import { GroupUnits } from './GroupUnits'
 import { createGroup } from './utils'
@@ -38,7 +38,14 @@ interface Props {
   formikKey: string
   handleChange: any
   handleBlur: any
+  hasError: (key: string, field: string) => undefined | string
 }
+
+yup
+  .string()
+  .required('Required')
+  .min(2, 'Too short!')
+  .max(48, 'Too long!')
 
 export class GroupTiles extends React.PureComponent<Props> {
   static defaultProps = {
@@ -50,8 +57,10 @@ export class GroupTiles extends React.PureComponent<Props> {
   }
 
   renderGroup = (helpers: ArrayHelpers) => (group: Group, index: number) => {
-    const { side, formikKey, handleBlur, handleChange } = this.props
+    const { side, formikKey, handleBlur, handleChange, hasError } = this.props
     const groupKey = `${formikKey}[${index}]`
+    const nameError = hasError(groupKey, 'name')
+
     return (
       <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
         <StretchedTile isBox isVertical hasShadow>
@@ -67,7 +76,7 @@ export class GroupTiles extends React.PureComponent<Props> {
                 </Clickable>
               </IconContainer>
             </RowContainer>
-            <Field.Control isFullWidth>
+            <Field.Control isFullWidth isError={Boolean(nameError)}>
               <Input
                 name={`${groupKey}.name`}
                 placeholder="E.g Alpha"
@@ -75,6 +84,7 @@ export class GroupTiles extends React.PureComponent<Props> {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
+              {Boolean(nameError) && <Text isWarning>{nameError}</Text>}
             </Field.Control>
           </Field.Container>
           <GroupUnits

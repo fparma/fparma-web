@@ -1,10 +1,11 @@
-import { Formik } from 'formik'
+import { Formik, getIn } from 'formik'
 import * as R from 'ramda'
 import * as React from 'react'
 import styled from 'styled-components'
+import * as yup from 'yup'
 import { Button, Grid, Icon, ICONS, Section, Text, Title } from '../../../ui'
 import { Colors } from '../../../util/Colors'
-import { ParsedGroups, Sides } from '../../../util/sqmTypes'
+import { Group, ParsedGroups, Sides } from '../../../util/sqmTypes'
 import { GroupTiles } from './GroupTiles'
 
 const BorderBottomTitle = styled(Title)`
@@ -29,6 +30,25 @@ interface Props {
 const getGroupCount = (values: ParsedGroups, side: Sides) => R.pathOr(0, [side, 'length'], values)
 const ORDER = [Sides.BLUFOR, Sides.OPFOR, Sides.INDEPENDENT, Sides.CIVILIAN]
 
+type KeysAsGroups = { [K in keyof Group]: any }
+
+const schema = yup.object().shape({
+  [Sides.BLUFOR]: yup.array().of(
+    yup
+      .object()
+      .shape({
+        name: yup
+          .string()
+          .required('Required')
+          .min(2, 'Too short!')
+          .max(48, 'Too long!'),
+
+        side: yup.string(),
+      } as KeysAsGroups)
+      .noUnknown()
+  ),
+})
+
 export default class GroupManager extends React.PureComponent<Props> {
   render() {
     const { data, onReset } = this.props
@@ -43,7 +63,7 @@ export default class GroupManager extends React.PureComponent<Props> {
           </Button>
         </Grid.Column>
 
-        <Formik initialValues={data} onSubmit={() => {}} validateOnBlur={true} validateOnChange={false}>
+        <Formik initialValues={data} onSubmit={() => {}} validateOnBlur={true}>
           {({
             values,
             touched,
@@ -56,6 +76,7 @@ export default class GroupManager extends React.PureComponent<Props> {
             handleReset,
             setFieldValue,
           }) => {
+            const hasError = (key: string, field: string) => getIn(errors, `${key}.${field}`)
             return ORDER.map((side, index) => {
               return (
                 <SideContainer key={side}>
@@ -70,6 +91,7 @@ export default class GroupManager extends React.PureComponent<Props> {
                       formikKey={side}
                       handleBlur={handleBlur}
                       handleChange={handleChange}
+                      hasError={hasError}
                     />
                   </Grid.Container>
                 </SideContainer>
