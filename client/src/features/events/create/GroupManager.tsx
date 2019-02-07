@@ -7,6 +7,7 @@ import { Button, Grid, Icon, ICONS, Section, Text, Title } from '../../../ui'
 import { Colors } from '../../../util/Colors'
 import { Group, ParsedGroups, Sides } from '../../../util/sqmTypes'
 import { GroupTiles } from './GroupTiles'
+import { SlotsManager } from './slots'
 
 const BorderBottomTitle = styled(Title)`
   && {
@@ -53,6 +54,8 @@ export default class GroupManager extends React.PureComponent<Props> {
   render() {
     const { data, onReset } = this.props
     if (!data) return null
+
+    return <SlotsManager data={data} />
 
     return (
       <React.Fragment>
