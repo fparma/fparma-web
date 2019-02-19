@@ -1,7 +1,8 @@
+import * as R from 'ramda'
 import React from 'react'
-import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
-import { Grid, Field, Icon, ICONS, Input, Tile } from '../../../../ui'
 import styled from 'styled-components'
+import { Field, Grid, Icon, ICONS, Input, Tile } from '../../../../ui'
+import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
 import { Unit } from './Unit'
 
 const UnitButtonContainer = styled.div`
@@ -45,56 +46,60 @@ const StretchedTile = styled(Tile)`
   height: 100%;
 `
 
+const countUnits = R.pipe(
+  R.length,
+  R.defaultTo(0)
+)
+
 interface Props {
   group: TypeGroup
   side: Sides
+  handleChange: any
 }
 
 export class Group extends React.PureComponent<Props> {
   render() {
     const { group } = this.props
     return (
-      <React.Fragment>
-        <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
-          <StretchedTile isBox isVertical hasShadow>
-            <Field.Container>
-              <RowContainer>
-                <Field.Label>Group name</Field.Label>
-                <IconContainer>
-                  <Clickable onClick={console.log}>
-                    <Icon icon={ICONS.faArrowsAlt} />
-                  </Clickable>
-                  <Clickable onClick={console.log}>
-                    <Icon icon={ICONS.faCloseX} />
-                  </Clickable>
-                </IconContainer>
-              </RowContainer>
-              <Field.Control isFullWidth>
-                <Input
-                  name={``}
-                  placeholder="E.g Alpha"
-                  value={group.name}
-                  // onChange={handleChange}
-                  // onBlur={handleBlur}
-                />
-                {/* {Boolean(nameError) && <Text isWarning>{nameError}</Text>} */}
-              </Field.Control>
-            </Field.Container>
-            <Container>
-              <Field.Label>Units (0)</Field.Label>
-              <UnitButtonContainer>
+      <Grid.Column sizeDesktop={3} sizeTablet={6}>
+        <StretchedTile isBox isVertical hasShadow>
+          <Field.Container>
+            <RowContainer>
+              <Field.Label>Group name</Field.Label>
+              <IconContainer>
                 <Clickable onClick={console.log}>
-                  <Icon icon={ICONS.faUserPlus} />
+                  <Icon icon={ICONS.faArrowsAlt} />
                 </Clickable>
                 <Clickable onClick={console.log}>
-                  <Icon icon={ICONS.faUserMinus} />
+                  <Icon icon={ICONS.faCloseX} />
                 </Clickable>
-              </UnitButtonContainer>
-            </Container>
-            {Array.isArray(group.units) && group.units.map((unit, index) => <Unit key={unit.id} unit={unit} />)}
-          </StretchedTile>
-        </Grid.Column>
-      </React.Fragment>
+              </IconContainer>
+            </RowContainer>
+            <Field.Control isFullWidth>
+              <Input
+                name={``}
+                placeholder="E.g Alpha"
+                value={group.name}
+                // onChange={handleChange}
+                // onBlur={handleBlur}
+              />
+              {/* {Boolean(nameError) && <Text isWarning>{nameError}</Text>} */}
+            </Field.Control>
+          </Field.Container>
+          <Container>
+            <Field.Label>Units ({countUnits(group.units)})</Field.Label>
+            <UnitButtonContainer>
+              <Clickable onClick={console.log}>
+                <Icon icon={ICONS.faUserPlus} />
+              </Clickable>
+              <Clickable onClick={console.log}>
+                <Icon icon={ICONS.faUserMinus} />
+              </Clickable>
+            </UnitButtonContainer>
+          </Container>
+          {Array.isArray(group.units) && group.units.map((unit, index) => <Unit key={unit.id} unit={unit} />)}
+        </StretchedTile>
+      </Grid.Column>
     )
   }
 }

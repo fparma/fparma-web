@@ -1,10 +1,10 @@
+import * as R from 'ramda'
 import React from 'react'
+import styled from 'styled-components'
+import { Button, Grid, Icon, ICONS, Section, Text, Title } from '../../../../ui'
+import { Colors } from '../../../../util/Colors'
 import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
 import { Group } from './Group'
-import styled from 'styled-components'
-import { Section, Title, Grid, Button, Icon, ICONS, Text } from '../../../../ui'
-import { Colors } from '../../../../util/Colors'
-import * as R from 'ramda'
 
 const SideContainer = styled(Section)`
   && {
@@ -19,15 +19,23 @@ const BorderBottomTitle = styled(Title)`
     border-bottom: 1px solid;
   }
 `
-const getGroupCount = (groups: TypeGroup[], side: Sides) => R.pathOr(0, ['length'], groups)
+const countGroup = R.pipe(
+  R.length,
+  R.defaultTo(0)
+)
 
 interface Props {
   groups: TypeGroup[]
   side: Sides
+  handleChange: any
 }
 
 export class Side extends React.PureComponent<Props> {
   static defaultProps: Partial<Props> = { groups: [] }
+
+  renderGroup = group => (
+    <Group key={group.id} group={group} side={this.props.side} handleChange={this.props.handleChange} />
+  )
 
   render() {
     const { groups, side } = this.props
@@ -35,19 +43,17 @@ export class Side extends React.PureComponent<Props> {
     return (
       <SideContainer>
         <BorderBottomTitle style={{ color: Colors.Sides[side] }}>
-          {side.toUpperCase()} ({getGroupCount(groups, side)})
+          {side.toUpperCase()} ({countGroup(groups)})
         </BorderBottomTitle>
         <Grid.Container isMultiline>
-          {groups.map((group, index) => (
-            <Group key={group.id} group={group} side={side} />
-          ))}
+          {groups.map(this.renderGroup)}
+          <Grid.Column sizeDesktop={3} sizeTablet={6}>
+            <Button isFullwidth onClick={console.log}>
+              <Icon icon={ICONS.faUserFriends} />
+              <Text>Add group</Text>
+            </Button>
+          </Grid.Column>
         </Grid.Container>
-        <Grid.Column sizeDesktop={3} sizeTablet={6}>
-          <Button isFullwidth onClick={console.log}>
-            <Icon icon={ICONS.faUserFriends} />
-            <Text>Add group</Text>
-          </Button>
-        </Grid.Column>
       </SideContainer>
     )
   }

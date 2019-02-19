@@ -1,7 +1,7 @@
 import React from 'react'
+import { Button, Grid, Icon, ICONS, Text } from '../../../../ui'
 import { ParsedGroups, Sides } from '../../../../util/sqmTypes'
 import { Side } from './Side'
-import { Grid, Button, Icon, ICONS, Text } from '../../../../ui'
 
 interface Props {
   data: ParsedGroups
@@ -18,9 +18,12 @@ export class SlotsManager extends React.PureComponent<Props, State> {
     this.setState({ values: { ...data } })
   }
 
+  handleChange = e => {
+    console.log(e)
+  }
+
   render() {
     const { values } = this.state
-    console.log(values)
     return (
       <React.Fragment>
         <Grid.Column>
@@ -29,7 +32,7 @@ export class SlotsManager extends React.PureComponent<Props, State> {
             <Text>Reset</Text>
           </Button>
         </Grid.Column>
-        <Side groups={values.blufor} side={Sides.BLUFOR} />
+        <Side groups={values.blufor} side={Sides.BLUFOR} handleChange={this.handleChange} />
         <Side groups={values.opfor} side={Sides.OPFOR} />
         <Side groups={values.independent} side={Sides.INDEPENDENT} />
         <Side groups={values.civilian} side={Sides.CIVILIAN} />

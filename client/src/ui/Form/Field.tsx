@@ -15,10 +15,12 @@ const Error = styled(Icon)`
   color: rgba(255, 30, 15, 0.8);
 `
 
+const ControlContainer = styled.div``
+
 const FieldContainer: React.SFC = ({ children }) => <div className="field">{children}</div>
 const FieldLabel: React.SFC = ({ children }) => <label className="label">{children}</label>
 const FieldControl: React.SFC<IFieldProps> = ({ isError, iconLeft, iconRight, isFullWidth, children }) => (
-  <div
+  <ControlContainer
     className={classnames('control', {
       'has-icons-left': !!iconLeft,
       'has-icons-right': isError || !!iconRight,
@@ -29,7 +31,7 @@ const FieldControl: React.SFC<IFieldProps> = ({ isError, iconLeft, iconRight, is
     {iconLeft && React.cloneElement(iconLeft, { className: 'is-small is-left' })}
     {isError && <Error className="is-small is-right" icon={ICONS.faExclamationTriangle} />}
     {!isError && iconRight && React.cloneElement(iconRight, { className: 'is-small is-right' })}
-  </div>
+  </ControlContainer>
 )
 
 export class Field extends React.PureComponent<IFieldProps> {
