@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Container, ICONS, Tab, Tabs, Title } from '../../../ui'
 import { ParsedGroups } from '../../../util/sqmTypes'
 import EventInformation from './EventInformation'
-import GroupManager from './GroupManager'
+import Slots from './slots'
 import SelectSlotInput from './SelectSlotInput'
 
 export class EventCreate extends React.PureComponent {
@@ -40,7 +40,7 @@ export class EventCreate extends React.PureComponent {
             <SelectSlotInput onSlotInput={this.onInputSelection} />
           </Container>
           <Container hidden={Boolean(!this.state.groups)}>
-            <GroupManager data={(this.state.groups as unknown) as ParsedGroups} onReset={this.onReset} />
+            <Slots initalGroups={(this.state.groups as unknown) as ParsedGroups} onReset={this.onReset} />
           </Container>
         </Container>
       </React.Fragment>

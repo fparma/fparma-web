@@ -45,6 +45,8 @@ const classes = (className: string | undefined, props: IButtonProps) =>
     className
   )
 
+export const Buttons = props => <div className="buttons">{props.children}</div>
+
 export const Button: React.SFC<IButtonProps> = ({ href, type, className, disabled, onClick, children, ...props }) => {
   return href ? (
     <a className={classes(className, props)} href={href} onClick={onClick as any}>
