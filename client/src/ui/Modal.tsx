@@ -49,10 +49,8 @@ export class Modal extends React.PureComponent<IModalProps> {
   static CardFooter = ModalCardFoot
 
   render() {
-    const { isActive } = this.props
-
     const className = classnames('modal', {
-      'is-active': isActive,
+      'is-active': this.props.isActive,
     })
 
     return <div className={className}>{this.props.children}</div>

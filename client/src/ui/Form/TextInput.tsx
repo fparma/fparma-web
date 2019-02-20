@@ -4,6 +4,7 @@ import { classnames } from '../utils'
 
 interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   className?: string
+  isSmall?: boolean
   isError?: boolean
 }
 
@@ -18,6 +19,7 @@ const StyledInput = input`
 export const Input: React.SFC<Props> = ({
   name,
   isError,
+  isSmall,
   ref,
   type = 'text',
   className,
@@ -27,7 +29,7 @@ export const Input: React.SFC<Props> = ({
   <StyledInput
     type={type}
     name={name}
-    className={classnames('input', className, { 'is-danger': isError })}
+    className={classnames('input', className, { 'is-danger': isError, 'is-small': isSmall })}
     autoComplete={autoComplete}
     {...rest}
   />
