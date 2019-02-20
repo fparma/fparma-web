@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { Buttons, Button, Grid, Icon, ICONS, Section, Text, Title, Tile, SubTitle, Modal } from '../../../../ui'
+import { Button, Buttons, Grid, Icon, ICONS, Section, Text, Tile, Title } from '../../../../ui'
 import { Colors } from '../../../../util/Colors'
 import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
 import EditGroup from './EditGroup'
@@ -24,10 +24,19 @@ const BorderBottomTitle = styled(Title)`
   }
 `
 
+const GroupTitle = styled(Title)`
+  &&& {
+    margin: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+`
+
 const TextIconContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0;
 `
 
 const lengthOf = R.pipe(
@@ -53,9 +62,8 @@ export class Side extends React.PureComponent<Props, State> {
   renderGroup = (group: TypeGroup) => (
     <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
       <StretchedTile isBox isVertical hasShadow>
-        <Title size={4}>{group.name}</Title>
         <TextIconContainer>
-          <Text size={5}>{group.units.length} slots</Text>
+          <GroupTitle size={5}>{group.name}</GroupTitle>
           <Buttons>
             <Button isSmall onClick={this.editGroup(group)}>
               <Icon icon={ICONS.faPencilAlt} />
@@ -65,19 +73,27 @@ export class Side extends React.PureComponent<Props, State> {
             </Button>
           </Buttons>
         </TextIconContainer>
+        {group.units.map((unit, index) => (
+          <Text key={unit.id} isParagraph>
+            {index + 1}. {unit.attrs.description}
+          </Text>
+        ))}
       </StretchedTile>
     </Grid.Column>
   )
 
-  editGroup = group => () => this.setState({ groupBeingEdited: group })
+  editGroup = group => () => this.setState({ groupBeingEdited: { ...group } })
   clearEditGroup = () => this.setState({ groupBeingEdited: null })
 
   render() {
     const { groups, side } = this.props
+    const { groupBeingEdited } = this.state
 
     return (
       <React.Fragment>
-        <EditGroup group={this.state.groupBeingEdited} onSubmit={() => {}} onCancel={this.clearEditGroup} />
+        {groupBeingEdited && (
+          <EditGroup group={this.state.groupBeingEdited} onSubmit={() => {}} onCancel={this.clearEditGroup} />
+        )}
         <SideContainer>
           <BorderBottomTitle style={{ color: Colors.Sides[side] }}>
             {side.toUpperCase()} ({lengthOf(groups)} groups, {countAllSlots(groups)} slots)
