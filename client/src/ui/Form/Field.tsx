@@ -17,7 +17,13 @@ const Error = styled(Icon)`
 
 const ControlContainer = styled.div``
 
-const FieldContainer: React.SFC = ({ children }) => <div className="field">{children}</div>
+interface FieldContainerProps {
+  hasAddons?: boolean
+}
+const FieldContainer: React.SFC<FieldContainerProps> = ({ hasAddons, children }) => (
+  <div className={classnames('field', { 'has-addons': hasAddons })}>{children}</div>
+)
+
 const FieldLabel: React.SFC = ({ children }) => <label className="label">{children}</label>
 const FieldControl: React.SFC<IFieldProps> = ({ isError, iconLeft, iconRight, isFullWidth, children }) => (
   <ControlContainer

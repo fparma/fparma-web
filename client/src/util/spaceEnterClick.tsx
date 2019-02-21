@@ -1,2 +1,2 @@
-export const spaceEnterClick = (onClick?: () => void) => (e: React.KeyboardEvent<HTMLAnchorElement>) =>
+export const spaceEnterClick = (onClick?: () => void) => (e: React.KeyboardEvent<any>) =>
   onClick && ~[' ', 'Enter'].indexOf(e.key) && onClick()

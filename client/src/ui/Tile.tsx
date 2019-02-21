@@ -26,9 +26,8 @@ export const Tile: React.SFC<Props> = ({
   onClick,
   hasShadow,
 }) => {
-  const Type = (onClick ? 'a' : 'div') as any
   return (
-    <Type
+    <div
       className={classnames('tile', className, {
         [`is-${size}`]: !!size,
         box: isBox,
@@ -43,6 +42,6 @@ export const Tile: React.SFC<Props> = ({
       onKeyDown={spaceEnterClick(onClick)}
     >
       {children}
-    </Type>
+    </div>
   )
 }

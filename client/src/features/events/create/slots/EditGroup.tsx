@@ -8,6 +8,16 @@ const CenteredButtons = styled(Buttons)`
   margin: auto;
 `
 
+const InputContainer = styled.div`
+  flex-direction: row;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  .control {
+    flex: 1;
+  }
+`
+
 interface Props {
   group: Group | null
   onSubmit: (group: Group) => void
@@ -30,10 +40,10 @@ export default class EditGroup extends React.PureComponent<Props, State> {
         </Field>
       </Grid.Column>
       <Grid.Column>
-        <Field.Label>Slots</Field.Label>
+        <Field.Label>Slots ({values.units.length})</Field.Label>
         {values.units.map((unit, index) => (
-          <Field.Container key={unit.id}>
-            <Text isParagraph className="control has-icons-left has-icons-right">
+          <Field.Container key={unit.id} hasAddons>
+            <Field.Control isFullWidth>
               <Input
                 isSmall
                 name={`units.${index}.attrs.description`}
@@ -42,10 +52,16 @@ export default class EditGroup extends React.PureComponent<Props, State> {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <Text className="icon is-small is-left">{index + 1}.</Text>
-            </Text>
+            </Field.Control>
+            <Button isSmall>
+              <Icon isError icon={ICONS.faCloseX} />
+            </Button>
           </Field.Container>
         ))}
+        <Button isSmall isFullwidth>
+          <Icon icon={ICONS.faUserPlus} />
+          <Text>Add slot</Text>
+        </Button>
       </Grid.Column>
     </Grid.Container>
   )

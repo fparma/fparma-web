@@ -18,8 +18,8 @@ $navbar-item-hover-background-color: transparent;
 
 $label-color: $subtitle-color;
 
-$modal-card-head-background-color: $body-background-color;
-$modal-card-body-background-color: $body-background-color;
+$modal-card-head-background-color: $grey-darker;
+$modal-card-body-background-color: $black-ter;
 $modal-card-title-color: $text;
 
 $tabs-link-color: $white;
@@ -27,9 +27,7 @@ $tabs-link-hover-color: $white;
 $tabs-link-hover-border-bottom-color: $white;
 $tabs-boxed-link-hover-background-color: $black-bis;
 
-$box-color: $text;
 $box-background-color: $black-ter;
 
-html a:hover {
-  color: $link-color;
-}
+$input-color: $white;
+$input-background-color: rgba(120, 100, 100, 0.1);

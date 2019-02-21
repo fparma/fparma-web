@@ -1,13 +1,37 @@
 import * as R from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Buttons, Grid, Icon, ICONS, Section, Text, Tile, Title } from '../../../../ui'
+import { Button, Grid, Icon, ICONS, Section, Text, Tile, Title } from '../../../../ui'
 import { Colors } from '../../../../util/Colors'
 import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
 import EditGroup from './EditGroup'
 
 const StretchedTile = styled(Tile)`
-  height: 100%;
+  && {
+    position: relative;
+    height: 100%;
+  }
+
+  &&:hover .cover {
+    opacity: 1;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .cover {
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
 `
 
 const SideContainer = styled(Section)`
@@ -26,17 +50,8 @@ const BorderBottomTitle = styled(Title)`
 
 const GroupTitle = styled(Title)`
   &&& {
-    margin: 0;
-    flex: 1;
     overflow-wrap: anywhere;
   }
-`
-
-const TextIconContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
 `
 
 const lengthOf = R.pipe(
@@ -61,23 +76,16 @@ export class Side extends React.PureComponent<Props, State> {
 
   renderGroup = (group: TypeGroup) => (
     <Grid.Column key={group.id} sizeDesktop={3} sizeTablet={6}>
-      <StretchedTile isBox isVertical hasShadow>
-        <TextIconContainer>
-          <GroupTitle size={5}>{group.name}</GroupTitle>
-          <Buttons>
-            <Button isSmall onClick={this.editGroup(group)}>
-              <Icon icon={ICONS.faPencilAlt} />
-            </Button>
-            <Button isSmall isStatic>
-              <Icon icon={ICONS.faArrowsAlt} />
-            </Button>
-          </Buttons>
-        </TextIconContainer>
+      <StretchedTile isBox isVertical hasShadow onClick={this.editGroup(group)}>
+        <GroupTitle>{group.name}</GroupTitle>
         {group.units.map((unit, index) => (
-          <Text key={unit.id} isParagraph>
+          <Text key={unit.id} isParagraph size={5}>
             {index + 1}. {unit.attrs.description}
           </Text>
         ))}
+        <div className="cover">
+          <Icon icon={ICONS.faPencilAlt} size="4x" />
+        </div>
       </StretchedTile>
     </Grid.Column>
   )

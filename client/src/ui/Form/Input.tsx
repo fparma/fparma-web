@@ -11,9 +11,6 @@ interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLIn
 const input: StyledFunction<Partial<Props>> = styled.input
 
 const StyledInput = input`
-  && ::placeholder { 
-    color: red !important;
-  }
 `
 
 export const Input: React.SFC<Props> = ({
