@@ -64,6 +64,7 @@ const countAllSlots = groups => groups.reduce((acc, group) => acc + lengthOf(gro
 interface Props {
   groups: TypeGroup[]
   side: Sides
+  onGroupUpdate: (group: TypeGroup) => void
 }
 
 interface State {
@@ -92,6 +93,10 @@ export class Side extends React.PureComponent<Props, State> {
 
   editGroup = group => () => this.setState({ groupBeingEdited: { ...group } })
   clearEditGroup = () => this.setState({ groupBeingEdited: null })
+  onGroupUpdate = (group: TypeGroup) => {
+    this.props.onGroupUpdate(group)
+    this.clearEditGroup()
+  }
 
   render() {
     const { groups, side } = this.props
@@ -100,7 +105,7 @@ export class Side extends React.PureComponent<Props, State> {
     return (
       <React.Fragment>
         {groupBeingEdited && (
-          <EditGroup group={this.state.groupBeingEdited} onSubmit={() => {}} onCancel={this.clearEditGroup} />
+          <EditGroup group={this.state.groupBeingEdited} onSubmit={this.onGroupUpdate} onCancel={this.clearEditGroup} />
         )}
         <SideContainer>
           <BorderBottomTitle style={{ color: Colors.Sides[side] }}>

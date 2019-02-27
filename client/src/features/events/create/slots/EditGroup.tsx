@@ -1,8 +1,9 @@
-import { Formik } from 'formik'
+import { ArrayHelpers, FieldArray, Formik } from 'formik'
 import * as React from 'react'
 import styled from 'styled-components'
 import { Button, Buttons, Field, Grid, Icon, ICONS, Input, Modal, Text, TextArea, Title } from '../../../../ui'
 import { Group } from '../../../../util/sqmTypes'
+import { createUnit } from '../utils'
 
 const CenteredButtons = styled(Buttons)`
   margin: auto;
@@ -41,33 +42,43 @@ export default class EditGroup extends React.PureComponent<Props, State> {
       </Grid.Column>
       <Grid.Column>
         <Field.Label>Slots ({values.units.length})</Field.Label>
-        {values.units.map((unit, index) => (
-          <Field.Container key={unit.id} hasAddons>
-            <Field.Control isFullWidth>
-              <Input
-                isSmall
-                name={`units.${index}.attrs.description`}
-                placeholder="Slot description"
-                value={unit.attrs.description}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Field.Control>
-            <Button isSmall>
-              <Icon isError icon={ICONS.faCloseX} />
-            </Button>
-          </Field.Container>
-        ))}
-        <Button isSmall isFullwidth>
-          <Icon icon={ICONS.faUserPlus} />
-          <Text>Add slot</Text>
-        </Button>
+        <FieldArray
+          name="units"
+          render={(helpers: ArrayHelpers) => (
+            <React.Fragment>
+              {values.units.map((unit, index) => (
+                <Field.Container key={unit.id} hasAddons>
+                  <Field.Control isFullWidth>
+                    <Input
+                      isSmall
+                      name={`units.${index}.attrs.description`}
+                      placeholder="Slot description"
+                      value={unit.attrs.description}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </Field.Control>
+                  {values.units.length > 1 && (
+                    <Button isSmall onClick={() => helpers.remove(index)}>
+                      <Icon isError icon={ICONS.faCloseX} />
+                    </Button>
+                  )}
+                </Field.Container>
+              ))}
+              <Button isSmall isFullwidth onClick={() => helpers.push(createUnit(values.side))}>
+                <Icon icon={ICONS.faUserPlus} />
+                <Text>Add slot</Text>
+              </Button>
+            </React.Fragment>
+          )}
+        />
       </Grid.Column>
     </Grid.Container>
   )
 
   render() {
     const { group, onSubmit, onCancel } = this.props
+    console.log(this.props)
     if (!group) return null
 
     return (
@@ -97,7 +108,7 @@ export default class EditGroup extends React.PureComponent<Props, State> {
                     <Icon icon={ICONS.faCloseX} />
                     <Text>Cancel</Text>
                   </Button>
-                  <Button>
+                  <Button onClick={() => onSubmit(values)}>
                     <Icon icon={ICONS.faCheckCircle} />
                     <Text>Done</Text>
                   </Button>

@@ -1,16 +1,17 @@
 import * as React from 'react'
-import { ParsedGroups, Sides } from '../../../../util/sqmTypes'
-import { Grid, Button, Text, Icon, ICONS } from '../../../../ui'
+import { Button, Grid, Icon, ICONS, Text } from '../../../../ui'
+import { Group, ParsedGroups, Sides } from '../../../../util/sqmTypes'
 import { Side } from './Side'
 
 interface Props {
   initalGroups: ParsedGroups
   onReset: () => void
+  onGroupUpdate: (group: Group) => void
 }
 
 export default class Slots extends React.PureComponent<Props> {
   render() {
-    const { initalGroups } = this.props
+    const { initalGroups, onGroupUpdate } = this.props
     return (
       <React.Fragment>
         <Grid.Column>
@@ -19,7 +20,7 @@ export default class Slots extends React.PureComponent<Props> {
             <Text>Start over</Text>
           </Button>
         </Grid.Column>
-        <Side groups={initalGroups.blufor} side={Sides.BLUFOR} />
+        <Side groups={initalGroups.blufor} side={Sides.BLUFOR} onGroupUpdate={onGroupUpdate} />
       </React.Fragment>
     )
   }

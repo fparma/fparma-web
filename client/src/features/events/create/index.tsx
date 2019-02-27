@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Container, ICONS, Tab, Tabs, Title } from '../../../ui'
-import { ParsedGroups } from '../../../util/sqmTypes'
+import { Group, ParsedGroups } from '../../../util/sqmTypes'
 import EventInformation from './EventInformation'
-import Slots from './slots'
 import SelectSlotInput from './SelectSlotInput'
+import Slots from './slots'
 
 export class EventCreate extends React.PureComponent {
   state = { step: 1, groups: data }
@@ -19,6 +19,13 @@ export class EventCreate extends React.PureComponent {
   onReset = () => this.setState({ groups: null })
 
   onInputSelection = (groups: ParsedGroups) => this.setState({ groups })
+
+  onGroupUpdate = (group: Group) => {
+    const { id } = group
+    const { groups } = this.state
+    const newGroups = groups[group.side].map((grp: Group) => (grp.id === id ? group : grp))
+    this.setState({ groups: { ...groups, [group.side]: newGroups } })
+  }
 
   render() {
     return (
@@ -40,7 +47,11 @@ export class EventCreate extends React.PureComponent {
             <SelectSlotInput onSlotInput={this.onInputSelection} />
           </Container>
           <Container hidden={Boolean(!this.state.groups)}>
-            <Slots initalGroups={(this.state.groups as unknown) as ParsedGroups} onReset={this.onReset} />
+            <Slots
+              initalGroups={(this.state.groups as unknown) as ParsedGroups}
+              onReset={this.onReset}
+              onGroupUpdate={this.onGroupUpdate}
+            />
           </Container>
         </Container>
       </React.Fragment>
