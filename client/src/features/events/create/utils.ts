@@ -1,5 +1,5 @@
 import { generateId } from '../../../util/generateId'
-import { Sides, Unit, Group } from '../../../util/sqmTypes'
+import { Group, Sides, Unit } from '../../../util/sqmTypes'
 
 export const createUnit = (side: Sides) =>
   ({

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Button, Grid, Icon, ICONS, Section, Text, Tile, Title } from '../../../../ui'
 import { Colors } from '../../../../util/Colors'
 import { Group as TypeGroup, Sides } from '../../../../util/sqmTypes'
+import { createGroup } from '../utils'
 import EditGroup from './EditGroup'
 
 const StretchedTile = styled(Tile)`
@@ -65,6 +66,7 @@ interface Props {
   groups: TypeGroup[]
   side: Sides
   onGroupUpdate: (group: TypeGroup) => void
+  onAddGroup: (group: TypeGroup) => void
 }
 
 interface State {
@@ -92,14 +94,20 @@ export class Side extends React.PureComponent<Props, State> {
   )
 
   editGroup = group => () => this.setState({ groupBeingEdited: { ...group } })
+
   clearEditGroup = () => this.setState({ groupBeingEdited: null })
+
   onGroupUpdate = (group: TypeGroup) => {
     this.props.onGroupUpdate(group)
     this.clearEditGroup()
   }
 
+  onAddGroupClick = () => {
+    this.editGroup(createGroup(this.props.side, 4))()
+  }
+
   render() {
-    const { groups, side } = this.props
+    const { groups, side, onAddGroup } = this.props
     const { groupBeingEdited } = this.state
 
     return (
@@ -114,7 +122,7 @@ export class Side extends React.PureComponent<Props, State> {
           <Grid.Container isMultiline>
             {groups.map(this.renderGroup)}
             <Grid.Column sizeDesktop={3} sizeTablet={6}>
-              <Button isFullwidth onClick={console.log}>
+              <Button isFullwidth onClick={this.onAddGroupClick}>
                 <Icon icon={ICONS.faUserFriends} />
                 <Text>Add group</Text>
               </Button>

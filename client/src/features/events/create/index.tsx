@@ -22,8 +22,20 @@ export class EventCreate extends React.PureComponent {
 
   onGroupUpdate = (group: Group) => {
     const { id } = group
+    const { groups: stateGroups } = this.state
+    const sideGroups = stateGroups[group.side]
+
+    const newGroups = sideGroups.find(grp => grp.id === id)
+      ? sideGroups.map(grp => (grp.id === id ? group : grp))
+      : [...sideGroups, group]
+
+    this.setState({ groups: { ...sideGroups, [group.side]: newGroups } })
+  }
+
+  onRemoveGroup = (group: Group) => {
+    const { id } = group
     const { groups } = this.state
-    const newGroups = groups[group.side].map((grp: Group) => (grp.id === id ? group : grp))
+    const newGroups = groups[group.side].filter(grp => grp.id !== id)
     this.setState({ groups: { ...groups, [group.side]: newGroups } })
   }
 
@@ -51,6 +63,7 @@ export class EventCreate extends React.PureComponent {
               initalGroups={(this.state.groups as unknown) as ParsedGroups}
               onReset={this.onReset}
               onGroupUpdate={this.onGroupUpdate}
+              onRemoveGroup={this.onRemoveGroup}
             />
           </Container>
         </Container>

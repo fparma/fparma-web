@@ -7,6 +7,7 @@ interface Props {
   initalGroups: ParsedGroups
   onReset: () => void
   onGroupUpdate: (group: Group) => void
+  onRemoveGroup: (group: Group) => void
 }
 
 export default class Slots extends React.PureComponent<Props> {
@@ -20,7 +21,7 @@ export default class Slots extends React.PureComponent<Props> {
             <Text>Start over</Text>
           </Button>
         </Grid.Column>
-        <Side groups={initalGroups.blufor} side={Sides.BLUFOR} onGroupUpdate={onGroupUpdate} />
+        <Side side={Sides.BLUFOR} groups={initalGroups.blufor} onGroupUpdate={onGroupUpdate} />
       </React.Fragment>
     )
   }
