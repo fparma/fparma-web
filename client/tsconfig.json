@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "lib": ["esnext", "dom"],
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -12,12 +17,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "alwaysStrict": false,
-    "strictFunctionTypes": false,
-    "strictPropertyInitialization": false,
-    "skipLibCheck": false,
-    "noImplicitAny": false
+    "jsx": "preserve"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
