@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import Header from './features/header'
+import { ThemeProvider } from 'styled-components'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload. Woo
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const theme = {
+  fontSizes: [12, 14, 16, 24, 32, 48, 64],
+  colors: {
+    primary: 'red',
+  },
+  buttons: {
+    primary: {
+      color: 'red',
+    },
+  },
 }
 
-export default App;
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <Header />
+  </ThemeProvider>
+)
+
+export default App
