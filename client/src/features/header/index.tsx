@@ -1,29 +1,28 @@
+import { Button } from '@material-ui/core'
 import React from 'react'
-import { Flex, Link, Button } from 'rebass'
-import styled from 'styled-components'
-import ShadowContainer from './ShadowBackground'
+import { Grid, Text } from '../components'
+import ShadowBackground from './ShadowBackground'
 
-const Home = styled(Link)`
-  text-decoration: none;
-  font-weight: 700;
-`
+const styles = {
+  container: {
+    height: '100%',
+    padding: '0 5%',
+  },
+}
 
 const Header = () => (
-  <ShadowContainer>
-    <Flex width={'100%'} pl={[4, 20, 40]} pr={[4, 20, 40]} justifyContent={'space-between'}>
-      <Home fontSize={32} m={0} flex={1} alignSelf={'center'} color={'inherit'} href={'/'}>
-        FPARMA
-      </Home>
-      <Flex flex={3} justifyContent={'center'}>
-        <Link alignSelf={'center'}>Test</Link>
-      </Flex>
-      <Flex flex={1} flexDirection={'column'} justifyContent={'center'}>
-        <Button alignSelf={'center'} fontSize={32} m={0} color={'inherit'} href={'/'}>
+  <ShadowBackground>
+    <Grid container alignItems="center" justify="space-between" style={styles.container} spacing={8}>
+      <Grid item>
+        <Text.H4>FPARMA</Text.H4>
+      </Grid>
+      <Grid item>
+        <Button disableRipple variant="outlined">
           Login
         </Button>
-      </Flex>
-    </Flex>
-  </ShadowContainer>
+      </Grid>
+    </Grid>
+  </ShadowBackground>
 )
 
 export default Header

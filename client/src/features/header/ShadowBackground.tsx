@@ -1,8 +1,6 @@
-import React from 'react'
-import { Box, Flex, Heading } from 'rebass'
 import styled from 'styled-components'
 
-const ShadowContainer = styled(Flex)`
+const ShadowContainer = styled.div`
   height: 80px;
   border-bottom: 1px solid rgba(225, 255, 255, 0.4);
 
