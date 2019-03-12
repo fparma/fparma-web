@@ -1,28 +1,35 @@
-import { Button } from '@material-ui/core'
+import { Toolbar, withStyles } from '@material-ui/core'
 import React from 'react'
-import { Grid, Text } from '../components'
+import styled from 'styled-components'
+import { Text } from '../components'
 import ShadowBackground from './ShadowBackground'
 
+const Home = styled(Text.H4)`
+  && {
+    line-height: 0.7;
+  }
+`
 const styles = {
-  container: {
-    height: '100%',
-    padding: '0 5%',
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
   },
 }
 
-const Header = () => (
+const Header = ({ classes }: { classes: any }) => (
   <ShadowBackground>
-    <Grid container alignItems="center" justify="space-between" style={styles.container} spacing={8}>
-      <Grid item>
-        <Text.H4>FPARMA</Text.H4>
-      </Grid>
-      <Grid item>
-        <Button disableRipple variant="outlined">
-          Login
-        </Button>
-      </Grid>
-    </Grid>
+    <div className={classes.root}>
+      <Toolbar>
+        <Text.H4 className={classes.grow}>Photos</Text.H4>
+      </Toolbar>
+    </div>
   </ShadowBackground>
 )
 
-export default Header
+export default withStyles(styles)(Header)

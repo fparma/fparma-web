@@ -7,7 +7,6 @@ const App = () => (
     <CssBaseline>
       <React.Fragment>
         <Header />
-        <div style={{ height: '100%' }} />
       </React.Fragment>
     </CssBaseline>
   </NoSsr>

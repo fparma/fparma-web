@@ -12,6 +12,7 @@ const palette: PaletteOptions = {
 }
 
 const typography: TypographyOptions = {
+  useNextVariants: true,
   fontSize: 18,
   htmlFontSize: 10,
   fontFamily: ['Merriweather', 'Helvetica', 'Arial', 'sans-serif'].join(','),
