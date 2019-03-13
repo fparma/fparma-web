@@ -6,14 +6,12 @@ const palette: PaletteOptions = {
   type: 'dark',
   background: {
     default: '#262728',
-    paper: '#262728',
   },
-  primary: { main: '#262728' },
 }
 
 const typography: TypographyOptions = {
   useNextVariants: true,
-  fontSize: 18,
+  fontSize: 16,
   htmlFontSize: 10,
   fontFamily: ['Merriweather', 'Helvetica', 'Arial', 'sans-serif'].join(','),
   h1: {

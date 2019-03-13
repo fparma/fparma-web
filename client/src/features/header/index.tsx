@@ -1,35 +1,37 @@
-import { Toolbar, withStyles } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from '../components'
+import { Button, Text } from '../components'
+import ContainerBase from '../components/Container'
 import ShadowBackground from './ShadowBackground'
 
 const Home = styled(Text.H4)`
   && {
     line-height: 0.7;
+    font-weight: 700;
   }
 `
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-}
 
-const Header = ({ classes }: { classes: any }) => (
+const Container = styled(ContainerBase)`
+  && {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`
+
+const Header = () => (
   <ShadowBackground>
-    <div className={classes.root}>
-      <Toolbar>
-        <Text.H4 className={classes.grow}>Photos</Text.H4>
-      </Toolbar>
-    </div>
+    <Container>
+      <Text.H4>FPARMA</Text.H4>
+      <div>
+        <Button.Normal>Login</Button.Normal>
+        <Button.Normal>Login</Button.Normal>
+      </div>
+      <div>
+        <Button.Normal>Login</Button.Normal>
+      </div>
+    </Container>
   </ShadowBackground>
 )
 
-export default withStyles(styles)(Header)
+export default Header

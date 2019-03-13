@@ -8,6 +8,7 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 const styles = (theme: Theme) =>
   createStyles({
     container: {
+      display: 'flex',
       height: '100%',
       paddingRight: 15,
       paddingLeft: 15,
@@ -30,6 +31,8 @@ const styles = (theme: Theme) =>
     },
   })
 
-const Container: React.SFC<Props> = props => <div className={props.classes.container}>{props.children}</div>
+const Container: React.SFC<Props> = props => (
+  <div className={`${props.classes.container} ${props.className}`}>{props.children}</div>
+)
 
 export default withStyles(styles)(Container)
