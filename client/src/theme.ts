@@ -7,6 +7,12 @@ const palette: PaletteOptions = {
   background: {
     default: '#262728',
   },
+  primary: {
+    main: '#ff9895',
+  },
+  secondary: {
+    main: '#D97FA5',
+  },
 }
 
 const typography: TypographyOptions = {

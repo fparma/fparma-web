@@ -13,7 +13,7 @@ const Outlined: React.SFC<ButtonProps> = ({ children, className, ...rest }) => (
     {children}
   </StyledButton>
 )
-Outlined.defaultProps = { color: 'secondary', variant: 'outlined' } as ButtonProps
+Outlined.defaultProps = { color: 'secondary', variant: 'outlined', centerRipple: true } as ButtonProps
 
 export abstract class Button {
   static Normal = Outlined

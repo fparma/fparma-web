@@ -16,6 +16,7 @@ const ShadowContainer = styled.div`
     height: ${HEIGHT};
     content: '';
     background-image: linear-gradient(to top, transparent, #000);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
     opacity: 0.5;
   }
 `

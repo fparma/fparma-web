@@ -31,8 +31,8 @@ const styles = (theme: Theme) =>
     },
   })
 
-const Container: React.SFC<Props> = props => (
+const ContainerBase: React.SFC<Props> = props => (
   <div className={`${props.classes.container} ${props.className}`}>{props.children}</div>
 )
 
-export default withStyles(styles)(Container)
+export const Container = withStyles(styles)(ContainerBase)
