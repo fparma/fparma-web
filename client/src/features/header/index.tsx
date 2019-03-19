@@ -17,6 +17,7 @@ const Bar = styled(Container)`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
   }
 `
 

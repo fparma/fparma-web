@@ -9,7 +9,6 @@ const styles = (theme: Theme) =>
   createStyles({
     container: {
       display: 'flex',
-      height: '100%',
       paddingRight: 15,
       paddingLeft: 15,
       marginRight: 'auto',

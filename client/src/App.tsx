@@ -1,8 +1,8 @@
 import { CssBaseline, NoSsr } from '@material-ui/core'
 import React from 'react'
 import Header from './features/header'
-import { Container, Text } from './components'
 import ImageBackground from './features/header/ImageBackground'
+import Home from './features/home'
 
 const App = () => (
   <NoSsr>
@@ -10,9 +10,7 @@ const App = () => (
       <React.Fragment>
         <Header />
         <ImageBackground />
-        <Container>
-          <Text.H1>Who are we?</Text.H1>
-        </Container>
+        <Home />
       </React.Fragment>
     </CssBaseline>
   </NoSsr>
