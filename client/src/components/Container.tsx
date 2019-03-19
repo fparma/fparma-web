@@ -9,8 +9,6 @@ const styles = (theme: Theme) =>
   createStyles({
     container: {
       display: 'flex',
-      paddingRight: 15,
-      paddingLeft: 15,
       marginRight: 'auto',
       marginLeft: 'auto',
 
@@ -31,7 +29,7 @@ const styles = (theme: Theme) =>
   })
 
 const ContainerBase: React.SFC<Props> = props => (
-  <div className={`${props.classes.container} ${props.className}`}>{props.children}</div>
+  <div className={`${props.classes.container} ${props.className || ''}`}>{props.children}</div>
 )
 
 export const Container = withStyles(styles)(ContainerBase)

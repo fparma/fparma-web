@@ -1,7 +1,7 @@
 import { CssBaseline, NoSsr } from '@material-ui/core'
 import React from 'react'
 import Header from './features/header'
-import ImageBackground from './features/header/ImageBackground'
+import ImageBackground from './features/home/ImageBackground'
 import Home from './features/home'
 
 const App = () => (

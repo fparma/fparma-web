@@ -3,17 +3,10 @@ import styled from 'styled-components'
 import { Text, Container } from '../../components'
 import ShadowBackground from './ShadowBackground'
 import { Link } from '@material-ui/core'
-import ImageBackground from './ImageBackground'
-
-const Home = styled(Text.H4)`
-  && {
-    line-height: 0.7;
-    font-weight: 700;
-  }
-`
 
 const Bar = styled(Container)`
   && {
+    padding: 0 1rem;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -24,7 +17,7 @@ const Bar = styled(Container)`
 const Header = () => (
   <ShadowBackground>
     <Bar>
-      <Text.H4>FPARMA</Text.H4>
+      <Text.H2>FPARMA</Text.H2>
       <div>
         <Text.Span>
           <Link color="primary" href="/">

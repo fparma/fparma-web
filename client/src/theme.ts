@@ -5,7 +5,7 @@ import { TypographyOptions } from '@material-ui/core/styles/createTypography'
 const palette: PaletteOptions = {
   type: 'dark',
   background: {
-    default: '#262728',
+    default: '#1c1c1c',
   },
   primary: {
     main: '#ff9895',
@@ -27,27 +27,27 @@ const typography: TypographyOptions = {
   htmlFontSize: 10,
   fontFamily: ['Merriweather', 'Helvetica', 'Arial', 'sans-serif'].join(','),
   h1: {
-    fontSize: '5rem',
+    fontSize: '4.8rem',
     [breakpoints.down('md')]: {
-      fontSize: '4rem',
+      fontSize: '3.6rem',
     },
   },
   h2: {
-    fontSize: '4.2rem',
+    fontSize: '3.6rem',
     [breakpoints.down('md')]: {
-      fontSize: '3.4rem',
+      fontSize: '2.8rem',
     },
   },
   h3: {
-    fontSize: '3.8rem',
+    fontSize: '2.8rem',
     [breakpoints.down('md')]: {
-      fontSize: '3rem',
+      fontSize: '2.2rem',
     },
   },
   h4: {
-    fontSize: '3.2rem',
+    fontSize: '2.2rem',
     [breakpoints.down('md')]: {
-      fontSize: '2.4rem',
+      fontSize: '1.8em',
     },
   },
 }
