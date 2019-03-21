@@ -1,8 +1,8 @@
+import { Link } from '@material-ui/core'
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Container } from '../../components'
+import { Container, Hidden, Text } from '../../components'
 import ShadowBackground from './ShadowBackground'
-import { Link } from '@material-ui/core'
 
 const Bar = styled(Container)`
   && {
@@ -17,14 +17,12 @@ const Bar = styled(Container)`
 const Header = () => (
   <ShadowBackground>
     <Bar>
-      <Text.H2>FPARMA</Text.H2>
-      <div>
-        <Text.Span>
-          <Link color="primary" href="/">
-            Login
-          </Link>
-        </Text.Span>
-      </div>
+      <Hidden mdDown>
+        <Text.H2>FPARMA</Text.H2>
+        <Link href="/">
+          <Text.Span color="inherit">Login</Text.Span>
+        </Link>
+      </Hidden>
     </Bar>
   </ShadowBackground>
 )

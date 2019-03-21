@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const HEIGHT = '68px'
 
-const ShadowContainer = styled.div`
+const ShadowContainer = styled.header`
   height: ${HEIGHT};
   border-bottom: 1px solid rgba(225, 255, 255, 0.4);
   border-top: 1px solid black;

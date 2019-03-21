@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { createStyles, Theme, withStyles } from '@material-ui/core'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Text, Grid } from '../../components'
-import { Theme, createStyles, withStyles } from '@material-ui/core'
+import { Grid } from '../../components'
 import { useCycleImages } from './images'
 
 const styles = (theme: Theme) =>
@@ -10,12 +10,8 @@ const styles = (theme: Theme) =>
       overflow: 'hidden',
       background: 'linear-gradient(rgba(0, 0, 0, 0.15) 5%, rgba(0, 0, 0, 0.25) 100%)',
       height: '70vw',
-      minHeight: '300px',
-      maxHeight: '600px',
-
-      [theme.breakpoints.down('md')]: {
-        height: '30vw',
-      },
+      minHeight: '400px',
+      maxHeight: '650px',
     },
   })
 

@@ -1,10 +1,14 @@
 import React from 'react'
-import { Container, Text, Grid } from '../../components'
 import styled from 'styled-components'
+import { Container, Grid, Text } from '../../components'
 
 const StyledItem = styled(Grid)`
-  padding: 3rem 1rem;
+  padding: 2rem 4rem;
   min-height: 150px;
+
+  @media only screen and (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
 `
 
 const messages: Props[] = [
@@ -45,8 +49,8 @@ const StyledContainer = styled(Container)`
 const Home = () => (
   <StyledContainer>
     <Grid container spacing={0}>
-      <Grid item xs={12} style={{ paddingTop: '4rem', paddingBottom: '8rem' }}>
-        <Text.H1 align="center">Tactical rea... nah, just fun</Text.H1>
+      <Grid item xs={12} style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+        <Text.H1 align="center">Warcrimes since 2011</Text.H1>
       </Grid>
       {messages.map(props => (
         <Message {...props} />

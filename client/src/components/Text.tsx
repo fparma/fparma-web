@@ -14,9 +14,10 @@ const H4: React.SFC<TypographyProps> = ({ children, ...rest }) => <Typography {.
 H4.defaultProps = { variant: 'h4' }
 
 const Span: React.SFC<TypographyProps> = ({ children, ...rest }) => <Typography {...rest}>{children}</Typography>
-Span.defaultProps = { component: 'span' }
+Span.defaultProps = { component: 'span', variant: 'body1' }
 
 const Paragraph: React.SFC<TypographyProps> = ({ children, ...rest }) => <Typography {...rest}>{children}</Typography>
+Paragraph.defaultProps = { variant: 'body1' }
 
 export abstract class Text {
   static H1 = H1
