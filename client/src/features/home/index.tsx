@@ -15,18 +15,24 @@ const messages: Props[] = [
   {
     title: 'FUN FIRST',
     message: `FPARMA has the main goal of being fun. 
-  This is not a milsim group, we make it fun by sprinkling some
+  This is not a milsim group, we endorse fun by sprinkling some
   arcade on realism if it makes gameplay more enjoyable.`,
   },
   {
     title: 'CONTENT',
-    message: `Each sunday is a new operation made by our many mission makers.
-    Our modpack is battle-tested and tuned to our liking.`,
+    message: `We have a large dedicated community of mission makers,
+    which allows us to have a fantastic variety of scenarios to play mainly every Sunday but also other days.
+    `,
   },
   {
-    title: 'PLAYERS',
-    message: `We take pride in having dedicated players from all over the world,
-    where a majority has been with us for a long time.`,
+    title: 'GLOBAL',
+    message: `With players from around the globe,
+    you can rest assured knowing your incompetence will be globally recognized.`,
+  },
+  {
+    title: 'OPEN',
+    message: `No requirements, applications, interviews, licenses, or tests.
+    Anyone is free to download our modpack, slot up and mount up for action.`,
   },
 ]
 
@@ -50,10 +56,11 @@ const Home = () => (
   <StyledContainer>
     <Grid container spacing={0}>
       <Grid item xs={12} style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        <Text.H1 align="center">Warcrimes since 2011</Text.H1>
+        <Text.H1 align="center">Facepunch origin</Text.H1>
+        <Text.H3 align="center">Since 2011</Text.H3>
       </Grid>
       {messages.map(props => (
-        <Message {...props} />
+        <Message key={props.title} {...props} />
       ))}
     </Grid>
   </StyledContainer>

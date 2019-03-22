@@ -4,40 +4,35 @@ import styled, { keyframes } from 'styled-components'
 import { Grid } from '../../components'
 import { useCycleImages } from './images'
 
-const styles = (theme: Theme) =>
-  createStyles({
-    cover: {
-      overflow: 'hidden',
-      background: 'linear-gradient(rgba(0, 0, 0, 0.15) 5%, rgba(0, 0, 0, 0.25) 100%)',
-      height: '70vw',
-      minHeight: '400px',
-      maxHeight: '650px',
-    },
-  })
+const StyledGrid = styled(Grid)`
+  && {
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, 0.15) 5%, rgba(0, 0, 0, 0.25) 100%);
+    height: 70vw;
+    min-height: 400px;
+    max-height: 650px;
+  }
+`
 
-const GridContainer = withStyles(styles)(({ classes, children }: any) => (
-  <Grid className={classes.cover}>{children}</Grid>
-))
+const zoomEffect = keyframes`
+0% {
+  transform-origin: center left;
+  transform: scale(1.0); 
+}
+50% {
+  transform: scale(1.1); 
+}
+100% {
+  transform: scale(1.0); 
+}
+`
 
 interface Props {
   url: string
 }
 
-const zoomEffect = keyframes`
-  0% {
-    transform-origin: center left;
-    transform: scale(1.0); 
-  }
-  50% {
-    transform: scale(1.1); 
-  }
-  100% {
-    transform: scale(1.0); 
-  }
-
-`
-
 const Image = styled.div<Props>`
+  width: 100%;
   height: 100%;
   background-attachment: scroll;
   background-position: center center;
@@ -54,9 +49,9 @@ const ImageBackground = () => {
   const { url } = useCycleImages()
 
   return (
-    <GridContainer container justify="center" alignItems="center">
+    <StyledGrid container justify="center" alignItems="center">
       <Image url={url} />
-    </GridContainer>
+    </StyledGrid>
   )
 }
 

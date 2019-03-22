@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Container, Hidden, Text } from '../../components'
 import ShadowBackground from './ShadowBackground'
+import { Icon, ICONS } from '../../components/Icon'
 
 const Bar = styled(Container)`
   && {
@@ -17,11 +18,19 @@ const Bar = styled(Container)`
 const Header = () => (
   <ShadowBackground>
     <Bar>
-      <Hidden mdDown>
+      <Hidden only={['xs', 'sm']}>
         <Text.H2>FPARMA</Text.H2>
         <Link href="/">
           <Text.Span color="inherit">Login</Text.Span>
         </Link>
+      </Hidden>
+      <Hidden only={['md', 'lg', 'xl']}>
+        <Link href="/">
+          <Icon icon={ICONS.bar} />
+        </Link>
+        <Text.H2 align="center" style={{ flexGrow: 2, marginLeft: '-36px' }}>
+          FPARMA
+        </Text.H2>
       </Hidden>
     </Bar>
   </ShadowBackground>
