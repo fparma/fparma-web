@@ -11,6 +11,11 @@ const StyledItem = styled(Grid)`
   }
 `
 
+interface Props {
+  title: string
+  message: string
+}
+
 const messages: Props[] = [
   {
     title: 'FUN FIRST',
@@ -36,11 +41,6 @@ const messages: Props[] = [
   },
 ]
 
-interface Props {
-  title: string
-  message: string
-}
-
 const Message = ({ title, message }: Props) => (
   <StyledItem item md={6}>
     <Text.H2 align="center">{title}</Text.H2>
@@ -57,7 +57,7 @@ const Home = () => (
     <Grid container spacing={0}>
       <Grid item xs={12} style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
         <Text.H1 align="center">Facepunch origin</Text.H1>
-        <Text.H3 align="center">Since 2011</Text.H3>
+        <Text.H3 align="center">Est. 2011</Text.H3>
       </Grid>
       {messages.map(props => (
         <Message key={props.title} {...props} />

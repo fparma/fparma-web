@@ -1,6 +1,6 @@
-import ButtonBase, { ButtonProps } from '@material-ui/core/Button'
-import React from 'react'
-import styled from 'styled-components'
+import ButtonBase, { ButtonProps } from '@material-ui/core/Button';
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledButton = styled(ButtonBase)`
   && {
@@ -8,7 +8,7 @@ const StyledButton = styled(ButtonBase)`
   }
 `
 
-const Outlined: React.SFC<ButtonProps> = ({ children, className, ...rest }) => (
+const Outlined: React.FC<ButtonProps> = ({ children, className, ...rest }) => (
   <StyledButton className={className} {...rest}>
     {children}
   </StyledButton>
