@@ -3,20 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.17",
-    "@fortawesome/free-solid-svg-icons": "^5.8.1",
-    "@fortawesome/react-fontawesome": "^0.1.4",
-    "@material-ui/core": "^3.9.2",
-    "@types/jest": "24.0.9",
-    "@types/node": "11.10.5",
-    "@types/react": "16.8.7",
-    "@types/react-dom": "16.8.2",
-    "@types/rebass": "^3.0.3",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "^2.1.8",
-    "styled-components": "^4.1.3",
-    "typescript": "3.3.3333"
+    "@types/jest": "24.0.15",
+    "@types/node": "12.6.2",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "typescript": "3.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -25,19 +19,18 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "prettier"
-    ]
+    "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-prettier": "^3.0.1"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
