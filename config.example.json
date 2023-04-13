@@ -7,8 +7,8 @@
   "DB": {
     "LOGS_URI": "",
     "URI": "localhost:27017/fparma",
-    "USER": "",
-    "PASSWORD": ""
+    "USER": "fparma",
+    "PASSWORD": "dev"
   },
   "STEAM": {
     "REALM": "http://localhost:8080",

@@ -65,31 +65,31 @@ exports.create = (evt, user, cb) => {
 // List events. No groups
 exports.list = cb => {
   Event.find({})
-  .sort({'date': -1})
-  .limit(20)
-  .exec((err, res) => {
-    if (err) return cb(err)
+    .sort({ 'date': -1 })
+    .limit(20)
+    .exec((err, res) => {
+      if (err) return cb(err)
 
-    cb(null, res)
-  })
+      cb(null, res)
+    })
 }
 
 // Finds an event and populates all the groups
 exports.findOne = (permalink, cb) => {
-  Event.findOne({permalink: permalink})
-  .populate('groups')
-  .exec(cb)
+  Event.findOne({ permalink: permalink })
+    .populate('groups')
+    .exec(cb)
 }
 
 exports.findOneById = (id, cb) => {
-  Event.findOne({_id: id})
-  .exec(cb)
+  Event.findOne({ _id: id })
+    .exec(cb)
 }
 
 // Finds the slot occupied by the user in an event and removes him
-function unreserveSlot (eventId, user, cb) {
-  let cond = {event_id: eventId, 'units.user_id': user.steam_id}
-  let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
+function unreserveSlot(eventId, user, cb) {
+  let cond = { event_id: eventId, 'units.user_id': user.steam_id }
+  let upd = { $set: { 'units.$.user_id': null, 'units.$.user_name': null } }
 
   Group.findOneAndUpdate(cond, upd, cb)
 }
@@ -101,7 +101,7 @@ exports.unreserveSlot = unreserveSlot
 // other group in the same event
 // 3) Reserve the slot
 exports.reserveSlot = (eventId, unitId, user, cb) => {
-  let cond = {event_id: eventId, 'units._id': unitId}
+  let cond = { event_id: eventId, 'units._id': unitId }
   Group.findOne(cond, (err, result) => {
     if (err) return cb(err)
     if (!result) return cb(new Error('Group or unit does not exist'))
@@ -113,7 +113,7 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
     unreserveSlot(eventId, user, (err, res) => {
       if (err) return cb(err)
 
-      let upd = {$set: {'units.$.user_id': user.steam_id, 'units.$.user_name': user.name}}
+      let upd = { $set: { 'units.$.user_id': user.steam_id, 'units.$.user_name': user.name } }
       Group.findOneAndUpdate(cond, upd, (err) => {
         if (err) return cb(err)
         cb(null, true)
@@ -124,8 +124,8 @@ exports.reserveSlot = (eventId, unitId, user, cb) => {
 
 // Clear whoever has taken the slot (kick, for admins)
 exports.kickSlot = (eventId, unitId, cb) => {
-  let cond = {event_id: eventId, 'units._id': unitId}
-  let upd = {$set: {'units.$.user_id': null, 'units.$.user_name': null}}
+  let cond = { event_id: eventId, 'units._id': unitId }
+  let upd = { $set: { 'units.$.user_id': null, 'units.$.user_name': null } }
   Group.findOneAndUpdate(cond, upd, cb)
 }
 
@@ -134,7 +134,7 @@ exports.kickSlot = (eventId, unitId, cb) => {
 */
 
 exports.countEvents = () => {
-  return Event.count().exec()
+  return Event.countDocuments().exec()
 }
 
 exports.getEventAttendence = () => {

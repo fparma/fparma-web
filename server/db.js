@@ -1,16 +1,18 @@
 import nconf from 'nconf'
 import mongoose from 'mongoose'
 
-const MONGO_OPTIONS = {
-  server: { socketOptions: { keepAlive: 1 }, server: { auto_reconnect: true } },
-  user: nconf.get('DB:USER'),
-  pass: nconf.get('DB:PASSWORD')
-}
 
-export default function connectDatabase (callback) {
+export default function connectDatabase(callback) {
   let errCb = e => callback(e)
   mongoose.connection.once('error', errCb)
-  mongoose.connect(nconf.get('DB:URI'), MONGO_OPTIONS)
+  mongoose.connect(nconf.get('DB:URI'), {
+    keepAlive: 1,
+    auto_reconnect: true,
+    user: nconf.get('DB:USER'),
+    pass: nconf.get('DB:PASSWORD'),
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
 
   mongoose.connection.once('connected', () => {
     mongoose.connection.removeListener('error', errCb)
