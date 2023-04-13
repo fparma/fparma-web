@@ -4,9 +4,9 @@ import nconf from 'nconf'
 import connectDatabase from './db'
 import expressConfig from './config/express'
 import passportConfig from './config/passport'
-import {router} from './routes'
-import {handle404, handleError} from './routes/error-handler'
-import {guides} from './utils/generate-contrib-markdown'
+import { router } from './routes'
+import { handle404, handleError } from './routes/error-handler'
+import { guides } from './utils/generate-contrib-markdown'
 const IS_DEV = nconf.get('NODE_ENV') === 'development'
 const app = express()
 
@@ -39,6 +39,8 @@ connectDatabase((err) => {
 
   app.listen(nconf.get('PORT')).on('listening', () => {
     console.log(`Server listening on ${nconf.get('PORT')} (${nconf.get('NODE_ENV')})`)
-    process.send('server:started')
+    if (process.send) {
+      process.send('server:started')
+    }
   })
 })
