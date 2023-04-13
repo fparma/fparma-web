@@ -4,7 +4,7 @@
   "description": "FPARMA web",
   "main": "index.js",
   "scripts": {
-    "start": "node pm2",
+    "start": "node index.js",
     "postinstall": "gulp post-install"
   },
   "engines": {
@@ -35,7 +35,6 @@
     "nconf": "^0.8.4",
     "passport": "^0.3.2",
     "passport-steam": "^1.0.9",
-    "pm2": "^1.0.1",
     "request": "^2.69.0",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1",
