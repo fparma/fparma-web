@@ -11,7 +11,7 @@ const IS_DEV = nconf.get('NODE_ENV') === 'development'
 const app = express()
 
 connectDatabase((err) => {
-  console.info('hello mister', nconf.get())
+  console.info('hello debug', nconf.get())
   if (err) {
     console.error('Failed to connect to DB', err)
     return process.exit(1)
