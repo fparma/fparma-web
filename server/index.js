@@ -37,7 +37,7 @@ connectDatabase((err) => {
   app.use(handle404)
   app.use(handleError(IS_DEV))
 
-  app.listen(nconf.get('PORT')).on('listening', () => {
+  app.listen(process.env.PORT || nconf.get('PORT')).on('listening', () => {
     console.log(`Server listening on ${nconf.get('PORT')} (${nconf.get('NODE_ENV')})`)
     if (process.send) {
       process.send('server:started')
