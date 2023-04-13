@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 
 export default function connectDatabase(callback) {
   let errCb = e => callback(e)
+  console.info('hello debug', nconf.get())
   mongoose.connection.once('error', errCb)
   mongoose.connect(nconf.get('DB:URI'), {
     keepAlive: 1,
