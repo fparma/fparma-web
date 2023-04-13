@@ -2,12 +2,7 @@
 .idea
 .DS_store
 /config.json
-client/semantic/dist
-public/semantic
-public/js
-public/css
 tmp
-dist
 server/views/user-guides/_generated
 
 # Logs
