@@ -1,7 +1,7 @@
 #app specific
 .idea
 .DS_store
-/config.json
+.env
 tmp
 server/views/user-guides/_generated
 

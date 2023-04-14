@@ -6,12 +6,12 @@ var uglify = require('gulp-uglify')
 var plumber = require('gulp-plumber')
 var browserSync = require('browser-sync')
 var child_process = require('child_process')
-var nconf = require('nconf')
 
 var buildSemantic = require('./client/semantic/tasks/build')
 var watchSemantic = require('./client/semantic/tasks/watch')
 
-nconf.env({whitelist: ['PORT']}).file('config.json')
+require('dotenv').config()
+
 var BROWSER_SYNC_RELOAD_DELAY = 1000
 
 var base = {
@@ -26,7 +26,7 @@ var paths = {
   semantic: 'semantic/'
 }
 
-function checkErr (cb) {
+function checkErr(cb) {
   return function (e) {
     cb()
   }
@@ -37,33 +37,33 @@ gulp.task('build-semantic', buildSemantic)
 gulp.task('watch-semantic', watchSemantic)
 
 gulp.task('clean:scripts', function (cb) {
-  del('js', {cwd: base.public}).then(checkErr(cb))
+  del('js', { cwd: base.public }).then(checkErr(cb))
 })
 
 gulp.task('clean:css', function (cb) {
-  del('css', {cwd: base.public}).then(checkErr(cb))
+  del('css', { cwd: base.public }).then(checkErr(cb))
 })
 
 gulp.task('build', ['build:css', 'build:scripts'])
 gulp.task('build:scripts', ['clean:scripts'], function () {
-  return gulp.src(paths.scripts, {cwd: base.client})
+  return gulp.src(paths.scripts, { cwd: base.client })
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(uglify({mangle: true}))
+    .pipe(uglify({ mangle: true }))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('js', {cwd: base.public}))
+    .pipe(gulp.dest('js', { cwd: base.public }))
 })
 
 gulp.task('build:css', ['clean:css'], function () {
-  return gulp.src(paths.css, {cwd: base.client})
-  .pipe(minifyCss())
-  .pipe(gulp.dest('css', {cwd: base.public}))
-  .pipe(browserSync.stream())
+  return gulp.src(paths.css, { cwd: base.client })
+    .pipe(minifyCss())
+    .pipe(gulp.dest('css', { cwd: base.public }))
+    .pipe(browserSync.stream())
 })
 
 gulp.task('dev', ['build'], function (cb) {
-  gulp.watch(paths.scripts, {cwd: base.client}, ['build:scripts'])
-  gulp.watch(paths.css, {cwd: base.client}, ['build:css'])
+  gulp.watch(paths.scripts, { cwd: base.client }, ['build:scripts'])
+  gulp.watch(paths.css, { cwd: base.client }, ['build:css'])
 
   var reloading = false
   gulp.watch(['public/js/**/*.js', 'server/views/**/*.jade'], function () {
@@ -86,14 +86,14 @@ gulp.task('dev', ['build'], function (cb) {
       'server/**/*',
       '!server/views/**/*.jade'
     ],
-    ['server'], {cwd: __dirname})
+    ['server'], { cwd: __dirname })
 })
 
 // browsersync - watches client files and reloads browser
 gulp.task('browsersync', ['server'], function (cb) {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync.init({
-    proxy: 'http://localhost:' + nconf.get('PORT'),
+    proxy: 'http://localhost:' + process.env.PORT,
     port: 3000,
     notify: false,
     logFileChanges: true
@@ -107,7 +107,7 @@ var starting = false
 gulp.task('server', function (cb) {
   if (starting) return
 
-  function fork () {
+  function fork() {
     console.info('Server %s', serverProcess ? 'restarting' : 'starting...')
     serverProcess = child_process.fork('.')
 

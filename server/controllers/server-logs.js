@@ -1,10 +1,9 @@
 import mongoose from 'mongoose'
-import nconf from 'nconf'
 import LogsModel from '../models/server-logs'
 
 // Logs uses a different database
 let connection
-let uri = nconf.get('DB:LOGS_URI')
+let uri = process.env.DB_LOGS_URI
 
 if (!uri) {
   console.warn('Missing server logs database? Using standard connection.')
@@ -23,7 +22,7 @@ const Logs = connection.model('LogSchema', LogsModel.schema)
   Filters out logs with < 3 entries
 */
 exports.list = (id, cb) => {
-  let q = {'logs.3': {$exists: true}}
+  let q = { 'logs.3': { $exists: true } }
 
   if (typeof id === 'function') {
     // Just get the latest
@@ -38,22 +37,22 @@ exports.list = (id, cb) => {
   }
 
   Logs.findOne(q)
-  .sort({created_at: -1})
-  .exec((err, log) => {
-    if (err) return cb(err)
-    if (!log) return cb(null, [])
+    .sort({ created_at: -1 })
+    .exec((err, log) => {
+      if (err) return cb(err)
+      if (!log) return cb(null, [])
 
-    // Remove the first log we've found
-    let q = {mission_id: {$ne: log.mission_id}, 'logs.3': {$exists: true}}
-    let logs = [log]
+      // Remove the first log we've found
+      let q = { mission_id: { $ne: log.mission_id }, 'logs.3': { $exists: true } }
+      let logs = [log]
 
-    Logs.find(q, {logs: 0})
-    .sort({created_at: -1})
-    .exec((err, data) => {
-      if (err || !data.length) return cb(null, logs)
-      cb(null, logs.concat(data))
+      Logs.find(q, { logs: 0 })
+        .sort({ created_at: -1 })
+        .exec((err, data) => {
+          if (err || !data.length) return cb(null, logs)
+          cb(null, logs.concat(data))
+        })
     })
-  })
 }
 
 /*
@@ -69,5 +68,5 @@ exports.findOne = (hexId, cb) => {
   Logs.findOne({
     _id: id
   })
-  .exec(cb)
+    .exec(cb)
 }

@@ -1,16 +1,16 @@
-import nconf from 'nconf'
 import mongoose from 'mongoose'
 
 
 export default function connectDatabase(callback) {
   let errCb = e => callback(e)
-  console.info('hello debug', nconf.get())
+
   mongoose.connection.once('error', errCb)
-  mongoose.connect(nconf.get('DB:URI'), {
+
+  mongoose.connect(process.env.DB_URI, {
     keepAlive: 1,
     auto_reconnect: true,
-    user: nconf.get('DB:USER'),
-    pass: nconf.get('DB:PASSWORD'),
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASSWORD,
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -18,7 +18,7 @@ export default function connectDatabase(callback) {
   mongoose.connection.once('connected', () => {
     mongoose.connection.removeListener('error', errCb)
     mongoose.connection.on('error', console.error)
-    console.log(`Mongoose connected to ${nconf.get('DB:URI')}`)
+    console.log(`Mongoose connected`)
     callback(null)
   })
 }

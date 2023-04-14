@@ -1,13 +1,12 @@
-import express from 'express'
-import nconf from 'nconf'
-import mongoose, { mongo } from 'mongoose'
-import session from 'express-session'
-import logger from 'morgan'
-import favicon from 'serve-favicon'
-import compression from 'compression'
 import bodyParser from 'body-parser'
+import compression from 'compression'
 import MongoStore from 'connect-mongo'
+import express from 'express'
+import session from 'express-session'
+import mongoose from 'mongoose'
+import logger from 'morgan'
 import { join } from 'path'
+import favicon from 'serve-favicon'
 
 
 export default function (app, root, IS_DEV) {
@@ -31,7 +30,7 @@ export default function (app, root, IS_DEV) {
     proxy: !IS_DEV,
     // enable rolling sessions
     rolling: true,
-    secret: nconf.get('SESSION:SECRET'),
+    secret: process.env.SESSION_SECRET,
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
       touchAfter: 600

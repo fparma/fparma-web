@@ -1,6 +1,5 @@
 import passport from 'passport'
-import nconf from 'nconf'
-import {Strategy as SteamStrategy} from 'passport-steam'
+import { Strategy as SteamStrategy } from 'passport-steam'
 import User from '../controllers/user'
 
 export const STEAM_RETURN_URL = '/auth/steam/return'
@@ -27,9 +26,9 @@ export default function (app) {
   app.use(passport.session())
 
   passport.use(new SteamStrategy({
-    returnURL: nconf.get('STEAM:REALM') + STEAM_RETURN_URL,
-    realm: nconf.get('STEAM:REALM'),
-    apiKey: nconf.get('STEAM:KEY')
+    returnURL: process.env.STEAM_REALM + STEAM_RETURN_URL,
+    realm: process.env.STEAM_REALM,
+    apiKey: process.env.STEAM_KEY
   }, (identifier, profile, done) => {
     User.findOrCreate(profile, (err, user) => {
       done(err, user)

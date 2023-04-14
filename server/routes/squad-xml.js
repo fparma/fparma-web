@@ -1,7 +1,15 @@
 import _ from 'lodash'
-import nconf from 'nconf'
 import builder from 'xmlbuilder'
 import User from '../controllers/user'
+
+const topLevelInfo = {
+  "nick": "FP",
+  "name": "Facepunch ARMA",
+  "email": "N/A",
+  "web": "fparma.herokuapp.com",
+  "picture": "fparma.paa",
+  "title": "FPARMA"
+}
 
 export default function (req, res, next) {
   User.getUnitsForXml((err, users) => {
@@ -9,7 +17,7 @@ export default function (req, res, next) {
     var root = builder.create('squad')
     root.dtd('squad.dtd')
 
-    _.forOwn(nconf.get('SQUAD_XML'), (v, key) => {
+    _.forOwn(topLevelInfo, (v, key) => {
       if (key === 'nick') return root.att(key, v)
       root.ele(key, v)
     })
@@ -27,7 +35,7 @@ export default function (req, res, next) {
       })
     })
 
-    var xmlString = root.end({pretty: true})
+    var xmlString = root.end({ pretty: true })
     res.set('Content-Type', 'application/xml')
     res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
     res.set('Expires', '-1')

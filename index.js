@@ -1,14 +1,6 @@
 var join = require('path').join
 var fs = require('fs')
-var nconf = require('nconf')
 
-nconf.argv()
-  .env({
-    match: /^DB:|STEAM:/,
-    whitelist: ['PORT', 'SESSION:SECRET', 'NODE_ENV', 'SQUAD_XML']
-  })
-  .file('config.json')
-  .defaults({ NODE_ENV: 'development' })
 
 // Let babel register from here on
 require('babel-register', {
