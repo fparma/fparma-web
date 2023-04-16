@@ -1,11 +1,11 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import multer from 'multer'
-import {readFile, unlink} from 'fs'
+import { readFile, unlink } from 'fs'
 import sqmParser from '../utils/sqm-parser'
 import errHelper from '../utils/error-helper'
 import Event from '../controllers/event'
 import moment from 'moment'
-import {ensureAuthenticated, ensureAdmin} from './auth'
+import { ensureAuthenticated, ensureAdmin } from './auth'
 
 const router = Router()
 export default router
@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
     res.render('events/list.jade', {
       page: 'events',
       title: 'Events',
-      events: {upcoming: upc, completed: cmp}
+      events: { upcoming: upc, completed: cmp }
     })
   })
 })
@@ -66,8 +66,8 @@ router.post('/slot-reserve', ensureAuthenticated, (req, res) => {
   let body = req.body || {}
 
   Event.reserveSlot(body.eventId, body.slotId, req.user, (err, data) => {
-    if (err) return res.json({ok: false, error: err.message})
-    res.json({ok: true, data})
+    if (err) return res.json({ ok: false, error: err.message })
+    res.json({ ok: true, data })
   })
 })
 
@@ -75,8 +75,8 @@ router.post('/slot-unreserve', ensureAuthenticated, (req, res) => {
   let eventId = (req.body || {}).eventId
 
   Event.unreserveSlot(eventId, req.user, (err, data) => {
-    if (err) return res.json({ok: false, error: err.message})
-    res.json({ok: true, data: !!data})
+    if (err) return res.json({ ok: false, error: err.message })
+    res.json({ ok: true, data: !!data })
   })
 })
 
@@ -84,13 +84,13 @@ router.post('/slot-kick', ensureAdmin, (req, res) => {
   let body = req.body || {}
 
   Event.kickSlot(body.eventId, body.slotId, (err, data) => {
-    if (err) return res.json({ok: false, error: err.message})
-    res.json({ok: true, data: !!data})
+    if (err) return res.json({ ok: false, error: err.message })
+    res.json({ ok: true, data: !!data })
   })
 })
 
 router.get('/create', ensureAdmin, (req, res) => {
-  res.render('events/create.jade', {title: 'Create event', page: 'events'})
+  res.render('events/create.jade', { title: 'Create event', page: 'events' })
 })
 
 router.post('/create', ensureAdmin, (req, res, next) => {
@@ -126,12 +126,14 @@ router.post('/create/upload-sqm', upload, (req, res, next) => {
   // FIXME: multer doesn't give an error for filesize atm
   if (!req.file) return next(new Error('Upload failed'))
   readFile(req.file.path, 'utf8', (err, data) => {
-    unlink(req.file.path)
-    if (err) return next(err)
+    unlink(req.file.path, _ => {
 
-    sqmParser(data, (err, parsed) => {
       if (err) return next(err)
-      res.json({ok: true, data: parsed})
+
+      sqmParser(data, (err, parsed) => {
+        if (err) return next(err)
+        res.json({ ok: true, data: parsed })
+      })
     })
   })
 })
